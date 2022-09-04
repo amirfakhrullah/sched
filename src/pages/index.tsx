@@ -1,18 +1,20 @@
 import type { NextPage } from "next";
+import Center from "../components/Center";
 import MetaHead from "../components/MetaHead";
+import Schedule from "../components/Schedule";
 import Screen from "../components/Screen";
 import Sidebar from "../components/Sidebar";
-import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
-  const hello = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
-
   return (
     <>
       <MetaHead />
 
       <Screen>
         <Sidebar />
+        <Center>
+          <Schedule />
+        </Center>
       </Screen>
     </>
   );
