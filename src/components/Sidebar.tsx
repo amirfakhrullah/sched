@@ -27,6 +27,7 @@ const Sidebar = () => {
 
   // vars
   const isLoggedIn = Boolean(session && status === "authenticated");
+  const isLoading = Boolean(status === "loading");
 
   const routes = [
     {
@@ -52,14 +53,21 @@ const Sidebar = () => {
       tooltipContent: "Search your lessons by tags",
     },
     {
-      label: isLoggedIn ? "Logout" : "Sign In",
-      clickFn: () => (isLoggedIn ? signOut() : signIn("github")),
-      component: isLoggedIn ? (
+      label: isLoading ? null : isLoggedIn ? "Logout" : "Sign In",
+      clickFn: () =>
+        isLoading ? null : isLoggedIn ? signOut() : signIn("github"),
+      component: isLoading ? (
+        <div className="md:h-12 md:w-12 h-6 w-6 animate-pulse bg-teal-700 rounded-lg" />
+      ) : isLoggedIn ? (
         <IoLogOutOutline className="text-gray-200 md:text-2xl text-lg" />
       ) : (
         <IoLogInOutline className="text-gray-200 md:text-2xl text-lg" />
       ),
-      tooltipContent: isLoggedIn ? "Logout your session" : "Login with GitHub",
+      tooltipContent: isLoading
+        ? "Loading..."
+        : isLoggedIn
+        ? "Logout your session"
+        : "Login with GitHub",
     },
   ];
 
@@ -68,7 +76,9 @@ const Sidebar = () => {
       {/* DESKTOP VIEW ---------------------------------------- */}
       <div className="md:block hidden">
         <div className="h-screen w-20 bg-teal-800 flex flex-col items-center fixed">
-          <h1 className="font-oswald text-2xl font-[700] mt-4 text-gray-100">Sched</h1>
+          <h1 className="font-oswald text-2xl font-[700] mt-4 text-gray-100">
+            Sched
+          </h1>
           <div className="mt-32">
             {routes.map((obj, idx) => (
               <Tooltip

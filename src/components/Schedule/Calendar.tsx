@@ -102,7 +102,7 @@ const Calendar = () => {
             </h3>
 
             <div className="flex flex-row items-start my-2">
-              <div className="bg-zinc-900 inline-block px-2 rounded-md mr-1">
+              <div className="bg-gray-900 inline-block px-2 rounded-md mr-1">
                 <p className="text-sm text-white">unit</p>
               </div>
               <p className="text-sm">OOP</p>
@@ -177,7 +177,7 @@ const Calendar = () => {
             </h3>
 
             <div className="flex flex-row items-start my-2">
-              <div className="bg-zinc-900 inline-block px-2 rounded-md mr-1">
+              <div className="bg-gray-900 inline-block px-2 rounded-md mr-1">
                 <p className="text-sm text-white">unit</p>
               </div>
               <p className="text-sm">OOP</p>
