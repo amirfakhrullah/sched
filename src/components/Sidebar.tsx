@@ -68,7 +68,8 @@ const Sidebar = () => {
       {/* DESKTOP VIEW ---------------------------------------- */}
       <div className="md:block hidden">
         <div className="h-screen w-20 bg-teal-800 flex flex-col items-center fixed">
-          <div className="mt-36">
+          <h1 className="font-oswald text-2xl font-[700] mt-4 text-gray-100">Sched</h1>
+          <div className="mt-32">
             {routes.map((obj, idx) => (
               <Tooltip
                 key={`route__${idx}`}
