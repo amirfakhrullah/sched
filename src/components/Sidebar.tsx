@@ -5,7 +5,13 @@ import { IoLogOutOutline, IoLogInOutline } from "react-icons/io5";
 import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import { Tooltip } from "@material-tailwind/react";
+import {
+  Tooltip,
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
+} from "@material-tailwind/react";
 
 const Sidebar = () => {
   const { data: session, status } = useSession();
@@ -27,7 +33,7 @@ const Sidebar = () => {
 
   // vars
   const isLoggedIn = Boolean(session && status === "authenticated");
-  const isLoading = Boolean(status === "loading");
+  const isLoading = status === "loading";
 
   const routes = [
     {
@@ -44,7 +50,7 @@ const Sidebar = () => {
       component: (
         <AiOutlineAppstoreAdd className="text-gray-200 md:text-2xl text-lg" />
       ),
-      tooltipContent: "Add, update or view your courses",
+      tooltipContent: "Add, update or view all your courses",
     },
     {
       route: "/search",
@@ -103,22 +109,34 @@ const Sidebar = () => {
           {isLoggedIn &&
             session?.user &&
             session.user?.image &&
-            session.user?.name && (
-              <Tooltip
-                content={session.user.name}
-                placement="left"
-                className="rounded-md"
-              >
-                <div className="fixed bottom-0 mb-4">
-                  <Image
-                    src={session.user.image}
-                    height={40}
-                    width={40}
-                    alt="avatar"
-                    className="rounded-full"
-                  />
-                </div>
-              </Tooltip>
+            session.user?.name &&
+            session.user?.email && (
+              <Menu placement="left-end">
+                <MenuHandler>
+                  <div className="fixed bottom-0 mb-4">
+                    <Image
+                      src={session.user.image}
+                      height={40}
+                      width={40}
+                      alt="avatar"
+                      className="rounded-full cursor-pointer"
+                    />
+                  </div>
+                </MenuHandler>
+                <MenuList className="rounded-md">
+                  <div className="border-gray-600 border-b-[1px] mb-2">
+                    <p className="text-gray-900">{session.user.name}</p>
+                    <p className="text-[12px]">{session.user.email}</p>
+                  </div>
+                  <MenuItem
+                    className="flex flex-row items-center"
+                    onClick={() => signOut()}
+                  >
+                    <IoLogOutOutline className="text-gray-500 text-lg mr-2" />
+                    Logout
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             )}
         </div>
         <div className="h-screen w-20" />
