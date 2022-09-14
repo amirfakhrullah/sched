@@ -1,23 +1,94 @@
-import type { NextPage } from "next";
+import { GetServerSidePropsContext, NextPage, PreviewData } from "next";
+import React from "react";
 import Center from "../components/Center";
 import MetaHead from "../components/MetaHead";
-import Schedule from "../components/Schedule";
 import Screen from "../components/Screen";
-import Sidebar from "../components/Sidebar";
+import schedLogo from "../../public/sched-logo.png";
+import Image from "next/image";
+import { Button } from "@material-tailwind/react";
+import { AiFillGithub } from "react-icons/ai";
+import { FcGoogle } from "react-icons/fc";
+import { unstable_getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]";
+import { ParsedUrlQuery } from "querystring";
+import { signIn } from "next-auth/react";
 
-const Home: NextPage = () => {
+const Auth: NextPage = () => {
   return (
     <>
-      <MetaHead />
-
+      <MetaHead title="Auth | Sched" />
       <Screen>
-        <Sidebar />
         <Center>
-          <Schedule />
+          <div className="shadow-lg p-4 rounded-lg max-w-sm w-full mx-auto mt-20">
+            <div className="w-full flex items-center justify-center mb-6">
+              <Image
+                src={schedLogo}
+                alt="sched-logo"
+                height={70}
+                width={70}
+                className="rounded-md"
+              />
+            </div>
+            <h1 className="font-oswald text-2xl font-[600] text-center">
+              Welcome to Sched!
+            </h1>
+
+            <div className="p-1" />
+
+            <p className="text-gray-600 text-sm text-center">
+              Please sign-in/sign-up with one of the <br /> providers below
+            </p>
+
+            <div className="p-2" />
+
+            <Button
+              color="blue-gray"
+              variant="outlined"
+              className="w-full flex flex-row items-center justify-center "
+              onClick={() => signIn("github")}
+            >
+              <FcGoogle className="text-2xl mr-2" />
+              Google
+            </Button>
+
+            <div className="p-1" />
+
+            <Button
+              color="blue-gray"
+              className="w-full flex flex-row items-center justify-center bg-blue-gray-800"
+              onClick={() => signIn("github")}
+            >
+              <AiFillGithub className="text-white text-2xl mr-2" />
+              GitHub
+            </Button>
+          </div>
         </Center>
       </Screen>
     </>
   );
 };
 
-export default Home;
+export const getServerSideProps = async (
+  context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>
+) => {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+
+  if (session && session.user) {
+    return {
+      redirect: {
+        destination: "/weekly-schedule",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
+
+export default Auth;
