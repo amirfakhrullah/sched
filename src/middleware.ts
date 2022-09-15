@@ -1,3 +1,20 @@
-export { default } from "next-auth/middleware"
+import { NextRequest, NextResponse } from "next/server";
 
-export const config = { matcher: ["/dashboard"] }
+export async function middleware(req: NextRequest) {
+  const BASE_URL = req.nextUrl.origin;
+
+  const checkAuth = await fetch(`${BASE_URL}/api/restricted`, {
+    headers: {
+      cookie: req.headers.get("cookie") || "",
+    },
+  });
+  const isAuthed = checkAuth.status === 200;
+
+  if (!isAuthed) {
+    return NextResponse.redirect(`${BASE_URL}/auth`);
+  }
+}
+
+export const config = {
+  matcher: ["/", "/courses/:path*", "/search"],
+};
