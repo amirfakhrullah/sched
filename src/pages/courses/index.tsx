@@ -6,7 +6,7 @@ import Sidebar from "../../components/Sidebar";
 const Courses = () => {
   return (
     <>
-      <MetaHead title="Courses | Schedule" />
+      <MetaHead title="Courses | Sched App" />
 
       <Screen>
         <Sidebar />

@@ -15,10 +15,10 @@ import { getServerAuthSession } from "../server/common/get-server-auth-session";
 const Auth: NextPage = () => {
   return (
     <>
-      <MetaHead title="Auth | Sched" />
+      <MetaHead title="Auth | Sched App" />
       <Screen>
         <Center>
-          <div className="shadow-lg p-4 rounded-lg max-w-sm w-full mx-auto mt-20">
+          <div className="shadow-lg border border-gray-300 p-4 rounded-lg max-w-sm w-full mx-auto mt-20">
             <div className="w-full flex items-center justify-center mb-6">
               <Image
                 src={schedLogo}
@@ -29,7 +29,7 @@ const Auth: NextPage = () => {
               />
             </div>
             <h1 className="font-oswald text-2xl font-[600] text-center">
-              Welcome to Sched!
+              Welcome to Sched App
             </h1>
 
             <div className="p-1" />

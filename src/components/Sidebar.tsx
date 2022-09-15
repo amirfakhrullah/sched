@@ -1,9 +1,9 @@
 import React from "react";
 import { BsCalendar2Week, BsSearch } from "react-icons/bs";
 import { AiOutlineAppstoreAdd } from "react-icons/ai";
-import { IoLogOutOutline, IoLogInOutline } from "react-icons/io5";
+import { IoLogOutOutline } from "react-icons/io5";
 import { useRouter } from "next/router";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import {
   Tooltip,
@@ -20,15 +20,6 @@ const Sidebar = () => {
   const isActive = (route?: string) => {
     if (!route) return false;
     return router.asPath === route;
-  };
-
-  const handleClick = (route?: string, clickFn?: () => void) => {
-    if (!route && clickFn) {
-      return clickFn();
-    } else if (route) {
-      return router.push(route);
-    }
-    return;
   };
 
   // vars
@@ -58,23 +49,6 @@ const Sidebar = () => {
       component: <BsSearch className="text-gray-200 md:text-2xl text-lg" />,
       tooltipContent: "Search your lessons by tags",
     },
-    {
-      label: isLoading ? null : isLoggedIn ? "Logout" : "Sign In",
-      clickFn: () =>
-        isLoading ? null : isLoggedIn ? signOut() : signIn("github"),
-      component: isLoading ? (
-        <div className="md:h-12 md:w-12 h-6 w-6 animate-pulse bg-teal-700 rounded-lg" />
-      ) : isLoggedIn ? (
-        <IoLogOutOutline className="text-gray-200 md:text-2xl text-lg" />
-      ) : (
-        <IoLogInOutline className="text-gray-200 md:text-2xl text-lg" />
-      ),
-      tooltipContent: isLoading
-        ? "Loading..."
-        : isLoggedIn
-        ? "Logout your session"
-        : "Login with GitHub",
-    },
   ];
 
   return (
@@ -97,7 +71,7 @@ const Sidebar = () => {
                   className={`h-20 w-20 rounded-r-lg flex flex-grow flex-col items-center justify-center cursor-pointer hover:bg-teal-700 ease-in duration-100 ${
                     isActive(obj.route) ? "bg-teal-600" : ""
                   }`}
-                  onClick={() => handleClick(obj.route, obj.clickFn)}
+                  onClick={() => router.push(obj.route)}
                 >
                   {obj.component}
                   <p className="text-[12px] text-gray-300 mt-3">{obj.label}</p>
@@ -106,7 +80,10 @@ const Sidebar = () => {
             ))}
           </div>
 
-          {isLoggedIn &&
+          {isLoading ? (
+            <div className="fixed bottom-0 mb-4 h-[40px] w-[40px] animate-pulse bg-teal-700 rounded-full" />
+          ) : (
+            isLoggedIn &&
             session?.user &&
             session.user?.image &&
             session.user?.name &&
@@ -137,7 +114,8 @@ const Sidebar = () => {
                   </MenuItem>
                 </MenuList>
               </Menu>
-            )}
+            )
+          )}
         </div>
         <div className="h-screen w-20" />
       </div>
@@ -151,12 +129,50 @@ const Sidebar = () => {
               className={`w-full p-2 flex flex-col items-center justify-center cursor-pointer hover:bg-teal-700 ease-in duration-100 ${
                 isActive(obj.route) ? "bg-teal-600" : ""
               }`}
-              onClick={() => handleClick(obj.route, obj.clickFn)}
+              onClick={() => router.push(obj.route)}
             >
               {obj.component}
               <p className="text-[10px] text-gray-300 mt-1">{obj.label}</p>
             </div>
           ))}
+          <div className="w-full flex flex-col items-center justify-center cursor-pointer">
+            {isLoading ? (
+              <div className="h-[35px] w-[35px] animate-pulse bg-teal-700 rounded-full" />
+            ) : (
+              isLoggedIn &&
+              session?.user &&
+              session.user?.image &&
+              session.user?.name &&
+              session.user?.email && (
+                <Menu placement="top-end">
+                  <MenuHandler>
+                    <div className="flex justify-center items-center">
+                      <Image
+                        src={session.user.image}
+                        height={35}
+                        width={35}
+                        alt="avatar"
+                        className="rounded-full cursor-pointer"
+                      />
+                    </div>
+                  </MenuHandler>
+                  <MenuList className="rounded-md">
+                    <div className="border-gray-600 border-b-[1px] mb-2">
+                      <p className="text-gray-900">{session.user.name}</p>
+                      <p className="text-[12px]">{session.user.email}</p>
+                    </div>
+                    <MenuItem
+                      className="flex flex-row items-center"
+                      onClick={() => signOut()}
+                    >
+                      <IoLogOutOutline className="text-gray-500 text-lg mr-2" />
+                      Logout
+                    </MenuItem>
+                  </MenuList>
+                </Menu>
+              )
+            )}
+          </div>
         </div>
       </div>
     </>

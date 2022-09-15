@@ -8,9 +8,8 @@ export async function middleware(req: NextRequest) {
       cookie: req.headers.get("cookie") || "",
     },
   });
-  const isAuthed = checkAuth.status === 200;
 
-  if (!isAuthed) {
+  if (checkAuth.status === 401) {
     return NextResponse.redirect(`${BASE_URL}/auth`);
   }
 }

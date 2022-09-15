@@ -6,7 +6,7 @@ import Sidebar from "../../components/Sidebar";
 const index = () => {
   return (
     <>
-      <MetaHead title="Search by tags | Schedule" />
+      <MetaHead title="Search by tags | Sched App" />
 
       <Screen>
         <Sidebar />
