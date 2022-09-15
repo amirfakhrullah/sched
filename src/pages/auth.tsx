@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext, NextPage, PreviewData } from "next";
-import React from "react";
+import React, { useState } from "react";
 import Center from "../components/Center";
 import MetaHead from "../components/MetaHead";
 import Screen from "../components/Screen";
@@ -13,11 +13,18 @@ import { signIn } from "next-auth/react";
 import { getServerAuthSession } from "../server/common/get-server-auth-session";
 
 const Auth: NextPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogin = async (provider: "github") => {
+    setIsLoading(true);
+    await signIn(provider);
+  };
+
   return (
     <>
       <MetaHead title="Auth | Sched App" />
       <Screen>
-        <Center>
+        <Center loader={isLoading}>
           <div className="shadow-lg border border-gray-300 p-4 rounded-lg max-w-sm w-full mx-auto mt-20">
             <div className="w-full flex items-center justify-center mb-6">
               <Image
@@ -44,7 +51,7 @@ const Auth: NextPage = () => {
               color="blue-gray"
               variant="outlined"
               className="w-full flex flex-row items-center justify-center "
-              onClick={() => signIn("github")}
+              onClick={() => handleLogin("github")}
             >
               <FcGoogle className="text-2xl mr-2" />
               Google
@@ -55,7 +62,7 @@ const Auth: NextPage = () => {
             <Button
               color="blue-gray"
               className="w-full flex flex-row items-center justify-center bg-blue-gray-800"
-              onClick={() => signIn("github")}
+              onClick={() => handleLogin("github")}
             >
               <AiFillGithub className="text-white text-2xl mr-2" />
               GitHub

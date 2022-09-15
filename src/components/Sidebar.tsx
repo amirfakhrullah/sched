@@ -26,12 +26,13 @@ const Sidebar = () => {
   const isLoggedIn = Boolean(session && status === "authenticated");
   const isLoading = status === "loading";
 
+  const iconClassName="text-gray-200 md:text-2xl text-lg";
   const routes = [
     {
       route: "/",
       label: "Schedule",
       component: (
-        <BsCalendar2Week className="text-gray-200 md:text-2xl text-lg" />
+        <BsCalendar2Week className={iconClassName} />
       ),
       tooltipContent: "View the arranged weekly schedules",
     },
@@ -39,14 +40,14 @@ const Sidebar = () => {
       route: "/courses",
       label: "Courses",
       component: (
-        <AiOutlineAppstoreAdd className="text-gray-200 md:text-2xl text-lg" />
+        <AiOutlineAppstoreAdd className={iconClassName} />
       ),
       tooltipContent: "Add, update or view all your courses",
     },
     {
       route: "/search",
       label: "Search",
-      component: <BsSearch className="text-gray-200 md:text-2xl text-lg" />,
+      component: <BsSearch className={iconClassName} />,
       tooltipContent: "Search your lessons by tags",
     },
   ];
@@ -81,7 +82,7 @@ const Sidebar = () => {
           </div>
 
           {isLoading ? (
-            <div className="fixed bottom-0 mb-4 h-[40px] w-[40px] animate-pulse bg-teal-700 rounded-full" />
+            <div className="fixed bottom-0 mb-2 h-[40px] w-[40px] animate-pulse bg-teal-700 rounded-full" />
           ) : (
             isLoggedIn &&
             session?.user &&
@@ -90,7 +91,7 @@ const Sidebar = () => {
             session.user?.email && (
               <Menu placement="left-end">
                 <MenuHandler>
-                  <div className="fixed bottom-0 mb-4">
+                  <div className="fixed bottom-0 mb-2">
                     <Image
                       src={session.user.image}
                       height={40}
