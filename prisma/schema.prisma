@@ -14,8 +14,57 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
+enum Day {
+    monday
+    tuesday
+    wednesday
+    thursday
+    friday
+}
+
+model Course {
     id String @id @default(cuid())
+
+    user      User?   @relation(fields: [userEmail], references: [email])
+    userEmail String?
+
+    name       String @db.VarChar(500)
+    color      String @db.VarChar(20)
+    start_date Int
+    end_date   Int?
+
+    weekly_schedule DaySchedule[]
+
+    @@index([userEmail])
+}
+
+model DaySchedule {
+    id  String @id @default(cuid())
+    day Day
+
+    schedules Schedule[]
+
+    Course   Course? @relation(fields: [courseId], references: [id])
+    courseId String?
+
+    @@unique([courseId, day])
+}
+
+model Schedule {
+    id         String @id @default(cuid())
+    start_time String @db.VarChar(4)
+    end_time   String @db.VarChar(4)
+
+    DaySchedule   DaySchedule? @relation(fields: [dayScheduleId], references: [id])
+    dayScheduleId String?
+}
+
+model Lesson {
+    id String @id @default(cuid())
+
+    unit String   @db.VarChar(255)
+    note String   @db.VarChar(4000)
+    tags String[] @db.VarChar(255)
 }
 
 // Necessary for Next auth
@@ -25,7 +74,7 @@ model Account {
     type              String
     provider          String
     providerAccountId String
-    refresh_token     String?  @db.Text
+    refresh_token     String? @db.Text
     access_token      String? @db.Text
     expires_at        Int?
     token_type        String?
@@ -53,6 +102,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    Course        Course[]
 }
 
 model VerificationToken {
