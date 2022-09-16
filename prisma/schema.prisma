@@ -24,15 +24,15 @@ enum Day {
 
 model Course {
     id              String     @id @default(cuid())
-    user            User?      @relation(fields: [userEmail], references: [email])
-    userEmail       String?
+    user            User       @relation(fields: [userId], references: [id])
+    userId          String
     name            String     @db.VarChar(500)
     color           String     @db.VarChar(20)
     start_date      Int
     end_date        Int?
     weekly_schedule Schedule[]
 
-    @@index([userEmail])
+    @@index([userId])
 }
 
 model Schedule {

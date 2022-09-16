@@ -29,7 +29,7 @@ const Auth: NextPage = () => {
     <>
       <MetaHead title="Auth | Sched App" />
       <Screen>
-        <Center loader={isLoading} bgGreen={true}>
+        <Center loader={isLoading} bgGreen={!isLoading}>
           <div className="shadow-lg bg-white p-4 rounded-lg max-w-sm w-full mx-auto mt-20">
             <div className="w-full flex items-center justify-center mb-6">
               <Image
@@ -50,13 +50,14 @@ const Auth: NextPage = () => {
               Please sign-in/sign-up with one of the <br /> providers below
             </p>
 
-            {query &&
-              query.error &&
-              query.error === "OAuthAccountNotLinked" && (
-                <p className="text-center p-1 text-red-400">
-                  The email is linked to different provider.
-                </p>
-              )}
+            {query?.error === "OAuthAccountNotLinked" && (
+              <p className="text-center p-1 text-red-400">
+                The email is linked to different provider.
+              </p>
+            )}
+            {query?.error && query?.error !== "OAuthAccountNotLinked" && (
+              <p className="text-center p-1 text-red-400">Error: {query.error}</p>
+            )}
 
             <div className="p-2" />
 
@@ -84,6 +85,17 @@ const Auth: NextPage = () => {
             <div className="p-1" />
 
             <Button
+              color="blue"
+              className="w-full flex flex-row items-center justify-center bg-blue-600"
+              onClick={() => handleLogin("twitter")}
+            >
+              <BsTwitter className="text-white text-xl mr-2" />
+              Twitter
+            </Button>
+
+            <div className="p-1" />
+
+            <Button
               color="deep-purple"
               className="w-full flex flex-row items-center justify-center bg-[#9146ff]"
               onClick={() => handleLogin("twitch")}
@@ -101,17 +113,6 @@ const Auth: NextPage = () => {
             >
               <BsSpotify className="text-green-700 text-xl mr-2" />
               Spotify
-            </Button>
-
-            <div className="p-1" />
-
-            <Button
-              color="blue"
-              className="w-full flex flex-row items-center justify-center bg-blue-600"
-              onClick={() => handleLogin("twitter")}
-            >
-              <BsTwitter className="text-white text-xl mr-2" />
-              Twitter
             </Button>
           </div>
         </Center>

@@ -15,7 +15,7 @@ export const coursesRouter = createProtectedRouter()
 
       const newCourse = await ctx.prisma.course.create({
         data: {
-          userEmail: ctx.session.user.email,
+          userId: ctx.session.user.id,
           name,
           color,
           start_date,

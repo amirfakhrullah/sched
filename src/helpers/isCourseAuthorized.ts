@@ -14,7 +14,7 @@ export const isCourseAuthorized = async (ctx: Context, courseId: string) => {
   return await ctx.prisma.course.findFirstOrThrow({
     where: {
       id: courseId,
-      userEmail: ctx.session.user?.email,
+      userId: ctx.session.user?.id,
     },
     include: {
       weekly_schedule: true,
