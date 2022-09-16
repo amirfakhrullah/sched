@@ -7,36 +7,37 @@ import {
 } from "../../helpers/validations/courses";
 import Calendar from "./Calendar";
 // import Calendar from 'react-calendar';
+import { IdValidatorType } from '../../helpers/validations/shared';
 
 const Schedule = () => {
-  const { mutate } = trpc.useMutation("courses.update", {
+  const { mutate } = trpc.useMutation("courses.create", {
     onSuccess: (course) => console.log(course),
     onError: (err) => console.log(err),
   });
 
   const handleClick = () => {
-    const data: UpdateCoursePayloadType = {
-      id: "cl84bqfj801257kscf5r188ed",
+    const data: CoursePayloadType = {
+      // id: "cl84bqfj801257kscf5r188ed",
       name: "My first course",
-      color: "grey",
+      color: "blue",
       start_date: 20220916,
       end_date: 20300101,
       weekly_schedule: [
         {
-          id: "cl84bqfj801267kscd7j6ixsz",
+          // id: "cl84bqfj801267kscd7j6ixsz",
           day: "monday",
           start_time: "1100",
           end_time: "1515",
         },
         {
-          id: "cl84bvbs102227kscqe5cbd51",
+          // id: "cl84bvbs102227kscqe5cbd51",
           day: "tuesday",
           start_time: "1230",
           end_time: "1500",
         },
       ],
     };
-    // mutate(data);
+    mutate(data);
   };
 
   return (

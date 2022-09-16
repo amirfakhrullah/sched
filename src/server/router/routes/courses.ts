@@ -1,8 +1,10 @@
 import { Day } from "@prisma/client";
+import { isCourseAuthorized } from "../../../helpers/isCourseAuthorized";
 import {
   CoursePayloadValidator,
   UpdateCoursePayloadValidator,
 } from "../../../helpers/validations/courses";
+import { IdValidator } from "../../../helpers/validations/shared";
 import { createProtectedRouter } from "../protected-router";
 
 export const coursesRouter = createProtectedRouter()
@@ -40,19 +42,13 @@ export const coursesRouter = createProtectedRouter()
     input: UpdateCoursePayloadValidator,
     async resolve({ ctx, input }) {
       const { id, name, color, start_date, end_date, weekly_schedule } = input;
-      const foundCourse = await ctx.prisma.course.findFirstOrThrow({
-        where: {
-          id,
-          userEmail: ctx.session.user.email,
-        },
-      });
+      const foundCourse = await isCourseAuthorized(ctx, id);
 
       const updatedCourse = await ctx.prisma.course.update({
         where: {
           id: foundCourse.id,
         },
         data: {
-          ...foundCourse,
           name,
           color,
           start_date,
@@ -74,7 +70,7 @@ export const coursesRouter = createProtectedRouter()
 
       const newSchedules = weekly_schedule.filter((schedules) => !schedules.id);
 
-      const scheduleIdsNeededToBeDeleted = await ctx.prisma.schedule.findMany({
+      const schedulesNeededToBeDeleted = await ctx.prisma.schedule.findMany({
         where: {
           AND: [
             {
@@ -93,8 +89,15 @@ export const coursesRouter = createProtectedRouter()
         },
         select: {
           id: true,
+          lessons: true,
         },
       });
+      const scheduleIdsNeededToBeDeleted = schedulesNeededToBeDeleted.map(
+        (schedule) => schedule.id
+      );
+      const lessonIdsNeededToBeDeleted = schedulesNeededToBeDeleted.flatMap(
+        (schedule) => schedule.lessons.map((lesson) => lesson.id)
+      );
 
       await ctx.prisma.$transaction([
         ...existingSchedules.map((sched) =>
@@ -120,7 +123,14 @@ export const coursesRouter = createProtectedRouter()
         ctx.prisma.schedule.deleteMany({
           where: {
             id: {
-              in: scheduleIdsNeededToBeDeleted.map((sched) => sched.id),
+              in: scheduleIdsNeededToBeDeleted,
+            },
+          },
+        }),
+        ctx.prisma.lesson.deleteMany({
+          where: {
+            id: {
+              in: lessonIdsNeededToBeDeleted,
             },
           },
         }),
@@ -134,6 +144,36 @@ export const coursesRouter = createProtectedRouter()
           weekly_schedule: true,
         },
       });
+    },
+  })
+  .mutation("delete", {
+    input: IdValidator,
+    async resolve({ ctx, input }) {
+      const { id } = input;
+      const course = await isCourseAuthorized(ctx, id);
+      const scheduleIds = course.weekly_schedule.map((schedule) => schedule.id);
+
+      await ctx.prisma.$transaction([
+        ctx.prisma.course.delete({
+          where: {
+            id,
+          },
+        }),
+        ctx.prisma.schedule.deleteMany({
+          where: {
+            id: {
+              in: scheduleIds,
+            },
+          },
+        }),
+        ctx.prisma.lesson.deleteMany({
+          where: {
+            scheduleId: {
+              in: scheduleIds,
+            },
+          },
+        }),
+      ]);
     },
   })
   .query("weeklySchedule", {
