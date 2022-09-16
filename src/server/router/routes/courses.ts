@@ -10,6 +10,7 @@ export const coursesRouter = createProtectedRouter()
     input: CoursePayloadValidator,
     async resolve({ ctx, input }) {
       const { name, color, start_date, end_date, weekly_schedule } = input;
+
       const newCourse = await ctx.prisma.course.create({
         data: {
           userEmail: ctx.session.user.email,
@@ -19,39 +20,17 @@ export const coursesRouter = createProtectedRouter()
           end_date,
           weekly_schedule: {
             createMany: {
-              data: [
-                {
-                  day: Day.monday,
-                },
-                {
-                  day: Day.tuesday,
-                },
-                {
-                  day: Day.wednesday,
-                },
-                {
-                  day: Day.thursday,
-                },
-                {
-                  day: Day.friday,
-                },
-              ],
+              data: weekly_schedule.map((schedule) => ({
+                day: schedule.day,
+                start_time: schedule.start_time,
+                end_time: schedule.end_time,
+              })),
             },
           },
         },
         include: {
           weekly_schedule: true,
         },
-      });
-
-      await ctx.prisma.schedule.createMany({
-        data: newCourse.weekly_schedule.flatMap((daySchedule) => {
-          return weekly_schedule[daySchedule.day].map((sched) => ({
-            start_time: sched.start_time,
-            end_time: sched.end_time,
-            dayScheduleId: daySchedule.id,
-          }));
-        }),
       });
 
       return newCourse;
@@ -84,39 +63,33 @@ export const coursesRouter = createProtectedRouter()
         },
       });
 
-      const massagedWeeklySchedules = Object.keys(weekly_schedule).flatMap(
-        (key) => {
-          return weekly_schedule[key as Day].map((schedule) => ({
-            ...schedule,
-            dayScheduleId: updatedCourse.weekly_schedule.find(
-              (daySchedule) => daySchedule.day === key
-            )?.id as string,
-          }));
-        }
-      );
-      const existingSchedules = massagedWeeklySchedules.filter(
+      const existingSchedules = weekly_schedule.filter(
         (schedules) => schedules.id !== undefined
       ) as {
         id: string;
-        dayScheduleId: string;
+        day: Day;
         start_time: string;
         end_time: string;
       }[];
 
-      const newSchedules = massagedWeeklySchedules.filter(
-        (schedules) => !schedules.id
-      );
+      const newSchedules = weekly_schedule.filter((schedules) => !schedules.id);
 
       const scheduleIdsNeededToBeDeleted = await ctx.prisma.schedule.findMany({
         where: {
-          dayScheduleId: {
-            in: updatedCourse.weekly_schedule.map(
-              (weeklySchedule) => weeklySchedule.id
-            ),
-          },
-          id: {
-            notIn: existingSchedules.map((schedule) => schedule.id),
-          },
+          AND: [
+            {
+              id: {
+                in: updatedCourse.weekly_schedule.map(
+                  (schedule) => schedule.id
+                ),
+              },
+            },
+            {
+              id: {
+                notIn: existingSchedules.map((schedule) => schedule.id),
+              },
+            },
+          ],
         },
         select: {
           id: true,
@@ -129,14 +102,19 @@ export const coursesRouter = createProtectedRouter()
             where: {
               id: sched.id,
             },
-            data: sched,
+            data: {
+              day: sched.day,
+              start_time: sched.start_time,
+              end_time: sched.end_time,
+            },
           })
         ),
         ctx.prisma.schedule.createMany({
           data: newSchedules.map((sched) => ({
+            day: sched.day,
             start_time: sched.start_time,
             end_time: sched.end_time,
-            dayScheduleId: sched.dayScheduleId,
+            courseId: updatedCourse.id,
           })),
         }),
         ctx.prisma.schedule.deleteMany({
@@ -147,6 +125,15 @@ export const coursesRouter = createProtectedRouter()
           },
         }),
       ]);
+
+      return await ctx.prisma.course.findFirst({
+        where: {
+          id: updatedCourse.id,
+        },
+        include: {
+          weekly_schedule: true,
+        },
+      });
     },
   })
   .query("weeklySchedule", {

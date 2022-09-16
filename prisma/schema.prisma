@@ -23,48 +23,36 @@ enum Day {
 }
 
 model Course {
-    id String @id @default(cuid())
-
-    user      User?   @relation(fields: [userEmail], references: [email])
-    userEmail String?
-
-    name       String @db.VarChar(500)
-    color      String @db.VarChar(20)
-    start_date Int
-    end_date   Int?
-
-    weekly_schedule DaySchedule[]
+    id              String     @id @default(cuid())
+    user            User?      @relation(fields: [userEmail], references: [email])
+    userEmail       String?
+    name            String     @db.VarChar(500)
+    color           String     @db.VarChar(20)
+    start_date      Int
+    end_date        Int?
+    weekly_schedule Schedule[]
 
     @@index([userEmail])
 }
 
-model DaySchedule {
-    id  String @id @default(cuid())
-    day Day
-
-    schedules Schedule[]
-
-    Course   Course? @relation(fields: [courseId], references: [id])
-    courseId String?
-
-    @@unique([courseId, day])
-}
-
 model Schedule {
-    id         String @id @default(cuid())
-    start_time String @db.VarChar(4)
-    end_time   String @db.VarChar(4)
-
-    DaySchedule   DaySchedule? @relation(fields: [dayScheduleId], references: [id])
-    dayScheduleId String?
+    id         String   @id @default(cuid())
+    day        Day
+    start_time String   @db.VarChar(4)
+    end_time   String   @db.VarChar(4)
+    Course     Course?  @relation(fields: [courseId], references: [id])
+    courseId   String?
+    lessons    Lesson[]
 }
 
 model Lesson {
-    id String @id @default(cuid())
-
-    unit String   @db.VarChar(255)
-    note String   @db.VarChar(4000)
-    tags String[] @db.VarChar(255)
+    id         String    @id @default(cuid())
+    unit       String    @db.VarChar(255)
+    note       String    @db.VarChar(4000)
+    tags       String[]  @db.VarChar(255)
+    date       Int
+    Schedule   Schedule? @relation(fields: [scheduleId], references: [id])
+    scheduleId String?
 }
 
 // Necessary for Next auth
