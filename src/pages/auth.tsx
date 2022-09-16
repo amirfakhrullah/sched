@@ -8,7 +8,7 @@ import Image from "next/image";
 import { Button } from "@material-tailwind/react";
 import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
-import { BsSpotify, BsTwitch } from "react-icons/bs";
+import { BsSpotify, BsTwitch, BsTwitter } from "react-icons/bs";
 import { ParsedUrlQuery } from "querystring";
 import { signIn } from "next-auth/react";
 import { getServerAuthSession } from "../server/common/get-server-auth-session";
@@ -18,7 +18,9 @@ const Auth: NextPage = () => {
   const { query } = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = async (provider: "github" | "twitch" | "spotify") => {
+  const handleLogin = async (
+    provider: "github" | "twitch" | "spotify" | "twitter"
+  ) => {
     setIsLoading(true);
     await signIn(provider);
   };
@@ -86,7 +88,7 @@ const Auth: NextPage = () => {
               className="w-full flex flex-row items-center justify-center bg-[#9146ff]"
               onClick={() => handleLogin("twitch")}
             >
-              <BsTwitch className="text-white text-2xl mr-2" />
+              <BsTwitch className="text-white text-xl mr-2" />
               Twitch
             </Button>
 
@@ -97,8 +99,19 @@ const Auth: NextPage = () => {
               className="w-full flex flex-row items-center justify-center bg-black"
               onClick={() => handleLogin("spotify")}
             >
-              <BsSpotify className="text-green-700 text-2xl mr-2" />
+              <BsSpotify className="text-green-700 text-xl mr-2" />
               Spotify
+            </Button>
+
+            <div className="p-1" />
+
+            <Button
+              color="blue"
+              className="w-full flex flex-row items-center justify-center bg-blue-600"
+              onClick={() => handleLogin("twitter")}
+            >
+              <BsTwitter className="text-white text-xl mr-2" />
+              Twitter
             </Button>
           </div>
         </Center>
