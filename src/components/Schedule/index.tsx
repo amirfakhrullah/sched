@@ -37,7 +37,7 @@ const Schedule = () => {
         },
       ],
     };
-    mutate(data);
+    // mutate(data);
   };
 
   return (
