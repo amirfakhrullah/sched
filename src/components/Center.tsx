@@ -1,12 +1,17 @@
 import React from "react";
 import { Watch } from "react-loader-spinner";
 
-const Center: React.FC<{ children?: React.ReactNode; loader?: boolean }> = ({
-  children,
-  loader = false,
-}) => {
+const Center: React.FC<{
+  children?: React.ReactNode;
+  loader?: boolean;
+  bgGreen?: boolean;
+}> = ({ children, loader = false, bgGreen = false }) => {
   return (
-    <div className="mx-auto max-w-7xl w-full md:p-4 p-2">
+    <div
+      className={`mx-auto max-w-7xl w-full md:p-4 p-2 ${
+        bgGreen ? "bg-teal-800" : ""
+      }`}
+    >
       {loader ? (
         <div className="w-full h-full flex justify-center sm:mt-60 mt-32">
           <Watch
