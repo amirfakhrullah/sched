@@ -1,8 +1,8 @@
 import NextAuth, { type NextAuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import TwitchProvider from "next-auth/providers/twitch";
+import SpotifyProvider from "next-auth/providers/spotify";
 
-// Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "../../../server/db/client";
 import { env } from "../../../env/server.mjs";
@@ -26,7 +26,11 @@ export const authOptions: NextAuthOptions = {
     TwitchProvider({
       clientId: env.TWITCH_CLIENT_ID,
       clientSecret: env.TWITCH_CLIENT_SECRET,
-    })
+    }),
+    SpotifyProvider({
+      clientId: env.SPOTIFY_CLIENT_ID,
+      clientSecret: env.SPOTIFY_CLIENT_SECRET,
+    }),
   ],
   secret: env.NEXTAUTH_SECRET,
   pages: {

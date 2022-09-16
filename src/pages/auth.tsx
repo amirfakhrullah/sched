@@ -8,7 +8,7 @@ import Image from "next/image";
 import { Button } from "@material-tailwind/react";
 import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
-import { BsTwitch } from "react-icons/bs";
+import { BsSpotify, BsTwitch } from "react-icons/bs";
 import { ParsedUrlQuery } from "querystring";
 import { signIn } from "next-auth/react";
 import { getServerAuthSession } from "../server/common/get-server-auth-session";
@@ -18,7 +18,7 @@ const Auth: NextPage = () => {
   const { query } = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = async (provider: "github" | "twitch") => {
+  const handleLogin = async (provider: "github" | "twitch" | "spotify") => {
     setIsLoading(true);
     await signIn(provider);
   };
@@ -88,6 +88,17 @@ const Auth: NextPage = () => {
             >
               <BsTwitch className="text-white text-2xl mr-2" />
               Twitch
+            </Button>
+
+            <div className="p-1" />
+
+            <Button
+              color="blue-gray"
+              className="w-full flex flex-row items-center justify-center bg-black"
+              onClick={() => handleLogin("spotify")}
+            >
+              <BsSpotify className="text-green-700 text-2xl mr-2" />
+              Spotify
             </Button>
           </div>
         </Center>
