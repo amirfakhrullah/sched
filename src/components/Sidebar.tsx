@@ -2,6 +2,7 @@ import React from "react";
 import { BsCalendar2Week, BsSearch } from "react-icons/bs";
 import { AiOutlineAppstoreAdd } from "react-icons/ai";
 import { IoLogOutOutline } from "react-icons/io5";
+import { BiUserPin } from "react-icons/bi";
 import { useRouter } from "next/router";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
@@ -26,22 +27,18 @@ const Sidebar = () => {
   const isLoggedIn = Boolean(session && status === "authenticated");
   const isLoading = status === "loading";
 
-  const iconClassName="text-gray-200 md:text-2xl text-lg";
+  const iconClassName = "text-gray-200 md:text-2xl text-lg";
   const routes = [
     {
       route: "/",
       label: "Schedule",
-      component: (
-        <BsCalendar2Week className={iconClassName} />
-      ),
+      component: <BsCalendar2Week className={iconClassName} />,
       tooltipContent: "View the arranged weekly schedules",
     },
     {
       route: "/courses",
       label: "Courses",
-      component: (
-        <AiOutlineAppstoreAdd className={iconClassName} />
-      ),
+      component: <AiOutlineAppstoreAdd className={iconClassName} />,
       tooltipContent: "Add, update or view all your courses",
     },
     {
@@ -85,20 +82,21 @@ const Sidebar = () => {
             <div className="fixed bottom-0 mb-2 h-[40px] w-[40px] animate-pulse bg-teal-700 rounded-full" />
           ) : (
             isLoggedIn &&
-            session?.user &&
-            session.user?.image &&
-            session.user?.name &&
-            session.user?.email && (
+            session?.user && (
               <Menu placement="left-end">
                 <MenuHandler>
                   <div className="fixed bottom-0 mb-2">
-                    <Image
-                      src={session.user.image}
-                      height={40}
-                      width={40}
-                      alt="avatar"
-                      className="rounded-full cursor-pointer"
-                    />
+                    {session.user.image ? (
+                      <Image
+                        src={session.user.image}
+                        height={40}
+                        width={40}
+                        alt="avatar"
+                        className="rounded-full cursor-pointer"
+                      />
+                    ) : (
+                      <BiUserPin className="h-[40px] w-[40px] rounded-full cursor-pointer text-gray-300" />
+                    )}
                   </div>
                 </MenuHandler>
                 <MenuList className="rounded-md">
@@ -141,20 +139,21 @@ const Sidebar = () => {
               <div className="h-[35px] w-[35px] animate-pulse bg-teal-700 rounded-full" />
             ) : (
               isLoggedIn &&
-              session?.user &&
-              session.user?.image &&
-              session.user?.name &&
-              session.user?.email && (
+              session?.user && (
                 <Menu placement="top-end">
                   <MenuHandler>
                     <div className="flex justify-center items-center">
-                      <Image
-                        src={session.user.image}
-                        height={35}
-                        width={35}
-                        alt="avatar"
-                        className="rounded-full cursor-pointer"
-                      />
+                      {session.user.image ? (
+                        <Image
+                          src={session.user.image}
+                          height={35}
+                          width={35}
+                          alt="avatar"
+                          className="rounded-full cursor-pointer"
+                        />
+                      ) : (
+                        <BiUserPin className="h-[35px] w-[35px] rounded-full cursor-pointer text-gray-300" />
+                      )}
                     </div>
                   </MenuHandler>
                   <MenuList className="rounded-md">

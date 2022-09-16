@@ -8,14 +8,17 @@ import Image from "next/image";
 import { Button } from "@material-tailwind/react";
 import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
+import { BsTwitch } from "react-icons/bs";
 import { ParsedUrlQuery } from "querystring";
 import { signIn } from "next-auth/react";
 import { getServerAuthSession } from "../server/common/get-server-auth-session";
+import { useRouter } from "next/router";
 
 const Auth: NextPage = () => {
+  const { query } = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = async (provider: "github") => {
+  const handleLogin = async (provider: "github" | "twitch") => {
     setIsLoading(true);
     await signIn(provider);
   };
@@ -45,6 +48,14 @@ const Auth: NextPage = () => {
               Please sign-in/sign-up with one of the <br /> providers below
             </p>
 
+            {query &&
+              query.error &&
+              query.error === "OAuthAccountNotLinked" && (
+                <p className="text-center p-1 text-red-400">
+                  The email is linked to different provider.
+                </p>
+              )}
+
             <div className="p-2" />
 
             <Button
@@ -66,6 +77,17 @@ const Auth: NextPage = () => {
             >
               <AiFillGithub className="text-white text-2xl mr-2" />
               GitHub
+            </Button>
+
+            <div className="p-1" />
+
+            <Button
+              color="deep-purple"
+              className="w-full flex flex-row items-center justify-center bg-[#9146ff]"
+              onClick={() => handleLogin("twitch")}
+            >
+              <BsTwitch className="text-white text-2xl mr-2" />
+              Twitch
             </Button>
           </div>
         </Center>
