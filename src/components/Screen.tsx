@@ -2,7 +2,7 @@ import React from "react";
 
 const Screen: React.FC<{
   children?: React.ReactNode;
-  withSidebar: boolean;
+  withSidebar?: boolean;
 }> = ({ children, withSidebar = true }) => {
   return (
     <div
