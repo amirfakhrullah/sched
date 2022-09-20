@@ -5,14 +5,15 @@ import MetaHead from "../components/MetaHead";
 import Screen from "../components/Screen";
 import schedLogo from "../../public/sched-logo.png";
 import Image from "next/image";
-import { Button } from "@material-tailwind/react";
 import { AiFillGithub } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
+// import { FcGoogle } from "react-icons/fc";
 import { BsSpotify, BsTwitch, BsTwitter } from "react-icons/bs";
 import { ParsedUrlQuery } from "querystring";
 import { signIn } from "next-auth/react";
 import { getServerAuthSession } from "../server/common/get-server-auth-session";
 import { useRouter } from "next/router";
+import { ThreeDots } from "react-loader-spinner";
+import AppButton from "../components/AppButton";
 
 const Auth: NextPage = () => {
   const { query } = useRouter();
@@ -28,8 +29,8 @@ const Auth: NextPage = () => {
   return (
     <>
       <MetaHead title="Auth | Sched App" />
-      <Screen>
-        <Center loader={isLoading} bgGreen={!isLoading}>
+      <Screen withSidebar={false}>
+        <Center bgGreen={true}>
           <div className="shadow-lg bg-white p-4 rounded-lg max-w-sm w-full mx-auto mt-20">
             <div className="w-full flex items-center justify-center mb-6">
               <Image
@@ -56,12 +57,28 @@ const Auth: NextPage = () => {
               </p>
             )}
             {query?.error && query?.error !== "OAuthAccountNotLinked" && (
-              <p className="text-center p-1 text-red-400">Error: {query.error}</p>
+              <p className="text-center p-1 text-red-400">
+                Error: {query.error}
+              </p>
             )}
 
             <div className="p-2" />
 
-            <Button
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <ThreeDots
+                  height="80"
+                  width="80"
+                  radius="9"
+                  color="#115e59"
+                  ariaLabel="three-dots-loading"
+                  wrapperStyle={{}}
+                  visible={true}
+                />
+              </div>
+            ) : (
+              <>
+                {/* <Button
               color="blue-gray"
               variant="outlined"
               className="w-full flex flex-row items-center justify-center "
@@ -71,49 +88,47 @@ const Auth: NextPage = () => {
               Google
             </Button>
 
-            <div className="p-1" />
+            <div className="p-1" /> */}
 
-            <Button
-              color="blue-gray"
-              className="w-full flex flex-row items-center justify-center bg-blue-gray-800"
-              onClick={() => handleLogin("github")}
-            >
-              <AiFillGithub className="text-white text-2xl mr-2" />
-              GitHub
-            </Button>
+                <AppButton
+                  onClick={() => handleLogin("github")}
+                  icon={<AiFillGithub className="text-white text-2xl mr-2" />}
+                  label="GitHub"
+                  cssBG=" bg-blue-gray-800"
+                  theme="blue-gray"
+                />
 
-            <div className="p-1" />
+                <div className="p-1" />
 
-            <Button
-              color="blue"
-              className="w-full flex flex-row items-center justify-center bg-blue-600"
-              onClick={() => handleLogin("twitter")}
-            >
-              <BsTwitter className="text-white text-xl mr-2" />
-              Twitter
-            </Button>
+                <AppButton
+                  onClick={() => handleLogin("twitter")}
+                  icon={<BsTwitter className="text-white text-xl mr-2" />}
+                  label="Twitter"
+                  cssBG="bg-blue-600"
+                  theme="blue"
+                />
 
-            <div className="p-1" />
+                <div className="p-1" />
 
-            <Button
-              color="deep-purple"
-              className="w-full flex flex-row items-center justify-center bg-[#9146ff]"
-              onClick={() => handleLogin("twitch")}
-            >
-              <BsTwitch className="text-white text-xl mr-2" />
-              Twitch
-            </Button>
+                <AppButton
+                  onClick={() => handleLogin("twitch")}
+                  icon={<BsTwitch className="text-white text-xl mr-2" />}
+                  label="Twitch"
+                  cssBG="bg-[#9146ff]"
+                  theme="deep-purple"
+                />
 
-            <div className="p-1" />
+                <div className="p-1" />
 
-            <Button
-              color="blue-gray"
-              className="w-full flex flex-row items-center justify-center bg-black"
-              onClick={() => handleLogin("spotify")}
-            >
-              <BsSpotify className="text-green-700 text-xl mr-2" />
-              Spotify
-            </Button>
+                <AppButton
+                  onClick={() => handleLogin("spotify")}
+                  icon={<BsSpotify className="text-green-700 text-xl mr-2" />}
+                  label="Spotify"
+                  cssBG="bg-black"
+                  theme="blue-gray"
+                />
+              </>
+            )}
           </div>
         </Center>
       </Screen>
