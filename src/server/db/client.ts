@@ -1,6 +1,11 @@
 // src/server/db/client.ts
 import { PrismaClient } from "@prisma/client";
+
+// comment line below if want to run ts-node script
 import { env } from "../../env/server.mjs";
+
+// Uncomment line below if want to run ts-node script
+// const env = process.env;
 
 declare global {
   // eslint-disable-next-line no-var

@@ -1,3 +1,7 @@
+/**
+ * IMPORTANT
+ * To run this script, needs to modify ../src/server/db/client.ts
+ */
 import { prisma } from "../src/server/db/client";
 import * as readline from "readline";
 import * as process from "process";
