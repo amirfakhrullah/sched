@@ -57,8 +57,9 @@ const fillCourses = async (userId: string) => {
         const idValidator = z.string().max(255);
         idValidator.parse(id);
 
+        console.log("Initiating course creations ---------------------");
         await fillCourses(id);
-        console.log("Creating courses done ---------------------");
+        console.log("Creating courses done ---------------------------");
 
         process.exit();
       } catch (error) {
