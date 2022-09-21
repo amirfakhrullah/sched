@@ -13,7 +13,7 @@ export const CoursePayloadValidator = z.object({
       start_time: z.string().max(4),
       end_time: z.string().max(4),
     })
-  )
+  ),
 });
 
 export type CoursePayloadType = z.infer<typeof CoursePayloadValidator>;
@@ -24,4 +24,12 @@ export const UpdateCoursePayloadValidator = CoursePayloadValidator.extend({
 
 export type UpdateCoursePayloadType = z.infer<
   typeof UpdateCoursePayloadValidator
+>;
+
+export const WeeklySchedulePayloadValidator = z.object({
+  dayId: z.number().optional(),
+});
+
+export type WeeklySchedulePayloadType = z.infer<
+  typeof WeeklySchedulePayloadValidator
 >;

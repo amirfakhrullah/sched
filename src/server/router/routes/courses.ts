@@ -3,9 +3,17 @@ import { isCourseAuthorized } from "../../../helpers/isCourseAuthorized";
 import {
   CoursePayloadValidator,
   UpdateCoursePayloadValidator,
+  WeeklySchedulePayloadValidator,
 } from "../../../helpers/validations/courses";
 import { IdValidator } from "../../../helpers/validations/shared";
+import {
+  filterActiveWeekLessons,
+  getPrevOrNextWeekId,
+  getWeekDates,
+  massageIntoWeeklyScheduleCards,
+} from "../../../helpers/weeklySchedules";
 import { createProtectedRouter } from "../protected-router";
+import { inferQueryOutput } from "../../../utils/trpc";
 
 export const coursesRouter = createProtectedRouter()
   .mutation("create", {
@@ -177,7 +185,84 @@ export const coursesRouter = createProtectedRouter()
     },
   })
   .query("weeklySchedule", {
-    resolve({ ctx }) {
-      return ctx.session;
+    input: WeeklySchedulePayloadValidator,
+    async resolve({ ctx, input }) {
+      const { dayId } = input;
+      const weekObj = getWeekDates(dayId?.toString());
+      const { prevWeekId, nextWeekId } = getPrevOrNextWeekId(dayId?.toString());
+
+      const involvedCourses = await ctx.prisma.course.findMany({
+        where: {
+          userId: ctx.session.user.id,
+          start_date: {
+            lte: Number(weekObj[6]?.date),
+          },
+        },
+        include: {
+          weekly_schedule: true,
+        },
+      });
+      const involvedCourseIds = involvedCourses.map((course) => course.id);
+
+      const involvedLessons = await ctx.prisma.lesson.findMany({
+        where: {
+          scheduleId: {
+            in: involvedCourseIds,
+          },
+          AND: [
+            {
+              date: {
+                lte: Number(weekObj[6]?.date),
+              },
+            },
+            {
+              date: {
+                gte: Number(weekObj[0]?.date),
+              },
+            },
+          ],
+        },
+      });
+
+      const filteredActiveWeekLessons = filterActiveWeekLessons(
+        involvedCourses,
+        dayId?.toString()
+      );
+      const structuredWeekLessons = massageIntoWeeklyScheduleCards(
+        filteredActiveWeekLessons,
+        involvedLessons
+      );
+
+      return {
+        day_id: Number(weekObj[1]?.date),
+        start_date: Number(weekObj[0]?.date),
+        end_date: Number(weekObj[6]?.date),
+        prev_week_id: Number(prevWeekId),
+        next_week_id: Number(nextWeekId),
+        schedules: {
+          monday: {
+            cards: structuredWeekLessons.monday,
+            date: Number(weekObj[1]?.date),
+          },
+          tuesday: {
+            cards: structuredWeekLessons.tuesday,
+            date: Number(weekObj[2]?.date),
+          },
+          wednesday: {
+            cards: structuredWeekLessons.wednesday,
+            date: Number(weekObj[3]?.date),
+          },
+          thursday: {
+            cards: structuredWeekLessons.monday,
+            date: Number(weekObj[4]?.date),
+          },
+          friday: {
+            cards: structuredWeekLessons.friday,
+            date: Number(weekObj[5]?.date),
+          },
+        },
+      };
     },
   });
+
+export type WeeklyScheduleResponse = inferQueryOutput<"courses.weeklySchedule">;
