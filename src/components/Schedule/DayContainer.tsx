@@ -12,7 +12,7 @@ const DayContainer: React.FC<{
     <div className="flex flex-col">
       <div className="flex flex-row items-center justify-between border-b-2 border-teal-800 pb-2">
         <h3 className="font-oswald text-2xl font-semibold capitalize">{day.slice(0, 3)}</h3>
-        <p className="font-oswald text-sm text-gray-500">
+        <p className="font-oswald text-sm text-gray-600">
           {moment(data.schedules[day].date.toString()).format("MMMM Do")}
         </p>
       </div>

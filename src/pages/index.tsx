@@ -22,7 +22,7 @@ const Home: NextPage = () => {
       <Screen>
         <Sidebar />
         <Center loader={isLoading || !data}>
-          <Schedule data={data} setDayId={setDayId} />
+          {data && <Schedule data={data} setDayId={setDayId} />}
         </Center>
       </Screen>
     </>
