@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
+    "ts-node": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\"",
     "fill-courses": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" scripts/fill-courses.ts",
     "fill-lessons": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" scripts/fill-lessons.ts"
   },

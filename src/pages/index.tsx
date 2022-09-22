@@ -8,7 +8,7 @@ import Sidebar from "../components/Sidebar";
 import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
-  const [dayId, setDayId] = useState<number | undefined>(undefined);
+  const [dayId, setDayId] = useState<string | undefined>(undefined);
   const { data, isLoading  } = trpc.useQuery([
     "courses.weeklySchedule",
     {
