@@ -7,8 +7,6 @@ export const lessonsRouter = createProtectedRouter().query("get", {
   input: GetLessonPayloadValidator,
   async resolve({ ctx, input }) {
     const { lessonId, includeCourse } = input;
-    if (!lessonId) return;
-
     const lesson = await ctx.prisma.lesson.findFirstOrThrow({
       where: {
         id: lessonId,
