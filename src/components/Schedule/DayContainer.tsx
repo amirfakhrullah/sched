@@ -11,7 +11,9 @@ const DayContainer: React.FC<{
   return (
     <div className="flex flex-col">
       <div className="flex flex-row items-center justify-between border-b-2 border-teal-800 pb-2">
-        <h3 className="font-oswald text-2xl font-semibold capitalize">{day.slice(0, 3)}</h3>
+        <h3 className="font-oswald text-2xl font-semibold capitalize">
+          {day.slice(0, 3)}
+        </h3>
         <p className="font-oswald text-sm text-gray-600">
           {moment(data.schedules[day].date.toString()).format("MMMM Do")}
         </p>
@@ -20,6 +22,12 @@ const DayContainer: React.FC<{
       {data.schedules[day].cards.map((card) => (
         <Card key={card.schedule_id} lessonCard={card} />
       ))}
+
+      {data.schedules[day].cards.length === 0 && (
+        <p className="text-gray-600 text-sm text-center my-5">
+          No schedule for this day.
+        </p>
+      )}
     </div>
   );
 };

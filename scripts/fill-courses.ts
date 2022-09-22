@@ -34,6 +34,7 @@ const fillCourses = async (userId: string) => {
           name: course.name,
           color: course.color,
           start_date: course.start_date,
+          end_date: course.end_date,
           weekly_schedule: {
             createMany: {
               data: course.weekly_schedule.map((schedule) => ({

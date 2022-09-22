@@ -7,16 +7,16 @@ const AppButton: React.FC<{
   onClick: () => void;
   icon?: JSX.Element;
   label: string;
-  cssBG?: string;
+  css?: string;
   theme?: color;
   variant?: variant;
-}> = ({ onClick, icon, label, cssBG, theme, variant }) => {
+}> = ({ onClick, icon, label, css, theme, variant }) => {
   return (
     <Button
       color={theme}
       variant={variant}
       className={`w-full flex flex-row items-center justify-center ${
-        cssBG ? cssBG : ""
+        css ? css : ""
       }`}
       onClick={() => onClick()}
     >

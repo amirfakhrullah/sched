@@ -107,4 +107,37 @@ export const coursesData = [
       },
     ],
   },
+  {
+    name: "System Design",
+    start_date: 20220921,
+    end_date: 20221012,
+    color: "grey",
+    weekly_schedule: [
+      {
+        day: "monday",
+        start_time: "1400",
+        end_time: "1500",
+      },
+      {
+        day: "tuesday",
+        start_time: "0830",
+        end_time: "1000",
+      },
+      {
+        day: "wednesday",
+        start_time: "1400",
+        end_time: "1500",
+      },
+      {
+        day: "thursday",
+        start_time: "1600",
+        end_time: "1800",
+      },
+      {
+        day: "friday",
+        start_time: "1000",
+        end_time: "1130",
+      },
+    ],
+  }
 ];

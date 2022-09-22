@@ -253,7 +253,7 @@ export const coursesRouter = createProtectedRouter()
             date: Number(weekObj[3]?.date),
           },
           thursday: {
-            cards: structuredWeekLessons.monday,
+            cards: structuredWeekLessons.thursday,
             date: Number(weekObj[4]?.date),
           },
           friday: {

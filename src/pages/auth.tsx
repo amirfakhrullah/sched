@@ -94,7 +94,7 @@ const Auth: NextPage = () => {
                   onClick={() => handleLogin("github")}
                   icon={<AiFillGithub className="text-white text-2xl mr-2" />}
                   label="GitHub"
-                  cssBG=" bg-blue-gray-800"
+                  css=" bg-blue-gray-800"
                   theme="blue-gray"
                 />
 
@@ -104,7 +104,7 @@ const Auth: NextPage = () => {
                   onClick={() => handleLogin("twitter")}
                   icon={<BsTwitter className="text-white text-xl mr-2" />}
                   label="Twitter"
-                  cssBG="bg-blue-600"
+                  css="bg-blue-600"
                   theme="blue"
                 />
 
@@ -114,7 +114,7 @@ const Auth: NextPage = () => {
                   onClick={() => handleLogin("twitch")}
                   icon={<BsTwitch className="text-white text-xl mr-2" />}
                   label="Twitch"
-                  cssBG="bg-[#9146ff]"
+                  css="bg-[#9146ff]"
                   theme="deep-purple"
                 />
 
@@ -124,7 +124,7 @@ const Auth: NextPage = () => {
                   onClick={() => handleLogin("spotify")}
                   icon={<BsSpotify className="text-green-700 text-xl mr-2" />}
                   label="Spotify"
-                  cssBG="bg-black"
+                  css="bg-black"
                   theme="blue-gray"
                 />
               </>

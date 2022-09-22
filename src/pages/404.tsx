@@ -32,7 +32,7 @@ const NotFound: NextPage = () => {
 
             <div className="mt-5 w-full flex items-center justify-center">
               <Button
-                color="blue-gray"
+                color="teal"
                 variant="outlined"
                 onClick={() => router.push("/")}
               >
