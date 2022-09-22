@@ -12,7 +12,7 @@ import { getColorThemes } from "../../helpers/cardColors";
 import { LessonCard } from "../../helpers/weeklySchedules";
 import { useState, Fragment } from "react";
 import { useRouter } from "next/router";
-import LessonModal from "../LessonModal";
+import LessonModal from "../LessonModal/LessonModal";
 
 const Card: React.FC<{
   lessonCard: LessonCard;
@@ -48,7 +48,7 @@ const Card: React.FC<{
               </div>
             </MenuHandler>
             <MenuList className="rounded-md p-2">
-              {!lessonCard.lesson_id && (
+              {lessonCard.lesson_id && (
                 <MenuItem
                   className="flex flex-row items-center"
                   onClick={() => handleOpen()}
@@ -70,7 +70,7 @@ const Card: React.FC<{
 
         <div className="flex flex-row items-start my-2">
           <div className={`inline-block px-2 rounded-md mr-1 ${theme.tag}`}>
-            <p className="text-sm text-white">unit :</p>
+            <p className="text-sm text-white">unit</p>
           </div>
           <p className="text-sm">{lessonCard.unit}</p>
         </div>

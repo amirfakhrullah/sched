@@ -36,7 +36,7 @@ model Schedule {
     day        Day
     start_time String   @db.VarChar(4)
     end_time   String   @db.VarChar(4)
-    Course     Course  @relation(fields: [courseId], references: [id])
+    Course     Course   @relation(fields: [courseId], references: [id])
     courseId   String
     lessons    Lesson[]
 }
@@ -49,6 +49,8 @@ model Lesson {
     date       Int
     Schedule   Schedule @relation(fields: [scheduleId], references: [id])
     scheduleId String
+
+    @@unique([scheduleId, date])
 }
 
 // Next auth -----------------------------------------------

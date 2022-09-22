@@ -143,7 +143,7 @@ export const coursesData = [
 ];
 
 export const lessonData = {
-  unit: "Introduction 101",
-  note: "Introduction 101 Introduction 101 Introduction 101 Introduction 101 Introduction 101",
+  unit: "Exam preparation",
+  note: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Accusamus ad reprehenderit omnis perspiciatis aut odit! Unde architecto perspiciatis, dolorum dolorem iure quia saepe autem accusamus eum praesentium magni corrupti explicabo!",
   tags: ["hot", "lit", "nerd"],
 };

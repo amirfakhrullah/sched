@@ -38,13 +38,15 @@ const fillLessons = async (userId: string, day: Day) => {
   });
 
   const formattedSchedules = courses.flatMap((course) =>
-    course.weekly_schedule.map((schedule) => ({
-      scheduleId: schedule.id,
-      date: Number(date),
-      note: lessonData.note,
-      unit: lessonData.unit,
-      tags: lessonData.tags,
-    }))
+    course.weekly_schedule
+      .filter((schedule) => schedule.day === day)
+      .map((schedule) => ({
+        scheduleId: schedule.id,
+        date: Number(date),
+        note: lessonData.note,
+        unit: lessonData.unit,
+        tags: lessonData.tags,
+      }))
   );
 
   await prisma.lesson.createMany({

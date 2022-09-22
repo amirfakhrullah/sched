@@ -1,3 +1,4 @@
+// const userId = "cl84jsw450006mwscaulm5y64";
 /**
  * IMPORTANT
  * To run this script, needs to modify ../src/server/db/client.ts

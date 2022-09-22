@@ -202,12 +202,12 @@ export const coursesRouter = createProtectedRouter()
           weekly_schedule: true,
         },
       });
-      const involvedCourseIds = involvedCourses.map((course) => course.id);
+      const involvedScheduleIds = involvedCourses.flatMap((course) => course.weekly_schedule.map((schedule) => schedule.id));
 
       const involvedLessons = await ctx.prisma.lesson.findMany({
         where: {
           scheduleId: {
-            in: involvedCourseIds,
+            in: involvedScheduleIds,
           },
           AND: [
             {

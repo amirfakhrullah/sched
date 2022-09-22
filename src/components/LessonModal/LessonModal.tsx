@@ -7,24 +7,15 @@ import {
 } from "@material-tailwind/react";
 import moment from "moment";
 import React from "react";
-import { ThreeDots } from "react-loader-spinner";
-import { getColorThemes } from "../helpers/cardColors";
-import { LessonCard } from "../helpers/weeklySchedules";
-import { trpc } from "../utils/trpc";
+import { getColorThemes } from "../../helpers/cardColors";
+import { LessonCard } from "../../helpers/weeklySchedules";
+import LessonModalQuery from "./LessonModalQuery";
 
 const LessonModal: React.FC<{
   open: boolean;
   handleOpen: () => void;
   lessonCard: LessonCard;
 }> = ({ open, handleOpen, lessonCard }) => {
-  const { isLoading, data } = trpc.useQuery([
-    "lessons.get",
-    {
-      includeCourse: false,
-      lessonId: lessonCard.lesson_id,
-    },
-  ]);
-
   const theme = getColorThemes(lessonCard.color);
 
   return (
@@ -49,22 +40,10 @@ const LessonModal: React.FC<{
           </div>
           <p className="text-sm text-black">{lessonCard.unit}</p>
         </div>
-        {isLoading ? (
-          <div className="w-full flex items-center justify-center">
-            <ThreeDots
-              height="80"
-              width="80"
-              radius="9"
-              color={theme.hex}
-              ariaLabel="three-dots-loading"
-              wrapperStyle={{}}
-              visible={true}
-            />
-          </div>
-        ) : (
-          data?.note
+        {lessonCard.lesson_id && open && (
+          <LessonModalQuery lessonId={lessonCard.lesson_id} hex={theme.hex} />
         )}
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-wrap gap-1 mt-5">
           {lessonCard.tags &&
             lessonCard.tags.map((val, idx) => (
               <div
