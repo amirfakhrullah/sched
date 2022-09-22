@@ -29,8 +29,8 @@ const Auth: NextPage = () => {
   return (
     <>
       <MetaHead title="Auth | Sched App" />
-      <Screen withSidebar={false}>
-        <Center bgGreen={true}>
+      <Screen withSidebar={false} bgGreen={true}>
+        <Center>
           <div className="shadow-lg bg-white p-4 rounded-lg max-w-sm w-full mx-auto mt-20">
             <div className="w-full flex items-center justify-center mb-6">
               <Image
