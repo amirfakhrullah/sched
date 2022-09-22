@@ -27,7 +27,7 @@ const LessonModalQuery: React.FC<{ lessonId: string; hex: string }> = ({
       />
     </div>
   ) : (
-    <>{data?.note}</>
+    <p>{data.note}</p>
   );
 };
 
