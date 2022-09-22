@@ -15,7 +15,7 @@ const AppButton: React.FC<{
     <Button
       color={theme}
       variant={variant}
-      className={`w-full flex flex-row items-center justify-center ${
+      className={`w-full flex flex-row items-center justify-center rounded-sm ${
         css ? css : ""
       }`}
       onClick={() => onClick()}

@@ -1,5 +1,4 @@
 import {
-  Button,
   Dialog,
   DialogBody,
   DialogFooter,
@@ -7,8 +6,10 @@ import {
 } from "@material-tailwind/react";
 import moment from "moment";
 import React from "react";
+import { AiOutlineClose } from "react-icons/ai";
 import { getColorThemes } from "../../helpers/cardColors";
 import { LessonCard } from "../../helpers/weeklySchedules";
+import AppButton from "../AppButton";
 import LessonModalQuery from "./LessonModalQuery";
 
 const LessonModal: React.FC<{
@@ -22,7 +23,7 @@ const LessonModal: React.FC<{
     <Dialog
       open={open}
       handler={handleOpen}
-      className="rounded-md max-w-3xl w-[95vw] mx-auto"
+      className="rounded-sm max-w-3xl w-[95vw] mx-auto"
     >
       <DialogHeader className={`${theme.card} block`}>
         <h3 className="text-black overflow-hidden font-oswald text-md font-medium">
@@ -56,13 +57,13 @@ const LessonModal: React.FC<{
         </div>
       </DialogBody>
       <DialogFooter>
-        <Button
-          color="green"
-          className="bg-teal-800 rounded-md"
+        <AppButton 
+          label="Close"
+          css="bg-teal-800 max-w-[10em]"
+          theme="green"
           onClick={() => handleOpen()}
-        >
-          <span>Close</span>
-        </Button>
+          icon={<AiOutlineClose className="text-white text-sm mr-2" />}
+        />
       </DialogFooter>
     </Dialog>
   );

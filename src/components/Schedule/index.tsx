@@ -44,7 +44,7 @@ const Schedule: React.FC<{
           <AppButton
             label="Add Course"
             onClick={() => router.push("/courses/new")}
-            css="bg-teal-800 rounded-none sm:max-w-[14em] sm:m-0 mt-1"
+            css="bg-teal-800 sm:max-w-[14em] sm:m-0 mt-1"
             theme="green"
             icon={<AiOutlineAppstoreAdd className="text-white text-xl mr-2" />}
           />
