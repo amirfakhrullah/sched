@@ -9,11 +9,11 @@ import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
   const [dayId, setDayId] = useState<number | undefined>(undefined);
-  const { data, isLoading } = trpc.useQuery([
+  const { data, isLoading  } = trpc.useQuery([
     "courses.weeklySchedule",
     {
       dayId,
-    },
+    }
   ]);
 
   return (

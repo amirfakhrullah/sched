@@ -6,7 +6,7 @@ import { prisma } from "../src/server/db/client";
 import * as readline from "readline";
 import * as process from "process";
 import { z } from "zod";
-import { coursesData } from "./course-data";
+import { coursesData } from "./data";
 import { Day } from "@prisma/client";
 
 const rl = readline.createInterface({
@@ -52,7 +52,7 @@ const fillCourses = async (userId: string) => {
 
 (async () => {
   rl.question(
-    "Please insert the account's userId for the courses \nuserId:",
+    "Please insert the account's userId for the courses \nuserId :",
     async function (id: string) {
       try {
         const idValidator = z.string().max(255);

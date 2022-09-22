@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
-    "fill-courses": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" scripts/fill-courses.ts"
+    "fill-courses": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" scripts/fill-courses.ts",
+    "fill-lessons": "ts-node -O \"{\\\"module\\\":\\\"commonjs\\\"}\" scripts/fill-lessons.ts"
   },
   "dependencies": {
     "@material-tailwind/react": "^1.2.4",

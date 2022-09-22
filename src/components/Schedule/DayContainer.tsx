@@ -20,7 +20,11 @@ const DayContainer: React.FC<{
       </div>
 
       {data.schedules[day].cards.map((card) => (
-        <Card key={card.schedule_id} lessonCard={card} />
+        <Card
+          key={card.schedule_id}
+          lessonCard={card}
+          date={data.schedules[day].date}
+        />
       ))}
 
       {data.schedules[day].cards.length === 0 && (

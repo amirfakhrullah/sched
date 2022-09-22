@@ -139,5 +139,11 @@ export const coursesData = [
         end_time: "1130",
       },
     ],
-  }
+  },
 ];
+
+export const lessonData = {
+  unit: "Introduction 101",
+  note: "Introduction 101 Introduction 101 Introduction 101 Introduction 101 Introduction 101",
+  tags: ["hot", "lit", "nerd"],
+};
