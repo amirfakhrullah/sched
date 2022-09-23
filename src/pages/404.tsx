@@ -5,8 +5,8 @@ import Center from "../components/Center";
 import MetaHead from "../components/MetaHead";
 import Screen from "../components/Screen";
 import schedLogo from "../../public/sched-logo.png";
-import { Button } from "@material-tailwind/react";
 import { useRouter } from "next/router";
+import AppButton from "../components/AppButton";
 
 const NotFound: NextPage = () => {
   const router = useRouter();
@@ -31,13 +31,13 @@ const NotFound: NextPage = () => {
             </h1>
 
             <div className="mt-5 w-full flex items-center justify-center">
-              <Button
-                color="teal"
-                variant="outlined"
-                onClick={() => router.push("/")}
-              >
-                Back to Home
-              </Button>
+              <AppButton
+              label="Back to Home"
+              theme="teal"
+              variant="outlined"
+              css="max-w-[15em]"
+              onClick={() => router.push("/")}
+              />
             </div>
           </div>
         </Center>
