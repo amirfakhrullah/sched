@@ -14,6 +14,7 @@ import { getServerAuthSession } from "../server/common/get-server-auth-session";
 import { useRouter } from "next/router";
 import { ThreeDots } from "react-loader-spinner";
 import AppButton from "../components/AppButton";
+import Link from "next/link";
 
 const Auth: NextPage = () => {
   const { query } = useRouter();
@@ -129,6 +130,19 @@ const Auth: NextPage = () => {
                 />
               </>
             )}
+            <p className="text-[12px] text-center text-gray-600 mt-5">
+              Designed and built by
+              <br />
+              <Link href="https://amrf.me" passHref>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 underline cursor-pointer"
+                >
+                  amrf.me
+                </a>
+              </Link>
+            </p>
           </div>
         </Center>
       </Screen>
