@@ -18,11 +18,11 @@ const Schedule: React.FC<{
     <>
       <div className="flex sm:flex-row flex-col sm:items-center justify-between">
         <div>
-          <h2 className="text-4xl font-[700] font-oswald">
+          <h2 className="text-4xl font-[700] font-oswald text-center">
             {moment(data.day_id.toString()).format("MMMM YYYY")}
           </h2>
 
-          <div className="flex flex-row items-center">
+          <div className="flex flex-row items-center justify-center">
             <div
               onClick={() => setDayId(data.prev_week_id.toString())}
               className="p-1 m-1 hover:bg-blue-gray-200 cursor-pointer rounded-full ease-in duration-100"

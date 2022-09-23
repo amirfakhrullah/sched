@@ -26,10 +26,10 @@ const Card: React.FC<{
   const handleOpenLesson = (id?: string) => {
     if (!id) {
       return router.push(
-        `/lessons/new?scheduleId=${lessonCard.schedule_id}&date=${date}`
+        `/notes/new?scheduleId=${lessonCard.schedule_id}&date=${date}`
       );
     }
-    router.push(`/lessons/${id}`);
+    router.push(`/notes/${id}`);
   };
 
   const theme = getColorThemes(lessonCard.color);
@@ -38,7 +38,10 @@ const Card: React.FC<{
     <Fragment>
       <div className={`rounded-sm p-2 mt-2 ${theme.card}`}>
         <div className="flex flex-row items-start justify-between">
-          <h3 className="flex-[0.9] overflow-hidden font-oswald inline-block text-md font-medium cursor-pointer hover:underline">
+          <h3
+            className="flex-[0.9] overflow-hidden font-oswald inline-block text-md font-medium cursor-pointer hover:underline"
+            onClick={() => handleOpenLesson()}
+          >
             {lessonCard.name}
           </h3>
           <Menu placement="bottom-end">
@@ -54,15 +57,20 @@ const Card: React.FC<{
                   onClick={() => handleOpen()}
                 >
                   <AiFillEye className="text-gray-500 text-lg mr-2" />
-                  Preview lesson
+                  Preview note
                 </MenuItem>
+              )}
+              {!lessonCard.lesson_id && (
+                <div className="border-gray-600 border-b-[1px] mb-2">
+                  <p className="text-[12px]">No note added yet.</p>
+                </div>
               )}
               <MenuItem
                 className="flex flex-row items-center"
                 onClick={() => handleOpenLesson(lessonCard.lesson_id)}
               >
                 <AiOutlineEdit className="text-gray-500 text-lg mr-2" />
-                {lessonCard.lesson_id ? "View/Edit lesson" : "Add lesson"}
+                {lessonCard.lesson_id ? "View/Edit note" : "Add note"}
               </MenuItem>
             </MenuList>
           </Menu>
