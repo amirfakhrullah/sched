@@ -26,38 +26,38 @@ const LessonModal: React.FC<{
       className="rounded-sm max-w-3xl w-[95vw] mx-auto"
     >
       <DialogHeader className={`${theme.card} block`}>
-        <h3 className="text-black overflow-hidden font-oswald text-md font-medium">
+        <h3 className="text-black overflow-hidden font-oswald text-md font-medium mb-1">
           {lessonCard.name}
         </h3>
+        <div className="flex flex-row items-start">
+          <div className={`inline-block px-2 rounded-md mr-1 ${theme.tag}`}>
+            <p className="text-sm text-white">unit</p>
+          </div>
+          <p className="text-sm text-black">{lessonCard.unit}</p>
+        </div>
         <p className="text-sm font-medium">
           {moment(lessonCard.start_time, "hhmm").format("hh:mm A")} -{" "}
           {moment(lessonCard.end_time, "hhmm").format("hh:mm A")}
         </p>
       </DialogHeader>
       <DialogBody divider className="flex flex-col items-start">
-        <div className="flex flex-row items-start my-2">
-          <div className={`inline-block px-2 rounded-md mr-1 ${theme.tag}`}>
-            <p className="text-sm text-white">unit :</p>
-          </div>
-          <p className="text-sm text-black">{lessonCard.unit}</p>
-        </div>
-        {lessonCard.lesson_id && open && (
-          <LessonModalQuery lessonId={lessonCard.lesson_id} hex={theme.hex} />
-        )}
-        <div className="flex flex-wrap gap-1 mt-5">
+        <div className="flex flex-wrap gap-1 mb-1">
           {lessonCard.tags &&
             lessonCard.tags.map((val, idx) => (
               <div
                 key={idx}
-                className={`inline-block px-2 rounded-md ${theme.tag}`}
+                className={`inline-block px-2 rounded-xl ${theme.tag}`}
               >
-                <p className="text-sm text-white"># {val}</p>
+                <p className="text-sm text-white">{val}</p>
               </div>
             ))}
         </div>
+        {lessonCard.lesson_id && open && (
+          <LessonModalQuery lessonId={lessonCard.lesson_id} hex={theme.hex} />
+        )}
       </DialogBody>
       <DialogFooter>
-        <AppButton 
+        <AppButton
           label="Close"
           css="bg-teal-800 max-w-[10em]"
           theme="green"

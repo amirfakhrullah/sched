@@ -36,7 +36,7 @@ const Card: React.FC<{
 
   return (
     <Fragment>
-      <div className={`p-2 mt-2 ${theme.card}`}>
+      <div className={`rounded-sm p-2 mt-2 ${theme.card}`}>
         <div className="flex flex-row items-start justify-between">
           <h3 className="flex-[0.9] overflow-hidden font-oswald inline-block text-md font-medium cursor-pointer hover:underline">
             {lessonCard.name}
@@ -84,9 +84,9 @@ const Card: React.FC<{
             lessonCard.tags.map((val, idx) => (
               <div
                 key={idx}
-                className={`inline-block px-2 rounded-md ${theme.tag}`}
+                className={`inline-block px-2 rounded-xl ${theme.tag}`}
               >
-                <p className="text-sm text-white"># {val}</p>
+                <p className="text-sm text-white">{val}</p>
               </div>
             ))}
         </div>
