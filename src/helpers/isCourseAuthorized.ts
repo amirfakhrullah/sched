@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { Session } from "next-auth";
 
-interface Context {
+export interface Context {
   session: Session;
   prisma: PrismaClient<
     Prisma.PrismaClientOptions,

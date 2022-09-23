@@ -6,13 +6,15 @@ import {
 } from "@material-tailwind/react";
 import moment from "moment";
 import React from "react";
-import { AiFillEye, AiOutlineEdit } from "react-icons/ai";
+import { AiFillDelete, AiFillEye, AiOutlineEdit } from "react-icons/ai";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { getColorThemes } from "../../helpers/cardColors";
 import { LessonCard } from "../../helpers/weeklySchedules";
 import { useState, Fragment } from "react";
 import { useRouter } from "next/router";
 import LessonModal from "../LessonModal/LessonModal";
+import ConfirmModal from "../ConfirmModal";
+import { trpc } from "../../utils/trpc";
 
 const Card: React.FC<{
   lessonCard: LessonCard;
@@ -20,6 +22,15 @@ const Card: React.FC<{
 }> = ({ lessonCard, date }) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [deleteAlert, setDeleteAlert] = useState(false);
+
+  const utils = trpc.useContext();
+  const { mutate, isLoading } = trpc.useMutation("lessons.delete", {
+    onSettled() {
+      utils.invalidateQueries(["courses.weeklySchedule"]);
+      setDeleteAlert(false);
+    },
+  });
 
   const handleOpen = () => setOpen(!open);
 
@@ -72,6 +83,15 @@ const Card: React.FC<{
                 <AiOutlineEdit className="text-gray-500 text-lg mr-2" />
                 {lessonCard.lesson_id ? "View/Edit note" : "Add note"}
               </MenuItem>
+              {lessonCard.lesson_id && (
+                <MenuItem
+                  className="flex flex-row items-center"
+                  onClick={() => setDeleteAlert(true)}
+                >
+                  <AiFillDelete className="text-gray-500 text-lg mr-2" />
+                  Delete note
+                </MenuItem>
+              )}
             </MenuList>
           </Menu>
         </div>
@@ -104,6 +124,16 @@ const Card: React.FC<{
         handleOpen={handleOpen}
         lessonCard={lessonCard}
       />
+      {lessonCard.lesson_id && (
+        <ConfirmModal
+          deleteLoading={isLoading}
+          open={deleteAlert}
+          handleOpen={() => setDeleteAlert((alert) => !alert)}
+          onConfirm={() =>
+            lessonCard.lesson_id && mutate({ id: lessonCard.lesson_id })
+          }
+        />
+      )}
     </Fragment>
   );
 };
