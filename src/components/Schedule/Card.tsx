@@ -97,7 +97,7 @@ const Card: React.FC<{
         </div>
 
         <div className="flex flex-row items-start my-2">
-          <div className={`inline-block px-2 rounded-md mr-1 ${theme.tag}`}>
+          <div className={`inline-block px-2 rounded-sm mr-1 ${theme.tag}`}>
             <p className="text-sm text-white">unit</p>
           </div>
           <p className="text-sm">{lessonCard.unit}</p>
@@ -107,14 +107,14 @@ const Card: React.FC<{
           {moment(lessonCard.start_time, "hhmm").format("hh:mm A")} -{" "}
           {moment(lessonCard.end_time, "hhmm").format("hh:mm A")}
         </p>
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-wrap gap-1 mt-2">
           {lessonCard.tags &&
             lessonCard.tags.map((val, idx) => (
               <div
                 key={idx}
-                className={`inline-block px-2 rounded-xl ${theme.tag}`}
+                className="inline-block px-2 rounded-sm border border-gray-800"
               >
-                <p className="text-sm text-white">{val}</p>
+                <p className="text-sm text-black">{val}</p>
               </div>
             ))}
         </div>

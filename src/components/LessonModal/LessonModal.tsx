@@ -30,7 +30,7 @@ const LessonModal: React.FC<{
           {lessonCard.name}
         </h3>
         <div className="flex flex-row items-start">
-          <div className={`inline-block px-2 rounded-md mr-1 ${theme.tag}`}>
+          <div className={`inline-block px-2 rounded-sm mr-1 ${theme.tag}`}>
             <p className="text-sm text-white">unit</p>
           </div>
           <p className="text-sm text-black">{lessonCard.unit}</p>
@@ -46,7 +46,7 @@ const LessonModal: React.FC<{
             lessonCard.tags.map((val, idx) => (
               <div
                 key={idx}
-                className={`inline-block px-2 rounded-xl ${theme.tag}`}
+                className={`inline-block px-2 rounded-sm ${theme.tag}`}
               >
                 <p className="text-sm text-white">{val}</p>
               </div>
