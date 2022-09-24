@@ -40,7 +40,7 @@ const LessonModal: React.FC<{
           {moment(lessonCard.end_time, "hhmm").format("hh:mm A")}
         </p>
       </DialogHeader>
-      <DialogBody divider className="flex flex-col items-start">
+      <DialogBody divider className="flex flex-col items-start max-h-[60vh] overflow-y-auto">
         <div className="flex flex-wrap gap-1 mb-1">
           {lessonCard.tags &&
             lessonCard.tags.map((val, idx) => (
