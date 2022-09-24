@@ -6,8 +6,10 @@ import {
 import { ParsedUrlQuery } from "querystring";
 import React from "react";
 import Center from "../../components/Center";
-import LessonForm from "../../components/Lesson/LessonForm";
+import ExistingLesson from "../../components/Lesson/ExistingLesson";
+import NewLesson from "../../components/Lesson/NewLesson";
 import MetaHead from "../../components/MetaHead";
+import Screen from "../../components/Screen";
 import Sidebar from "../../components/Sidebar";
 
 const NoteId: React.FC<
@@ -23,13 +25,22 @@ const NoteId: React.FC<
     >
   >
 > = ({ noteId, scheduleId, date }) => {
-  const isExist = Boolean(noteId && !scheduleId && !date);
-
   return (
     <>
       <MetaHead title="Lesson | Sched" />
-      <Sidebar />
-      <Center>{isExist ? <></> : <LessonForm />}</Center>
+      <Screen>
+        <Sidebar />
+        <Center>
+          <div className="shadow-lg bg-white rounded-sm max-w-7xl w-full mx-auto mt-20">
+            {noteId && !scheduleId && !date && (
+              <ExistingLesson lessonId={noteId} />
+            )}
+            {!noteId && scheduleId && date && (
+              <NewLesson scheduleId={scheduleId} date={date} />
+            )}
+          </div>
+        </Center>
+      </Screen>
     </>
   );
 };

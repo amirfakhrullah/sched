@@ -5,13 +5,13 @@ import {
 } from "../../../helpers/validations/lessons";
 import { createProtectedRouter } from "../protected-router";
 import { inferQueryOutput } from "../../../utils/trpc";
-import { Prisma } from "@prisma/client";
 import * as trpc from "@trpc/server";
 import { IdValidator } from "../../../helpers/validations/shared";
 import {
   isLessonAuthorized,
   isScheduleAuthorized,
 } from "../../../helpers/isLessonAuthorized";
+import moment from "moment";
 
 export const lessonsRouter = createProtectedRouter()
   .query("get", {
@@ -51,26 +51,26 @@ export const lessonsRouter = createProtectedRouter()
     input: CreateLessonPayloadValidator,
     async resolve({ ctx, input }) {
       const { note, unit, tags, date, scheduleId } = input;
-      await isScheduleAuthorized(ctx, scheduleId);
+      const courseWithSchedule = await isScheduleAuthorized(ctx, scheduleId);
 
-      try {
-        return await ctx.prisma.lesson.create({
-          data: {
-            scheduleId,
-            date,
-            unit,
-            note,
-            tags,
-          },
+      // is schedule exist on the date
+      const day = moment(date.toString()).format("dddd").toLowerCase();
+      if (courseWithSchedule.weekly_schedule[0]?.day !== day) {
+        throw new trpc.TRPCError({
+          message: "Schedule doesn't exist on the date",
+          code: "CONFLICT",
         });
-      } catch (e) {
-        if (e instanceof Prisma.PrismaClientKnownRequestError) {
-          if (e.code === "P2002") {
-            throw new trpc.TRPCError({ code: "CONFLICT" });
-          }
-          throw new trpc.TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-        }
       }
+
+      return await ctx.prisma.lesson.create({
+        data: {
+          scheduleId,
+          date: Number(date),
+          unit,
+          note,
+          tags,
+        },
+      });
     },
   })
   .mutation("update", {

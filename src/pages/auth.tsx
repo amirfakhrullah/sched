@@ -12,9 +12,9 @@ import { ParsedUrlQuery } from "querystring";
 import { signIn } from "next-auth/react";
 import { getServerAuthSession } from "../server/common/get-server-auth-session";
 import { useRouter } from "next/router";
-import { ThreeDots } from "react-loader-spinner";
 import AppButton from "../components/AppButton";
 import Link from "next/link";
+import Loader from "../components/Loader";
 
 const Auth: NextPage = () => {
   const { query } = useRouter();
@@ -66,17 +66,7 @@ const Auth: NextPage = () => {
             <div className="p-2" />
 
             {isLoading ? (
-              <div className="flex items-center justify-center">
-                <ThreeDots
-                  height="80"
-                  width="80"
-                  radius="9"
-                  color="#115e59"
-                  ariaLabel="three-dots-loading"
-                  wrapperStyle={{}}
-                  visible={true}
-                />
-              </div>
+              <Loader />
             ) : (
               <>
                 {/* <Button

@@ -2,3 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap');
+
+.mardown-group h1,
+.mardown-group h2,
+.mardown-group h3 {
+  @apply border-b border-gray-600 mt-2;
+}
+
+.mardown-group h1 {
+  @apply text-black font-oswald mt-2;
+}
+
+.mardown-group h2,
+.mardown-group h3,
+.mardown-group h4,
+.mardown-group h5,
+.mardown-group h6 {
+  @apply text-gray-800 font-oswald;
+}
+
+.mardown-group a {
+  @apply text-blue-600 underline cursor-pointer;
+}
+
+.mardown-group * {
+  @apply text-gray-700;
+}
+
+.mardown-group p {
+  @apply text-gray-700;
+}
+
+.mardown-group code {
+  @apply text-white;
+}
+
+.li::marker {
+    @apply text-gray-900;
+}

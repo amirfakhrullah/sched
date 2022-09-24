@@ -26,8 +26,8 @@ export const coursesRouter = createProtectedRouter()
           userId: ctx.session.user.id,
           name,
           color,
-          start_date,
-          end_date,
+          start_date: Number(start_date),
+          end_date: Number(end_date),
           weekly_schedule: {
             createMany: {
               data: weekly_schedule.map((schedule) => ({
@@ -59,8 +59,8 @@ export const coursesRouter = createProtectedRouter()
         data: {
           name,
           color,
-          start_date,
-          end_date,
+          start_date: Number(start_date),
+          end_date: Number(end_date),
         },
         include: {
           weekly_schedule: true,
@@ -202,7 +202,9 @@ export const coursesRouter = createProtectedRouter()
           weekly_schedule: true,
         },
       });
-      const involvedScheduleIds = involvedCourses.flatMap((course) => course.weekly_schedule.map((schedule) => schedule.id));
+      const involvedScheduleIds = involvedCourses.flatMap((course) =>
+        course.weekly_schedule.map((schedule) => schedule.id)
+      );
 
       const involvedLessons = await ctx.prisma.lesson.findMany({
         where: {

@@ -3,10 +3,10 @@ import { z } from "zod";
 import { DateValidator, TimeValidator } from "./shared";
 
 export const CoursePayloadValidator = z.object({
-  name: z.string().max(500),
+  name: z.string().min(4).max(500),
   start_date: DateValidator,
   end_date: DateValidator.optional(),
-  color: z.string().max(20),
+  color: z.string().min(4).max(20),
   weekly_schedule: z.array(
     z.object({
       id: z.string().max(255).optional(),
@@ -20,7 +20,7 @@ export const CoursePayloadValidator = z.object({
 export type CoursePayloadType = z.infer<typeof CoursePayloadValidator>;
 
 export const UpdateCoursePayloadValidator = CoursePayloadValidator.extend({
-  id: z.string().max(255),
+  id: z.string().min(4).max(255),
 });
 
 export type UpdateCoursePayloadType = z.infer<

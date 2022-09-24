@@ -1,6 +1,7 @@
 import React from "react";
 import { ThreeDots } from "react-loader-spinner";
 import { trpc } from "../../utils/trpc";
+import Markdown from "../Markdown";
 
 const LessonModalQuery: React.FC<{ lessonId: string; hex: string }> = ({
   lessonId,
@@ -27,7 +28,7 @@ const LessonModalQuery: React.FC<{ lessonId: string; hex: string }> = ({
       />
     </div>
   ) : (
-    <p>{data.note}</p>
+    <Markdown>{data.note || ""}</Markdown>
   );
 };
 

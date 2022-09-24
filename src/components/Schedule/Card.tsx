@@ -51,7 +51,7 @@ const Card: React.FC<{
         <div className="flex flex-row items-start justify-between">
           <h3
             className="flex-[0.9] overflow-hidden font-oswald inline-block text-md font-medium cursor-pointer hover:underline"
-            onClick={() => handleOpenLesson()}
+            onClick={() => handleOpenLesson(lessonCard.lesson_id)}
           >
             {lessonCard.name}
           </h3>

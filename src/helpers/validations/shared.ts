@@ -8,7 +8,4 @@ export const IdValidator = z.object({
 export type IdValidatorType = z.infer<typeof IdValidator>;
 
 export const TimeValidator = z.string().regex(TIME_REGEX);
-export const DateValidator = z
-  .string()
-  .regex(DATE_REGEX)
-  .transform((val) => Number(val));
+export const DateValidator = z.string().regex(DATE_REGEX);

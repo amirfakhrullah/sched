@@ -48,5 +48,12 @@ export const isScheduleAuthorized = async (
         },
       },
     },
+    include: {
+      weekly_schedule: {
+        where: {
+          id: scheduleId,
+        },
+      },
+    },
   });
 };
