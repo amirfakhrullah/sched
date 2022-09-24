@@ -38,7 +38,7 @@ const LessonForm: React.FC<{
   const { mutate: editMutate, isLoading: editLoading } = trpc.useMutation(
     "lessons.update",
     {
-      onSuccess: () => setEditMode(true),
+      onSuccess: () => setEditMode(false),
     }
   );
 
