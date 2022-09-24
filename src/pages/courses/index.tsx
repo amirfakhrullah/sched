@@ -7,7 +7,6 @@ const Courses = () => {
   return (
     <>
       <MetaHead title="Courses | Sched App" />
-
       <Screen>
         <Sidebar />
       </Screen>

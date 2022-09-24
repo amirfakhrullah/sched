@@ -37,7 +37,7 @@ const Card: React.FC<{
   const handleOpenLesson = (id?: string) => {
     if (!id) {
       return router.push(
-        `/notes/new?scheduleId=${lessonCard.schedule_id}&date=${date}`
+        `/notes/new-${lessonCard.schedule_id}-${date}`
       );
     }
     router.push(`/notes/${id}`);
