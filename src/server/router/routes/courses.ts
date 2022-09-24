@@ -16,6 +16,15 @@ import { createProtectedRouter } from "../protected-router";
 import { inferQueryOutput } from "../../../utils/trpc";
 
 export const coursesRouter = createProtectedRouter()
+  .query("get-all", {
+    async resolve({ ctx }) {
+      return await ctx.prisma.course.findMany({
+        where: {
+          userId: ctx.session.user.id,
+        },
+      });
+    },
+  })
   .mutation("create", {
     input: CoursePayloadValidator,
     async resolve({ ctx, input }) {
@@ -162,9 +171,11 @@ export const coursesRouter = createProtectedRouter()
       const scheduleIds = course.weekly_schedule.map((schedule) => schedule.id);
 
       await ctx.prisma.$transaction([
-        ctx.prisma.course.delete({
+        ctx.prisma.lesson.deleteMany({
           where: {
-            id,
+            scheduleId: {
+              in: scheduleIds,
+            },
           },
         }),
         ctx.prisma.schedule.deleteMany({
@@ -174,11 +185,9 @@ export const coursesRouter = createProtectedRouter()
             },
           },
         }),
-        ctx.prisma.lesson.deleteMany({
+        ctx.prisma.course.delete({
           where: {
-            scheduleId: {
-              in: scheduleIds,
-            },
+            id,
           },
         }),
       ]);
