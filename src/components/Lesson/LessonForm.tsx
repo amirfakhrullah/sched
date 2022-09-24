@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { Fragment } from "react";
 import {
   CreateLessonPayloadType,
   CreateLessonPayloadValidator,
@@ -13,6 +13,7 @@ import { Button } from "@material-tailwind/react";
 import AppButton from "../AppButton";
 import Markdown from "../Markdown";
 import Loader from "../Loader";
+import ConfirmModal from "../ConfirmModal";
 
 const LessonForm: React.FC<{
   type: "create" | "edit";
@@ -28,6 +29,7 @@ const LessonForm: React.FC<{
   const [editMode, setEditMode] = useState(type === "create");
   const [tagValue, setTagValue] = useState("");
   const [tagsRefresh, setTagsRefresh] = useState(false);
+  const [deleteAlert, setDeleteAlert] = useState(false);
 
   const { mutate: createMutate, isLoading: createLoading } = trpc.useMutation(
     "lessons.create",
@@ -39,6 +41,12 @@ const LessonForm: React.FC<{
     "lessons.update",
     {
       onSuccess: () => setEditMode(false),
+    }
+  );
+  const { mutate: deleteMutate, isLoading: deleteLoading } = trpc.useMutation(
+    "lessons.delete",
+    {
+      onSuccess: () => router.back(),
     }
   );
 
@@ -111,7 +119,7 @@ const LessonForm: React.FC<{
   if (createLoading || editLoading) return <Loader color={colors.hex} />;
 
   return (
-    <>
+    <Fragment>
       <div className="sm:p-6 p-3">
         {editMode ? (
           <>
@@ -207,6 +215,15 @@ const LessonForm: React.FC<{
       </div>
 
       <div className="sm:p-6 p-3 flex sm:flex-row gap-1 flex-col sm:items-center items-end justify-end border-t border-blue-gray-100">
+        {type === "edit" && (
+          <AppButton
+            type="button"
+            label="Delete"
+            theme="red"
+            css="max-w-[10em]"
+            onClick={() => setDeleteAlert(true)}
+          />
+        )}
         <AppButton
           type="button"
           label={editMode ? "Preview" : "Edit"}
@@ -223,7 +240,15 @@ const LessonForm: React.FC<{
           onClick={handleSubmit(onSubmit)}
         />
       </div>
-    </>
+      {type === "edit" && (
+        <ConfirmModal
+          deleteLoading={deleteLoading}
+          open={deleteAlert}
+          handleOpen={() => setDeleteAlert((alert) => !alert)}
+          onConfirm={() => id && deleteMutate({ id })}
+        />
+      )}
+    </Fragment>
   );
 };
 
