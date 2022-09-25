@@ -7,7 +7,6 @@ const index = () => {
   return (
     <>
       <MetaHead title="Search by tags | Sched App" />
-
       <Screen>
         <Sidebar />
       </Screen>

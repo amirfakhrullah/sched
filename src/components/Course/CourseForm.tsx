@@ -23,6 +23,7 @@ const CourseForm: React.FC<{
   initialValues: CoursePayloadType;
 }> = ({ id, type, initialValues }) => {
   const router = useRouter();
+  const utils = trpc.useContext();
 
   const [deleteAlert, setDeleteAlert] = useState(false);
   const [addSched, setAddSched] = useState(false);
@@ -44,7 +45,12 @@ const CourseForm: React.FC<{
     "courses.update",
     {
       onSuccess: () => {
+        utils.invalidateQueries(["courses.get"]);
         toast("Course updated");
+      },
+      onError: (e) => {
+        toast(e.message);
+        reset();
       },
     }
   );
@@ -71,6 +77,7 @@ const CourseForm: React.FC<{
   const {
     register,
     handleSubmit,
+    reset,
     setValue,
     getValues,
     formState: { errors },
@@ -103,7 +110,7 @@ const CourseForm: React.FC<{
         color,
         start_date: moment(start_date).format("yyyyMMDD"),
         weekly_schedule,
-        ...(end_date ? { end_date: moment(end_date).format("yyyyMMDD") } : {}),
+        end_date: end_date ? moment(end_date).format("yyyyMMDD") : undefined,
       });
     }
     if (type === "edit" && id) {
@@ -113,7 +120,7 @@ const CourseForm: React.FC<{
         color,
         start_date: moment(start_date).format("yyyyMMDD"),
         weekly_schedule,
-        ...(end_date ? { end_date: moment(end_date).format("yyyyMMDD") } : {}),
+        end_date: end_date ? moment(end_date).format("yyyyMMDD") : undefined,
       });
     }
   };

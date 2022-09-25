@@ -14,6 +14,7 @@ import {
 } from "../../../helpers/weeklySchedules";
 import { createProtectedRouter } from "../protected-router";
 import { inferQueryOutput } from "../../../utils/trpc";
+import { dateTimeChecker } from "../../../helpers/dateTimeChecker";
 
 export const coursesRouter = createProtectedRouter()
   .query("get-all", {
@@ -35,6 +36,13 @@ export const coursesRouter = createProtectedRouter()
     input: CoursePayloadValidator,
     async resolve({ ctx, input }) {
       const { name, color, start_date, end_date, weekly_schedule } = input;
+      
+      // check date and time
+      dateTimeChecker({
+        start_date,
+        end_date,
+        weekly_schedule,
+      });
 
       const newCourse = await ctx.prisma.course.create({
         data: {
@@ -42,7 +50,7 @@ export const coursesRouter = createProtectedRouter()
           name,
           color,
           start_date: Number(start_date),
-          end_date: end_date ? Number(end_date) : undefined,
+          end_date: end_date ? Number(end_date) : null,
           weekly_schedule: {
             createMany: {
               data: weekly_schedule.map((schedule) => ({
@@ -66,6 +74,13 @@ export const coursesRouter = createProtectedRouter()
     async resolve({ ctx, input }) {
       const { id, name, color, start_date, end_date, weekly_schedule } = input;
       const foundCourse = await isCourseAuthorized(ctx, id);
+      
+      // check date and time
+      dateTimeChecker({
+        start_date,
+        end_date,
+        weekly_schedule,
+      });
 
       const updatedCourse = await ctx.prisma.course.update({
         where: {
@@ -75,7 +90,7 @@ export const coursesRouter = createProtectedRouter()
           name,
           color,
           start_date: Number(start_date),
-          end_date: end_date ? Number(end_date) : undefined,
+          end_date: end_date ? Number(end_date) : null,
         },
         include: {
           weekly_schedule: true,
