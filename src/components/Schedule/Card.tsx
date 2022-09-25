@@ -104,8 +104,8 @@ const Card: React.FC<{
         </div>
 
         <p className="text-sm text-right font-medium">
-          {moment(lessonCard.start_time, "hhmm").format("hh:mm A")} -{" "}
-          {moment(lessonCard.end_time, "hhmm").format("hh:mm A")}
+          {moment(lessonCard.start_time, "HHmm").format("hh:mm A")} -{" "}
+          {moment(lessonCard.end_time, "HHmm").format("hh:mm A")}
         </p>
         <div className="flex flex-wrap gap-1 mt-2">
           {lessonCard.tags &&

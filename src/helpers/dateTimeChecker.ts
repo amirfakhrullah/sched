@@ -24,8 +24,8 @@ export const dateTimeChecker = (input: Input) => {
   }
   // check if end date is after start date
   for (const schedule of weekly_schedule) {
-    const start = moment(schedule.start_time, "hhmm");
-    const end = moment(schedule.end_time, "hhmm");
+    const start = moment(schedule.start_time, "HHmm");
+    const end = moment(schedule.end_time, "HHmm");
 
     if (end.isSameOrBefore(start)) {
       throw new trpc.TRPCError({

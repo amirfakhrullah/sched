@@ -41,8 +41,8 @@ const LessonModal: React.FC<{
             <p className="text-sm text-black">{lessonCard.unit}</p>
           </div>
           <p className="text-sm font-medium">
-            {moment(lessonCard.start_time, "hhmm").format("hh:mm A")} -{" "}
-            {moment(lessonCard.end_time, "hhmm").format("hh:mm A")}
+            {moment(lessonCard.start_time, "HHmm").format("hh:mm A")} -{" "}
+            {moment(lessonCard.end_time, "HHmm").format("hh:mm A")}
           </p>
         </div>
         <div

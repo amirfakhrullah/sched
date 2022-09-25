@@ -51,11 +51,11 @@ const NewLesson: React.FC<{
         </h3>
         <p>
           {moment(date).format("MMMM Do YYYY")},{" "}
-          {moment(data.weekly_schedule[0]?.start_time, "hhmm").format(
+          {moment(data.weekly_schedule[0]?.start_time, "HHmm").format(
             "hh:mm A"
           )}{" "}
           -{" "}
-          {moment(data.weekly_schedule[0]?.end_time, "hhmm").format("hh:mm A")}
+          {moment(data.weekly_schedule[0]?.end_time, "HHmm").format("hh:mm A")}
         </p>
       </div>
       <LessonForm

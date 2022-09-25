@@ -201,8 +201,8 @@ const CourseForm: React.FC<{
                 {schedule.day}
               </p>
               <p className="text-sm font-medium">
-                {moment(schedule.start_time, "hhmm").format("hh:mm A")} -{" "}
-                {moment(schedule.end_time, "hhmm").format("hh:mm A")}
+                {moment(schedule.start_time, "HHmm").format("hh:mm A")} -{" "}
+                {moment(schedule.end_time, "HHmm").format("hh:mm A")}
               </p>
             </div>
           ))}

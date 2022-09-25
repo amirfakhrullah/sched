@@ -71,10 +71,10 @@ const ScheduleModal: React.FC<{
     defaultValues: {
       ...schedule,
       start_time: schedule.start_time
-        ? moment(schedule.start_time, "hhmm").format("hh:mm")
+        ? moment(schedule.start_time, "HHmm").format("HH:mm")
         : "",
       end_time: schedule.end_time
-        ? moment(schedule.end_time, "hhmm").format("hh:mm")
+        ? moment(schedule.end_time, "HHmm").format("HH:mm")
         : "",
     },
     resolver: zodResolver(ScheduleInputValidator),
@@ -83,8 +83,8 @@ const ScheduleModal: React.FC<{
   const onSubmit = (inputs: ScheduleInputType) => {
     const finalValues = {
       ...inputs,
-      start_time: moment(inputs.start_time, "hh:mm").format("hhmm"),
-      end_time: moment(inputs.end_time, "hh:mm").format("hhmm"),
+      start_time: moment(inputs.start_time, "HH:mm").format("HHmm"),
+      end_time: moment(inputs.end_time, "HH:mm").format("HHmm"),
     };
     const schedules = getFormValues("weekly_schedule");
     if (index === schedules.length) {
