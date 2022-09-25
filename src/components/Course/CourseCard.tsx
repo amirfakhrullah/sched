@@ -13,6 +13,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { getColorThemes } from "../../helpers/cardColors";
 import { trpc } from "../../utils/trpc";
 import ConfirmModal from "../ConfirmModal";
+import { toast } from "react-toastify";
 
 const CourseCard: React.FC<{
   course: Course;
@@ -25,6 +26,7 @@ const CourseCard: React.FC<{
     onSettled() {
       utils.invalidateQueries(["courses.get-all"]);
       setDeleteAlert(false);
+      toast("Course deleted");
     },
   });
 
@@ -36,8 +38,10 @@ const CourseCard: React.FC<{
 
   return (
     <Fragment>
-      <div className={`rounded-sm p-2 mt-2 ${theme.card}`}>
-        <div className="flex flex-row items-start justify-between mb-2">
+      <div className="rounded-md shadow-lg bg-white overflow-hidden">
+        <div
+          className={`flex flex-row items-start justify-between ${theme.card} p-2`}
+        >
           <h3
             className="flex-[0.9] overflow-hidden font-oswald inline-block text-md font-medium cursor-pointer hover:underline"
             onClick={() => handleOpenCourse(course.id)}
@@ -69,16 +73,18 @@ const CourseCard: React.FC<{
           </Menu>
         </div>
 
-        <p className="text-sm font-medium">
-          <b>Start:</b>{" "}
-          {moment(course.start_date.toString()).format("MMMM Do YYYY")}
-        </p>
-        {course.end_date && (
+        <div className="p-2">
           <p className="text-sm font-medium">
-            <b>End:</b>
-            {moment(course.end_date.toString()).format("MMMM Do YYYY")}
+            <b>Start:</b>{" "}
+            {moment(course.start_date.toString()).format("MMMM Do YYYY")}
           </p>
-        )}
+          {course.end_date && (
+            <p className="text-sm font-medium">
+              <b>End:</b>{" "}
+              {moment(course.end_date.toString()).format("MMMM Do YYYY")}
+            </p>
+          )}
+        </div>
       </div>
       <ConfirmModal
         deleteLoading={isLoading}

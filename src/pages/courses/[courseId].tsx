@@ -8,30 +8,28 @@ import { ParsedUrlQuery } from "querystring";
 import React from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import Center from "../../components/Center";
-import ExistingLesson from "../../components/Lesson/ExistingLesson";
-import NewLesson from "../../components/Lesson/NewLesson";
+import ExistingCourse from "../../components/Course/ExistingCourse";
+import NewCourse from "../../components/Course/NewCourse";
 import MetaHead from "../../components/MetaHead";
 import Screen from "../../components/Screen";
 import Sidebar from "../../components/Sidebar";
 
-const NoteId: React.FC<
+const CourseId: React.FC<
   InferGetServerSidePropsType<
     GetServerSideProps<
       {
-        noteId?: string;
-        scheduleId?: string;
-        date?: string;
+        courseId: string;
       },
       ParsedUrlQuery,
       PreviewData
     >
   >
-> = ({ noteId, scheduleId, date }) => {
+> = ({ courseId }) => {
   const router = useRouter();
 
   return (
     <>
-      <MetaHead title="Lesson | Sched" />
+      <MetaHead title="Course | Sched" />
       <Screen>
         <Sidebar />
         <Center>
@@ -46,7 +44,7 @@ const NoteId: React.FC<
                   typeof router.query.new === "string" &&
                   router.query.new === "true"
                 ) {
-                  return router.push("/");
+                  return router.push("/courses");
                 }
                 router.back();
               }}
@@ -54,12 +52,12 @@ const NoteId: React.FC<
               Back
             </h2>
           </div>
+
           <div className="shadow-lg bg-white rounded-sm max-w-7xl w-full mx-auto mt-4">
-            {noteId && !scheduleId && !date && (
-              <ExistingLesson lessonId={noteId} />
-            )}
-            {!noteId && scheduleId && date && (
-              <NewLesson scheduleId={scheduleId} date={date} />
+            {courseId === "new" ? (
+              <NewCourse />
+            ) : (
+              <ExistingCourse courseId={courseId} />
             )}
           </div>
         </Center>
@@ -69,36 +67,19 @@ const NoteId: React.FC<
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const { noteId } = query;
+  const { courseId } = query;
 
-  if (!noteId || typeof noteId !== "string") {
+  if (!courseId || typeof courseId !== "string") {
     return {
       notFound: true,
     };
   }
 
-  if (noteId.includes("new-")) {
-    const scheduleId = noteId.split("-")[1];
-    const date = noteId.split("-")[2];
-    if (!scheduleId || !date) {
-      return {
-        notFound: true,
-      };
-    } else {
-      return {
-        props: {
-          scheduleId,
-          date,
-        },
-      };
-    }
-  }
-
   return {
     props: {
-      noteId,
+      courseId,
     },
   };
 };
 
-export default NoteId;
+export default CourseId;

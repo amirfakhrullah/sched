@@ -52,16 +52,18 @@ const Auth: NextPage = () => {
               Please sign-in/sign-up with one of the <br /> providers below
             </p>
 
-            {query?.error === "OAuthAccountNotLinked" && (
+            {!isLoading && query?.error === "OAuthAccountNotLinked" && (
               <p className="text-center p-1 text-red-400">
                 The email is linked to different provider.
               </p>
             )}
-            {query?.error && query?.error !== "OAuthAccountNotLinked" && (
-              <p className="text-center p-1 text-red-400">
-                Error: {query.error}
-              </p>
-            )}
+            {!isLoading &&
+              query?.error &&
+              query?.error !== "OAuthAccountNotLinked" && (
+                <p className="text-center p-1 text-red-400">
+                  Error: {query.error}
+                </p>
+              )}
 
             <div className="p-2" />
 

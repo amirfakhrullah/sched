@@ -19,6 +19,16 @@ export const CoursePayloadValidator = z.object({
 
 export type CoursePayloadType = z.infer<typeof CoursePayloadValidator>;
 
+export const CourseFormValidator = CoursePayloadValidator.omit({
+  start_date: true,
+  end_date: true,
+}).extend({
+  start_date: z.string().min(8),
+  end_date: z.string().optional(),
+});
+
+export type CourseFormType = z.infer<typeof CourseFormValidator>;
+
 export const UpdateCoursePayloadValidator = CoursePayloadValidator.extend({
   id: z.string().min(4).max(255),
 });

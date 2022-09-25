@@ -25,6 +25,12 @@ export const coursesRouter = createProtectedRouter()
       });
     },
   })
+  .query("get", {
+    input: IdValidator,
+    async resolve({ ctx, input }) {
+      return await isCourseAuthorized(ctx, input.id);
+    },
+  })
   .mutation("create", {
     input: CoursePayloadValidator,
     async resolve({ ctx, input }) {
@@ -36,7 +42,7 @@ export const coursesRouter = createProtectedRouter()
           name,
           color,
           start_date: Number(start_date),
-          end_date: Number(end_date),
+          end_date: end_date ? Number(end_date) : undefined,
           weekly_schedule: {
             createMany: {
               data: weekly_schedule.map((schedule) => ({
@@ -69,7 +75,7 @@ export const coursesRouter = createProtectedRouter()
           name,
           color,
           start_date: Number(start_date),
-          end_date: Number(end_date),
+          end_date: end_date ? Number(end_date) : undefined,
         },
         include: {
           weekly_schedule: true,

@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import LessonModal from "../LessonModal/LessonModal";
 import ConfirmModal from "../ConfirmModal";
 import { trpc } from "../../utils/trpc";
+import { toast } from "react-toastify";
 
 const Card: React.FC<{
   lessonCard: LessonCard;
@@ -29,6 +30,7 @@ const Card: React.FC<{
     onSettled() {
       utils.invalidateQueries(["courses.weeklySchedule"]);
       setDeleteAlert(false);
+      toast("Note deleted");
     },
   });
 
@@ -36,9 +38,7 @@ const Card: React.FC<{
 
   const handleOpenLesson = (id?: string) => {
     if (!id) {
-      return router.push(
-        `/notes/new-${lessonCard.schedule_id}-${date}`
-      );
+      return router.push(`/notes/new-${lessonCard.schedule_id}-${date}`);
     }
     router.push(`/notes/${id}`);
   };
@@ -47,7 +47,7 @@ const Card: React.FC<{
 
   return (
     <Fragment>
-      <div className={`rounded-sm p-2 mt-2 ${theme.card}`}>
+      <div className={`rounded-sm p-2 mt-2 ${theme.card} overflow-hidden`}>
         <div className="flex flex-row items-start justify-between">
           <h3
             className="flex-[0.9] overflow-hidden font-oswald inline-block text-md font-medium cursor-pointer hover:underline"

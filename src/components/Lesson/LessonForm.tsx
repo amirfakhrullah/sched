@@ -14,6 +14,7 @@ import AppButton from "../AppButton";
 import Markdown from "../Markdown";
 import Loader from "../Loader";
 import ConfirmModal from "../ConfirmModal";
+import { toast } from "react-toastify";
 
 const LessonForm: React.FC<{
   type: "create" | "edit";
@@ -27,6 +28,7 @@ const LessonForm: React.FC<{
 }> = ({ type, id, initialValues, colors }) => {
   const router = useRouter();
   const [editMode, setEditMode] = useState(type === "create");
+  const [preview, setPreview] = useState(false);
   const [tagValue, setTagValue] = useState("");
   const [tagsRefresh, setTagsRefresh] = useState(false);
   const [deleteAlert, setDeleteAlert] = useState(false);
@@ -34,19 +36,39 @@ const LessonForm: React.FC<{
   const { mutate: createMutate, isLoading: createLoading } = trpc.useMutation(
     "lessons.create",
     {
-      onSuccess: ({ id: lessonId }) => router.push(`/notes/${lessonId}`),
+      onSuccess: ({ id: lessonId }) => {
+        router.push(`/notes/${lessonId}?new=true`);
+        toast("Note created");
+      },
     }
   );
   const { mutate: editMutate, isLoading: editLoading } = trpc.useMutation(
     "lessons.update",
     {
-      onSuccess: () => setEditMode(false),
+      onSuccess: () => {
+        setEditMode(false);
+        setPreview(false);
+        toast("Note updated");
+      },
     }
   );
   const { mutate: deleteMutate, isLoading: deleteLoading } = trpc.useMutation(
     "lessons.delete",
     {
-      onSuccess: () => router.back(),
+      onSuccess: () => {
+        setDeleteAlert(false);
+        if (
+          router.query &&
+          router.query.new &&
+          typeof router.query.new === "string" &&
+          router.query.new === "true"
+        ) {
+          router.push("/");
+        } else {
+          router.back();
+        }
+        toast("Note deleted");
+      },
     }
   );
 
@@ -54,6 +76,7 @@ const LessonForm: React.FC<{
     register,
     handleSubmit,
     setValue,
+    reset,
     getValues,
     formState: { errors },
   } = useForm({
@@ -121,10 +144,23 @@ const LessonForm: React.FC<{
   return (
     <Fragment>
       <div className="sm:p-6 p-3">
-        {editMode ? (
+        {editMode && (
+          <div className="flex flex-row items-center justify-end">
+            <AppButton
+              type="button"
+              label={preview ? "Exit Preview" : "See Preview"}
+              theme="blue-gray"
+              variant="outlined"
+              css="max-w-[12em]"
+              onClick={() => setPreview((prev) => !prev)}
+            />
+          </div>
+        )}
+        {editMode && !preview ? (
           <>
             <Input
               title="Unit"
+              required
               type="input"
               placeholder="Insert title"
               register={register("unit")}
@@ -132,6 +168,7 @@ const LessonForm: React.FC<{
             />
             <Input
               title="Notes"
+              required
               type="textarea"
               onBlur={(e: React.FocusEvent<HTMLTextAreaElement>) =>
                 setValue("note", e.target.value.trim())
@@ -224,21 +261,39 @@ const LessonForm: React.FC<{
             onClick={() => setDeleteAlert(true)}
           />
         )}
-        <AppButton
-          type="button"
-          label={editMode ? "Preview" : "Edit"}
-          theme="blue-gray"
-          variant="outlined"
-          css="max-w-[10em]"
-          onClick={() => setEditMode((mode) => !mode)}
-        />
-        <AppButton
-          type="submit"
-          label="Save"
-          theme="green"
-          css="bg-teal-800 max-w-[10em]"
-          onClick={handleSubmit(onSubmit)}
-        />
+        {type === "edit" && editMode && (
+          <AppButton
+            type="button"
+            label="Cancel"
+            theme="blue-gray"
+            variant="outlined"
+            css="max-w-[10em]"
+            onClick={() => {
+              reset();
+              setEditMode(false);
+              setPreview(false);
+            }}
+          />
+        )}
+        {type === "edit" && !editMode && (
+          <AppButton
+            type="button"
+            label="Edit"
+            theme="blue-gray"
+            variant="outlined"
+            css="max-w-[10em]"
+            onClick={() => setEditMode((mode) => !mode)}
+          />
+        )}
+        {editMode && (
+          <AppButton
+            type="submit"
+            label="Save"
+            theme="green"
+            css="bg-teal-800 max-w-[10em]"
+            onClick={handleSubmit(onSubmit)}
+          />
+        )}
       </div>
       {type === "edit" && (
         <ConfirmModal
