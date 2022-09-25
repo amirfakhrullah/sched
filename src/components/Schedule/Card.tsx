@@ -29,6 +29,7 @@ const Card: React.FC<{
   const { mutate, isLoading } = trpc.useMutation("lessons.delete", {
     onSettled() {
       utils.invalidateQueries(["courses.weeklySchedule"]);
+      utils.invalidateQueries(["lessons.get-by-tag"]);
       setDeleteAlert(false);
       toast("Note deleted");
     },
