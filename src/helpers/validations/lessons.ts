@@ -28,3 +28,9 @@ export const EditLessonPayloadValidator = CreateLessonPayloadValidator.omit({
 });
 
 export type EditLessonPayloadType = z.infer<typeof EditLessonPayloadValidator>;
+
+export const TagValidator = z.object({
+  tag: z.string().trim()
+});
+
+export type TagType = z.infer<typeof TagValidator>

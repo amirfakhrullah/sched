@@ -27,6 +27,8 @@ const LessonForm: React.FC<{
   };
 }> = ({ type, id, initialValues, colors }) => {
   const router = useRouter();
+  const utils = trpc.useContext();
+
   const [editMode, setEditMode] = useState(type === "create");
   const [preview, setPreview] = useState(false);
   const [tagValue, setTagValue] = useState("");
@@ -49,6 +51,7 @@ const LessonForm: React.FC<{
         setEditMode(false);
         setPreview(false);
         toast("Note updated");
+        utils.invalidateQueries(["lessons.get"]);
       },
     }
   );
@@ -90,7 +93,7 @@ const LessonForm: React.FC<{
     }
     if (e.key === "Enter") {
       const currentTags = getValues("tags");
-      setValue("tags", [...currentTags, tagValue]);
+      setValue("tags", [...currentTags, tagValue.toLowerCase().trimEnd()]);
       return setTagValue("");
     }
   };
@@ -100,7 +103,7 @@ const LessonForm: React.FC<{
       return;
     }
     const currentTags = getValues("tags");
-    setValue("tags", [...currentTags, tagValue]);
+    setValue("tags", [...currentTags, tagValue.toLowerCase().trimEnd()]);
     return setTagValue("");
   };
 

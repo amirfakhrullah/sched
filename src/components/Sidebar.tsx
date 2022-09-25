@@ -45,7 +45,7 @@ const Sidebar = () => {
       route: "/search",
       label: "Search",
       component: <BsSearch className={iconClassName} />,
-      tooltipContent: "Search your lessons by tags",
+      tooltipContent: "Search your notes by tags",
     },
   ];
 

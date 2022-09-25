@@ -12,6 +12,7 @@ import {
   isScheduleAuthorized,
 } from "../../../helpers/isLessonAuthorized";
 import moment from "moment";
+import { TagValidator } from "../../../helpers/validations/lessons";
 
 export const lessonsRouter = createProtectedRouter()
   .query("get", {
@@ -45,6 +46,67 @@ export const lessonsRouter = createProtectedRouter()
         tags: courseWithLesson.weekly_schedule[0]?.lessons[0]?.tags,
         date: courseWithLesson.weekly_schedule[0]?.lessons[0]?.date,
       };
+    },
+  })
+  .query("get-by-tag", {
+    input: TagValidator,
+    async resolve({ ctx, input }) {
+      const courses = await ctx.prisma.course.findMany({
+        where: {
+          userId: ctx.session.user.id,
+          weekly_schedule: {
+            some: {
+              lessons: {
+                some: {
+                  tags: {
+                    has: input.tag,
+                  },
+                },
+              },
+            },
+          },
+        },
+        include: {
+          weekly_schedule: {
+            where: {
+              lessons: {
+                some: {
+                  tags: {
+                    has: input.tag,
+                  },
+                },
+              },
+            },
+            include: {
+              lessons: {
+                where: {
+                  tags: {
+                    has: input.tag,
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+
+      return courses.flatMap((course) =>
+        course.weekly_schedule.flatMap((sched) =>
+          sched.lessons.map((lesson) => ({
+            day: sched.day,
+            schedule_id: sched.id,
+            course_id: course.id,
+            lesson_id: lesson.id,
+            name: course.name,
+            color: course.color,
+            start_time: sched.start_time,
+            end_time: sched.end_time,
+            unit: lesson.unit,
+            tags: lesson.tags,
+            date: lesson.date,
+          }))
+        )
+      );
     },
   })
   .mutation("create", {
