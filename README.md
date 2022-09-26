@@ -5,7 +5,7 @@
 
 ## Description
 
-Simple class notes website using `Next.js`, `NextAuth`, `TypeScript`, `tRPC`, `Prisma` and `Railway`.
+Simple class notes app using `Next.js`, `NextAuth`, `TypeScript`, `tRPC`, `Prisma` and `Railway`.
 
 ![sched](./public/sched-dashboard.JPG)
 
