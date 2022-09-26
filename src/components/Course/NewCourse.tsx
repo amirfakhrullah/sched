@@ -24,6 +24,7 @@ const NewCourse = () => {
           ...INITIAL_COURSE_VALUES,
           start_date: moment().format("yyyy-MM-DD"),
         }}
+        onCancelEdit={() => null}
       />
     </>
   );
