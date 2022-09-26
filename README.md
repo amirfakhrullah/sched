@@ -5,7 +5,7 @@
 
 ## Description
 
-Simple class notes app using `Next.js`, `NextAuth`, `TypeScript`, `tRPC`, `Prisma` and `Railway`.
+Simple schedule-based note taking app for students/teachers built using `Next.js`, `NextAuth`, `TypeScript`, `tRPC`, `Prisma` and `Railway`.
 
 ![sched](./public/sched.png)
 
