@@ -40,7 +40,7 @@ const CourseCard: React.FC<{
     <Fragment>
       <div className="rounded-md shadow-lg bg-white overflow-hidden">
         <div
-          className={`flex flex-row items-start justify-between ${theme.card} p-2`}
+          className={`flex flex-row items-start justify-between ${theme.card} p-2 sm:p-4`}
         >
           <h3
             className="flex-[0.9] overflow-hidden font-oswald inline-block text-md font-medium cursor-pointer hover:underline"
@@ -73,7 +73,7 @@ const CourseCard: React.FC<{
           </Menu>
         </div>
 
-        <div className="p-2">
+        <div className="p-2 sm:p-4">
           <p className="text-sm font-medium">
             <b>Start:</b>{" "}
             {moment(course.start_date.toString()).format("MMMM Do YYYY")}
