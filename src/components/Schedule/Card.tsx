@@ -31,7 +31,7 @@ const Card: React.FC<{
       utils.invalidateQueries(["courses.weeklySchedule"]);
       utils.invalidateQueries(["lessons.get-by-tag"]);
       setDeleteAlert(false);
-      toast("Note deleted");
+      toast.success("Note deleted");
     },
   });
 

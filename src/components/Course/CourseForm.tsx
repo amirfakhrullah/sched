@@ -21,7 +21,8 @@ const CourseForm: React.FC<{
   type: "create" | "edit";
   id?: string;
   initialValues: CoursePayloadType;
-}> = ({ id, type, initialValues }) => {
+  onCancelEdit: () => void;
+}> = ({ id, type, initialValues, onCancelEdit }) => {
   const router = useRouter();
   const utils = trpc.useContext();
 
@@ -37,7 +38,7 @@ const CourseForm: React.FC<{
     {
       onSuccess: ({ id: courseId }) => {
         router.push(`/courses/${courseId}?new=true`);
-        toast("Course created");
+        toast.success("Course created");
       },
     }
   );
@@ -46,10 +47,11 @@ const CourseForm: React.FC<{
     {
       onSuccess: () => {
         utils.invalidateQueries(["courses.get"]);
-        toast("Course updated");
+        onCancelEdit();
+        toast.success("Course updated");
       },
       onError: (e) => {
-        toast(e.message);
+        toast.error(e.message);
         reset();
       },
     }
@@ -69,7 +71,7 @@ const CourseForm: React.FC<{
         } else {
           router.back();
         }
-        toast("Course deleted");
+        toast.success("Course deleted");
       },
     }
   );
@@ -241,13 +243,26 @@ const CourseForm: React.FC<{
       )}
       <div className="sm:p-6 p-3 flex sm:flex-row gap-1 flex-col sm:items-center items-end justify-end border-t border-blue-gray-100">
         {type === "edit" && (
-          <AppButton
-            type="button"
-            label="Delete"
-            theme="red"
-            css="max-w-[10em]"
-            onClick={() => setDeleteAlert(true)}
-          />
+          <>
+            <AppButton
+              type="button"
+              label="Delete"
+              theme="red"
+              css="max-w-[10em]"
+              onClick={() => setDeleteAlert(true)}
+            />
+            <AppButton
+              type="button"
+              label="Cancel"
+              theme="blue-gray"
+              variant="outlined"
+              css="max-w-[10em]"
+              onClick={() => {
+                reset();
+                onCancelEdit();
+              }}
+            />
+          </>
         )}
         <AppButton
           type="submit"

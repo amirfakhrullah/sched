@@ -40,7 +40,7 @@ const LessonForm: React.FC<{
     {
       onSuccess: ({ id: lessonId }) => {
         router.push(`/notes/${lessonId}?new=true`);
-        toast("Note created");
+        toast.success("Note created");
       },
     }
   );
@@ -50,7 +50,7 @@ const LessonForm: React.FC<{
       onSuccess: () => {
         setEditMode(false);
         setPreview(false);
-        toast("Note updated");
+        toast.success("Note updated");
         utils.invalidateQueries(["lessons.get"]);
       },
     }
@@ -70,7 +70,7 @@ const LessonForm: React.FC<{
         } else {
           router.back();
         }
-        toast("Note deleted");
+        toast.success("Note deleted");
       },
     }
   );

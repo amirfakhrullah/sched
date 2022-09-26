@@ -1,12 +1,14 @@
 import moment from "moment";
-import React from "react";
+import React, { useState } from "react";
 import { trpc } from "../../utils/trpc";
 import Loader from "../Loader";
 import CourseForm from "./CourseForm";
+import ViewExistingCourse from "./ViewExistingCourse";
 
 const ExistingCourse: React.FC<{
   courseId: string;
 }> = ({ courseId }) => {
+  const [viewMode, setViewMode] = useState(true);
   const { isLoading, data } = trpc.useQuery([
     "courses.get",
     {
@@ -16,11 +18,16 @@ const ExistingCourse: React.FC<{
 
   if (isLoading || !data) return <Loader />;
 
+  if (viewMode)
+    return (
+      <ViewExistingCourse course={data} onEdit={() => setViewMode(false)} />
+    );
+
   return (
     <>
       <div className="sm:p-6 p-3 bg-teal-800">
         <h3 className="text-white overflow-hidden font-oswald text-xl font-medium">
-          Edit Course
+          {viewMode ? "Course Details" : "Edit Course"}
         </h3>
       </div>
       <CourseForm
@@ -35,6 +42,7 @@ const ExistingCourse: React.FC<{
             : undefined,
           weekly_schedule: data.weekly_schedule,
         }}
+        onCancelEdit={() => setViewMode(true)}
       />
     </>
   );

@@ -26,7 +26,7 @@ const CourseCard: React.FC<{
     onSettled() {
       utils.invalidateQueries(["courses.get-all"]);
       setDeleteAlert(false);
-      toast("Course deleted");
+      toast.success("Course deleted");
     },
   });
 
