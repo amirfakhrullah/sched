@@ -10,7 +10,7 @@ export type GetLessonPayloadType = z.infer<typeof GetLessonPayloadValidator>;
 
 export const CreateLessonPayloadValidator = z.object({
   unit: z.string().min(4).max(255),
-  note: z.string().min(4).max(4000),
+  note: z.string().min(4).max(10000),
   tags: z.string().array().max(5),
   date: DateValidator,
   scheduleId: z.string().min(4).max(255),

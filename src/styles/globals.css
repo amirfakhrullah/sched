@@ -35,8 +35,9 @@
 
 .mardown-group code {
   @apply text-white;
+  background-color: #1f2937;
 }
 
 .li::marker {
-    @apply text-gray-900;
+  @apply text-gray-900;
 }

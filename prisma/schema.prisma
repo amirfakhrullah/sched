@@ -44,7 +44,7 @@ model Schedule {
 model Lesson {
     id         String   @id @default(cuid())
     unit       String   @db.VarChar(255)
-    note       String   @db.VarChar(4000)
+    note       String   @db.VarChar(10000)
     tags       String[] @db.VarChar(255)
     date       Int
     Schedule   Schedule @relation(fields: [scheduleId], references: [id])
