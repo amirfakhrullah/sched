@@ -138,6 +138,20 @@ export const coursesRouter = createProtectedRouter()
       );
 
       await ctx.prisma.$transaction([
+        ctx.prisma.lesson.deleteMany({
+          where: {
+            id: {
+              in: lessonIdsNeededToBeDeleted,
+            },
+          },
+        }),
+        ctx.prisma.schedule.deleteMany({
+          where: {
+            id: {
+              in: scheduleIdsNeededToBeDeleted,
+            },
+          },
+        }),
         ...existingSchedules.map((sched) =>
           ctx.prisma.schedule.update({
             where: {
@@ -157,20 +171,6 @@ export const coursesRouter = createProtectedRouter()
             end_time: sched.end_time,
             courseId: updatedCourse.id,
           })),
-        }),
-        ctx.prisma.schedule.deleteMany({
-          where: {
-            id: {
-              in: scheduleIdsNeededToBeDeleted,
-            },
-          },
-        }),
-        ctx.prisma.lesson.deleteMany({
-          where: {
-            id: {
-              in: lessonIdsNeededToBeDeleted,
-            },
-          },
         }),
       ]);
 

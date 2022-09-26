@@ -16,6 +16,7 @@ import AppButton from "../AppButton";
 import moment from "moment";
 import ScheduleModal from "./ScheduleModal";
 import ConfirmModal from "../ConfirmModal";
+import { AiFillDelete } from "react-icons/ai";
 
 const CourseForm: React.FC<{
   type: "create" | "edit";
@@ -32,6 +33,7 @@ const CourseForm: React.FC<{
   const [currColor, setCurrColor] = useState(
     initialValues.color ? getColorThemes(initialValues.color).card : ""
   );
+  const [schedRefresh, setSchedRefresh] = useState(false);
 
   const { mutate: createMutate, isLoading: createLoading } = trpc.useMutation(
     "courses.create",
@@ -127,6 +129,16 @@ const CourseForm: React.FC<{
     }
   };
 
+  const onDeleteSchedule = (idx: number) => {
+    setSchedRefresh(true);
+    const schedules = getValues("weekly_schedule");
+    const updatedSchedules = schedules.filter((_, index) => index !== idx);
+    setValue("weekly_schedule", updatedSchedules);
+    setTimeout(() => {
+      setSchedRefresh(false);
+    }, 100);
+  };
+
   if (createLoading || editLoading) return <Loader />;
 
   return (
@@ -190,22 +202,32 @@ const CourseForm: React.FC<{
             <p className="font-bold text-sm text-gray-700">Weekly Schedule</p>
           </div>
         </div>
-        {getValues("weekly_schedule") &&
+        {schedRefresh && <Loader />}
+        {!schedRefresh &&
+          getValues("weekly_schedule") &&
           getValues("weekly_schedule").map((schedule, idx) => (
             <div
               key={idx}
-              className="border rounded-sm border-gray-400 bg-blue-gray-100 p-2 mb-2"
+              className="border rounded-sm border-gray-400 bg-blue-gray-100 p-2 mb-2 flex flex-row items-center justify-between"
             >
-              <p
-                className="font-bold capitalize cursor-pointer hover:underline"
-                onClick={() => handleEditSchedule(idx)}
+              <div className="flex-1">
+                <p
+                  className="font-bold capitalize cursor-pointer hover:underline"
+                  onClick={() => handleEditSchedule(idx)}
+                >
+                  {schedule.day}
+                </p>
+                <p className="text-sm font-medium">
+                  {moment(schedule.start_time, "HHmm").format("hh:mm A")} -{" "}
+                  {moment(schedule.end_time, "HHmm").format("hh:mm A")}
+                </p>
+              </div>
+              <div
+                className="rounded-full hover:bg-gray-400 p-2 cursor-pointer ease-in duration-100"
+                onClick={() => onDeleteSchedule(idx)}
               >
-                {schedule.day}
-              </p>
-              <p className="text-sm font-medium">
-                {moment(schedule.start_time, "HHmm").format("hh:mm A")} -{" "}
-                {moment(schedule.end_time, "HHmm").format("hh:mm A")}
-              </p>
+                <AiFillDelete />
+              </div>
             </div>
           ))}
 
