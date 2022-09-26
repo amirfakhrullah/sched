@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Loader from "../Loader";
 import Input from "../Input";
-import { Option, Select } from "@material-tailwind/react";
+import { Option, Select, Tooltip } from "@material-tailwind/react";
 import { getColorThemes } from "../../helpers/cardColors";
 import AppButton from "../AppButton";
 import moment from "moment";
@@ -222,12 +222,19 @@ const CourseForm: React.FC<{
                   {moment(schedule.end_time, "HHmm").format("hh:mm A")}
                 </p>
               </div>
-              <div
-                className="rounded-full hover:bg-gray-400 p-2 cursor-pointer ease-in duration-100"
-                onClick={() => onDeleteSchedule(idx)}
+              <Tooltip
+                hidden={type === "create"}
+                content="Deleting this will delete all the notes under this schedule if there's any"
+                placement="left"
+                className="rounded-md"
               >
-                <AiFillDelete />
-              </div>
+                <div
+                  className="rounded-full hover:bg-gray-400 p-2 cursor-pointer ease-in duration-100"
+                  onClick={() => onDeleteSchedule(idx)}
+                >
+                  <AiFillDelete />
+                </div>
+              </Tooltip>
             </div>
           ))}
 
