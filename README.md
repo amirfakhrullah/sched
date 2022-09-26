@@ -1,5 +1,6 @@
 <div align="center">
   <img src="./public/sched-logo.png" alt="BloqDown" height="80" style="border-radius: 3px;" />
+  <h1>Sched App</h1>
 </div>
 
 ## Description
