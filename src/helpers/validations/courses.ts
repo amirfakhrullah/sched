@@ -14,7 +14,7 @@ export const CoursePayloadValidator = z.object({
       start_time: TimeValidator,
       end_time: TimeValidator,
     })
-  ),
+  ).min(1),
 });
 
 export type CoursePayloadType = z.infer<typeof CoursePayloadValidator>;

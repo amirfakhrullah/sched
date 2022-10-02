@@ -34,6 +34,7 @@ const CourseForm: React.FC<{
     initialValues.color ? getColorThemes(initialValues.color).card : ""
   );
   const [schedRefresh, setSchedRefresh] = useState(false);
+  const [isLoadingCreate, setIsLoadingCreate] = useState(false);
 
   const { mutate: createMutate, isLoading: createLoading } = trpc.useMutation(
     "courses.create",
@@ -41,6 +42,10 @@ const CourseForm: React.FC<{
       onSuccess: ({ id: courseId }) => {
         router.push(`/courses/${courseId}?new=true`);
         toast.success("Course created");
+      },
+      onError: (e) => {
+        toast.error(e.message);
+        setIsLoadingCreate(false);
       },
     }
   );
@@ -109,6 +114,7 @@ const CourseForm: React.FC<{
     weekly_schedule,
   }: CoursePayloadType) => {
     if (type === "create") {
+      setIsLoadingCreate(true);
       return createMutate({
         name,
         color,
@@ -139,7 +145,7 @@ const CourseForm: React.FC<{
     }, 100);
   };
 
-  if (createLoading || editLoading) return <Loader />;
+  if (createLoading || editLoading || isLoadingCreate) return <Loader />;
 
   return (
     <Fragment>
@@ -201,6 +207,12 @@ const CourseForm: React.FC<{
           <div className="flex flex-row mb-1">
             <p className="font-bold text-sm text-gray-700">Weekly Schedule</p>
           </div>
+          {errors.weekly_schedule &&
+            getValues("weekly_schedule")?.length === 0 && (
+              <p className="text-sm font-bold text-red-400 mt-1 text-right">
+                At least 1 schedule is required
+              </p>
+            )}
         </div>
         {schedRefresh && <Loader />}
         {!schedRefresh &&

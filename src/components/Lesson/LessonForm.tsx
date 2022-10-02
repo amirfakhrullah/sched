@@ -34,6 +34,7 @@ const LessonForm: React.FC<{
   const [tagValue, setTagValue] = useState("");
   const [tagsRefresh, setTagsRefresh] = useState(false);
   const [deleteAlert, setDeleteAlert] = useState(false);
+  const [isLoadingCreate, setIsLoadingCreate] = useState(false);
 
   const { mutate: createMutate, isLoading: createLoading } = trpc.useMutation(
     "lessons.create",
@@ -41,6 +42,10 @@ const LessonForm: React.FC<{
       onSuccess: ({ id: lessonId }) => {
         router.push(`/notes/${lessonId}?new=true`);
         toast.success("Note created");
+      },
+      onError: (e) => {
+        setIsLoadingCreate(false);
+        toast.error(e.message);
       },
     }
   );
@@ -124,6 +129,7 @@ const LessonForm: React.FC<{
     unit,
   }: CreateLessonPayloadType) => {
     if (type === "create") {
+      setIsLoadingCreate(true);
       return createMutate({
         scheduleId,
         date,
@@ -142,7 +148,7 @@ const LessonForm: React.FC<{
     }
   };
 
-  if (createLoading || editLoading) return <Loader color={colors.hex} />;
+  if (createLoading || editLoading || isLoadingCreate) return <Loader color={colors.hex} />;
 
   return (
     <Fragment>
