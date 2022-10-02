@@ -6,6 +6,7 @@ import { getColorThemes } from "../../helpers/cardColors";
 import { trpc } from "../../utils/trpc";
 import Loader from "../Loader";
 import LessonForm from "./LessonForm";
+import { toast } from "react-toastify";
 
 const ExistingLesson: React.FC<{
   lessonId: string;
@@ -20,7 +21,10 @@ const ExistingLesson: React.FC<{
       },
     ],
     {
-      onError: () => router.push("/404"),
+      onError: (e) => {
+        toast.error(e.message);
+        router.push("/404");
+      },
     }
   );
 

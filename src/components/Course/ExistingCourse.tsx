@@ -4,17 +4,29 @@ import { trpc } from "../../utils/trpc";
 import Loader from "../Loader";
 import CourseForm from "./CourseForm";
 import ViewExistingCourse from "./ViewExistingCourse";
+import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const ExistingCourse: React.FC<{
   courseId: string;
 }> = ({ courseId }) => {
+  const router = useRouter();
+
   const [viewMode, setViewMode] = useState(true);
-  const { isLoading, data } = trpc.useQuery([
-    "courses.get",
+  const { isLoading, data } = trpc.useQuery(
+    [
+      "courses.get",
+      {
+        id: courseId,
+      },
+    ],
     {
-      id: courseId,
-    },
-  ]);
+      onError: (e) => {
+        toast.error(e.message);
+        router.push("/404");
+      },
+    }
+  );
 
   if (isLoading || !data) return <Loader />;
 
