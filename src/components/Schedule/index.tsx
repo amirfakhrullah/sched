@@ -22,7 +22,7 @@ const Schedule: React.FC<{
             {moment(data.day_id.toString()).format("MMMM YYYY")}
           </h2>
 
-          <div className="flex flex-row items-center justify-center">
+          <div className="flex flex-row items-center md:justify-start justify-center">
             <div
               onClick={() => setDayId(data.prev_week_id.toString())}
               className="p-1 m-1 hover:bg-blue-gray-200 cursor-pointer rounded-full ease-in duration-100"
