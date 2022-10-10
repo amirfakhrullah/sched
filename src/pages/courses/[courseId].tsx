@@ -8,11 +8,14 @@ import { ParsedUrlQuery } from "querystring";
 import React from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import Center from "../../components/Center";
+import Center404 from "../../components/Center404";
 import ExistingCourse from "../../components/Course/ExistingCourse";
 import NewCourse from "../../components/Course/NewCourse";
 import MetaHead from "../../components/MetaHead";
 import Screen from "../../components/Screen";
 import Sidebar from "../../components/Sidebar";
+
+export const cachedCourse404: string[] = [];
 
 const CourseId: React.FC<
   InferGetServerSidePropsType<
@@ -54,10 +57,16 @@ const CourseId: React.FC<
           </div>
 
           <div className="shadow-lg bg-white rounded-sm max-w-7xl w-full mx-auto mt-4">
-            {courseId === "new" ? (
-              <NewCourse />
+            {cachedCourse404.includes(courseId) ? (
+              <Center404 text="No Lesson Found." />
             ) : (
-              <ExistingCourse courseId={courseId} />
+              <>
+                {courseId === "new" ? (
+                  <NewCourse />
+                ) : (
+                  <ExistingCourse courseId={courseId} />
+                )}
+              </>
             )}
           </div>
         </Center>

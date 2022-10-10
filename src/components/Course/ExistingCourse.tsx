@@ -6,8 +6,7 @@ import CourseForm from "./CourseForm";
 import ViewExistingCourse from "./ViewExistingCourse";
 import { toast } from "react-toastify";
 import Center404 from "../Center404";
-
-const cached404: string[] = [];
+import { cachedCourse404 } from "../../pages/courses/[courseId]";
 
 const ExistingCourse: React.FC<{
   courseId: string;
@@ -23,14 +22,14 @@ const ExistingCourse: React.FC<{
     {
       onError: (e) => {
         toast.error(e.message);
-        if (!cached404.includes(courseId)) cached404.push(courseId);
+        if (!cachedCourse404.includes(courseId)) cachedCourse404.push(courseId);
       },
-      enabled: !cached404.includes(courseId),
+      enabled: !cachedCourse404.includes(courseId),
     }
   );
 
   if (isLoading) return <Loader />;
-  if (!data) return <Center404 text="No Course Found." />;
+  if (!data) return <Center404 text="No Lesson Found." />;
 
   if (viewMode)
     return (

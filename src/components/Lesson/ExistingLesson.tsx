@@ -7,8 +7,7 @@ import Loader from "../Loader";
 import LessonForm from "./LessonForm";
 import { toast } from "react-toastify";
 import Center404 from "../Center404";
-
-const cached404: string[] = [];
+import { cachedLesson404 } from '../../pages/notes/[noteId]';
 
 const ExistingLesson: React.FC<{
   lessonId: string;
@@ -24,9 +23,9 @@ const ExistingLesson: React.FC<{
     {
       onError: (e) => {
         toast.error(e.message);
-        if (!cached404.includes(lessonId)) cached404.push(lessonId)
+        if (!cachedLesson404.includes(lessonId)) cachedLesson404.push(lessonId)
       },
-      enabled: !cached404.includes(lessonId),
+      enabled: !cachedLesson404.includes(lessonId),
     }
   );
 
