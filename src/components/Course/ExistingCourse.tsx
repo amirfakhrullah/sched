@@ -5,13 +5,13 @@ import Loader from "../Loader";
 import CourseForm from "./CourseForm";
 import ViewExistingCourse from "./ViewExistingCourse";
 import { toast } from "react-toastify";
-import { useRouter } from "next/router";
+import Center404 from "../Center404";
+
+const cached404: string[] = [];
 
 const ExistingCourse: React.FC<{
   courseId: string;
 }> = ({ courseId }) => {
-  const router = useRouter();
-
   const [viewMode, setViewMode] = useState(true);
   const { isLoading, data } = trpc.useQuery(
     [
@@ -23,12 +23,14 @@ const ExistingCourse: React.FC<{
     {
       onError: (e) => {
         toast.error(e.message);
-        router.push("/404");
+        cached404.push(courseId);
       },
+      enabled: !cached404.includes(courseId),
     }
   );
 
-  if (isLoading || !data) return <Loader />;
+  if (isLoading) return <Loader />;
+  if (!data) return <Center404 text="No Course Found." />;
 
   if (viewMode)
     return (
