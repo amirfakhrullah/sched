@@ -23,7 +23,7 @@ const ExistingCourse: React.FC<{
     {
       onError: (e) => {
         toast.error(e.message);
-        cached404.push(courseId);
+        if (!cached404.includes(courseId)) cached404.push(courseId);
       },
       enabled: !cached404.includes(courseId),
     }

@@ -24,7 +24,7 @@ const ExistingLesson: React.FC<{
     {
       onError: (e) => {
         toast.error(e.message);
-        cached404.push(lessonId);
+        if (!cached404.includes(lessonId)) cached404.push(lessonId)
       },
       enabled: !cached404.includes(lessonId),
     }
