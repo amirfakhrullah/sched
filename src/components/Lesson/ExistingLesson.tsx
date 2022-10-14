@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import moment from "moment";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { getColorThemes } from "../../helpers/cardColors";
 import { trpc } from "../../utils/trpc";
 import Loader from "../Loader";
 import LessonForm from "./LessonForm";
 import { toast } from "react-toastify";
 import Center404 from "../Center404";
-import { cachedLesson404 } from '../../pages/notes/[noteId]';
 
 const ExistingLesson: React.FC<{
   lessonId: string;
 }> = ({ lessonId }) => {
+  const [is404, setIs404] = useState(false);
+
   const { data, isLoading } = trpc.useQuery(
     [
       "lessons.get",
@@ -22,10 +23,13 @@ const ExistingLesson: React.FC<{
     ],
     {
       onError: (e) => {
+        if (e.data?.code === "NOT_FOUND") {
+          setIs404(true);
+        }
         toast.error(e.message);
-        if (!cachedLesson404.includes(lessonId)) cachedLesson404.push(lessonId)
       },
-      enabled: !cachedLesson404.includes(lessonId),
+      retry: 2,
+      enabled: !is404,
     }
   );
 
@@ -40,7 +44,7 @@ const ExistingLesson: React.FC<{
   }, [data]);
 
   if (isLoading) return <Loader />;
-  if (!data) return <Center404 text="No Lesson Found." />;
+  if (!data) return <Center404 text="No Note Found." />;
 
   return (
     <div>

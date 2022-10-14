@@ -6,12 +6,12 @@ import CourseForm from "./CourseForm";
 import ViewExistingCourse from "./ViewExistingCourse";
 import { toast } from "react-toastify";
 import Center404 from "../Center404";
-import { cachedCourse404 } from "../../pages/courses/[courseId]";
 
 const ExistingCourse: React.FC<{
   courseId: string;
 }> = ({ courseId }) => {
   const [viewMode, setViewMode] = useState(true);
+  const [is404, setIs404] = useState(false);
   const { isLoading, data } = trpc.useQuery(
     [
       "courses.get",
@@ -21,15 +21,18 @@ const ExistingCourse: React.FC<{
     ],
     {
       onError: (e) => {
+        if (e.data?.code === "NOT_FOUND") {
+          setIs404(true);
+        }
         toast.error(e.message);
-        if (!cachedCourse404.includes(courseId)) cachedCourse404.push(courseId);
       },
-      enabled: !cachedCourse404.includes(courseId),
+      retry: 2,
+      enabled: !is404,
     }
   );
 
   if (isLoading) return <Loader />;
-  if (!data) return <Center404 text="No Lesson Found." />;
+  if (!data) return <Center404 text="No Course Found." />;
 
   if (viewMode)
     return (

@@ -13,39 +13,54 @@ import {
 } from "../../../helpers/isLessonAuthorized";
 import moment from "moment";
 import { TagValidator } from "../../../helpers/validations/lessons";
+import { Prisma } from "@prisma/client";
+import {
+  checkIs404LessonInCache,
+  setCache404LessonId,
+} from "../../common/cache";
 
 export const lessonsRouter = createProtectedRouter()
   .query("get", {
     input: GetLessonPayloadValidator,
     async resolve({ ctx, input }) {
       const { lessonId, includeCourse } = input;
-      const courseWithLesson = await isLessonAuthorized(ctx, lessonId);
+      checkIs404LessonInCache(input.lessonId);
 
-      if (includeCourse) {
+      try {
+        const courseWithLesson = await isLessonAuthorized(ctx, lessonId);
+        if (includeCourse) {
+          return {
+            day: courseWithLesson.weekly_schedule[0]?.day,
+            schedule_id: courseWithLesson.weekly_schedule[0]?.id,
+            course_id: courseWithLesson.id,
+            lesson_id: courseWithLesson.weekly_schedule[0]?.lessons[0]?.id,
+            name: courseWithLesson.name,
+            color: courseWithLesson.color,
+            start_time: courseWithLesson.weekly_schedule[0]?.start_time,
+            end_time: courseWithLesson.weekly_schedule[0]?.end_time,
+            // lesson data
+            unit: courseWithLesson.weekly_schedule[0]?.lessons[0]?.unit,
+            note: courseWithLesson.weekly_schedule[0]?.lessons[0]?.note,
+            tags: courseWithLesson.weekly_schedule[0]?.lessons[0]?.tags,
+            date: courseWithLesson.weekly_schedule[0]?.lessons[0]?.date,
+          };
+        }
         return {
-          day: courseWithLesson.weekly_schedule[0]?.day,
-          schedule_id: courseWithLesson.weekly_schedule[0]?.id,
-          course_id: courseWithLesson.id,
           lesson_id: courseWithLesson.weekly_schedule[0]?.lessons[0]?.id,
-          name: courseWithLesson.name,
-          color: courseWithLesson.color,
-          start_time: courseWithLesson.weekly_schedule[0]?.start_time,
-          end_time: courseWithLesson.weekly_schedule[0]?.end_time,
-          // lesson data
           unit: courseWithLesson.weekly_schedule[0]?.lessons[0]?.unit,
           note: courseWithLesson.weekly_schedule[0]?.lessons[0]?.note,
           tags: courseWithLesson.weekly_schedule[0]?.lessons[0]?.tags,
           date: courseWithLesson.weekly_schedule[0]?.lessons[0]?.date,
         };
+      } catch (e) {
+        if (e instanceof Prisma.NotFoundError) {
+          setCache404LessonId(input.lessonId);
+          throw new trpc.TRPCError({
+            message: "No Note Found",
+            code: "NOT_FOUND",
+          });
+        }
       }
-
-      return {
-        lesson_id: courseWithLesson.weekly_schedule[0]?.lessons[0]?.id,
-        unit: courseWithLesson.weekly_schedule[0]?.lessons[0]?.unit,
-        note: courseWithLesson.weekly_schedule[0]?.lessons[0]?.note,
-        tags: courseWithLesson.weekly_schedule[0]?.lessons[0]?.tags,
-        date: courseWithLesson.weekly_schedule[0]?.lessons[0]?.date,
-      };
     },
   })
   .query("get-by-tag", {

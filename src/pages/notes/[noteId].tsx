@@ -13,9 +13,6 @@ import NewLesson from "../../components/Lesson/NewLesson";
 import MetaHead from "../../components/MetaHead";
 import Screen from "../../components/Screen";
 import Sidebar from "../../components/Sidebar";
-import Center404 from "../../components/Center404";
-
-export const cachedLesson404: string[] = [];
 
 const NoteId: React.FC<
   InferGetServerSidePropsType<
@@ -62,17 +59,11 @@ const NoteId: React.FC<
             </h2>
           </div>
           <div className="shadow-lg bg-white rounded-sm max-w-7xl w-full mx-auto mt-4">
-            {noteId && cachedLesson404.includes(noteId) ? (
-              <Center404 text="No Lesson Found." />
-            ) : (
-              <>
-                {noteId && !scheduleId && !date && (
-                  <ExistingLesson lessonId={noteId} />
-                )}
-                {!noteId && scheduleId && date && (
-                  <NewLesson scheduleId={scheduleId} date={date} />
-                )}
-              </>
+            {noteId && !scheduleId && !date && (
+              <ExistingLesson lessonId={noteId} />
+            )}
+            {!noteId && scheduleId && date && (
+              <NewLesson scheduleId={scheduleId} date={date} />
             )}
           </div>
         </Center>

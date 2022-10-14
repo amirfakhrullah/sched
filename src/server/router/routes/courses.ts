@@ -1,4 +1,4 @@
-import { Day } from "@prisma/client";
+import { Day, Prisma } from "@prisma/client";
 import { isCourseAuthorized } from "../../../helpers/isCourseAuthorized";
 import {
   CoursePayloadValidator,
@@ -15,6 +15,11 @@ import {
 import { createProtectedRouter } from "../protected-router";
 import { inferQueryOutput } from "../../../utils/trpc";
 import { dateTimeChecker } from "../../../helpers/dateTimeChecker";
+import * as trpc from "@trpc/server";
+import {
+  checkIs404CourseInCache,
+  setCache404CourseId,
+} from "../../common/cache";
 
 export const coursesRouter = createProtectedRouter()
   .query("get-all", {
@@ -29,14 +34,25 @@ export const coursesRouter = createProtectedRouter()
   .query("get", {
     input: IdValidator,
     async resolve({ ctx, input }) {
-      return await isCourseAuthorized(ctx, input.id);
+      checkIs404CourseInCache(input.id);
+      try {
+        return await isCourseAuthorized(ctx, input.id);
+      } catch (e) {
+        if (e instanceof Prisma.NotFoundError) {
+          setCache404CourseId(input.id);
+          throw new trpc.TRPCError({
+            message: "No Course Found",
+            code: "NOT_FOUND",
+          });
+        }
+      }
     },
   })
   .mutation("create", {
     input: CoursePayloadValidator,
     async resolve({ ctx, input }) {
       const { name, color, start_date, end_date, weekly_schedule } = input;
-      
+
       // check date and time
       dateTimeChecker({
         start_date,
@@ -74,7 +90,7 @@ export const coursesRouter = createProtectedRouter()
     async resolve({ ctx, input }) {
       const { id, name, color, start_date, end_date, weekly_schedule } = input;
       const foundCourse = await isCourseAuthorized(ctx, id);
-      
+
       // check date and time
       dateTimeChecker({
         start_date,
