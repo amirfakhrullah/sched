@@ -34,12 +34,12 @@ export const coursesRouter = createProtectedRouter()
   .query("get", {
     input: IdValidator,
     async resolve({ ctx, input }) {
-      checkIs404CourseInCache(input.id);
+      checkIs404CourseInCache(`${ctx.session.user.id}:::course${input.id}`);
       try {
         return await isCourseAuthorized(ctx, input.id);
       } catch (e) {
         if (e instanceof Prisma.NotFoundError) {
-          setCache404CourseId(input.id);
+          setCache404CourseId(`${ctx.session.user.id}:::course${input.id}`);
           throw new trpc.TRPCError({
             message: "No Course Found",
             code: "NOT_FOUND",

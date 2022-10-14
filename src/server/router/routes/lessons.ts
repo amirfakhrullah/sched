@@ -24,7 +24,7 @@ export const lessonsRouter = createProtectedRouter()
     input: GetLessonPayloadValidator,
     async resolve({ ctx, input }) {
       const { lessonId, includeCourse } = input;
-      checkIs404LessonInCache(input.lessonId);
+      checkIs404LessonInCache(`${ctx.session.user.id}:::lesson${input.lessonId}`);
 
       try {
         const courseWithLesson = await isLessonAuthorized(ctx, lessonId);
@@ -54,7 +54,7 @@ export const lessonsRouter = createProtectedRouter()
         };
       } catch (e) {
         if (e instanceof Prisma.NotFoundError) {
-          setCache404LessonId(input.lessonId);
+          setCache404LessonId(`${ctx.session.user.id}:::lesson${input.lessonId}`);
           throw new trpc.TRPCError({
             message: "No Note Found",
             code: "NOT_FOUND",
