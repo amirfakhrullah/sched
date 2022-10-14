@@ -158,7 +158,7 @@ const LessonForm: React.FC<{
   };
 
   if (createLoading || editLoading || isLoadingCreate)
-    return <Loader color={colors.hex} />;
+    return <Loader />;
 
   return (
     <Fragment>

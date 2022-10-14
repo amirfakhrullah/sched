@@ -68,7 +68,7 @@ const LessonModal: React.FC<{
             ))}
         </div>
         {lessonCard.lesson_id && open && (
-          <LessonModalQuery lessonId={lessonCard.lesson_id} hex={theme.hex} />
+          <LessonModalQuery lessonId={lessonCard.lesson_id} />
         )}
       </DialogBody>
       <DialogFooter>

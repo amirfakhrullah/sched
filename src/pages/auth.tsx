@@ -6,7 +6,6 @@ import Screen from "../components/Screen";
 import schedLogo from "../../public/sched-logo.png";
 import Image from "next/image";
 import { AiFillGithub } from "react-icons/ai";
-// import { FcGoogle } from "react-icons/fc";
 import { BsSpotify, BsTwitch, BsTwitter } from "react-icons/bs";
 import { ParsedUrlQuery } from "querystring";
 import { signIn } from "next-auth/react";
@@ -71,18 +70,6 @@ const Auth: NextPage = () => {
               <Loader />
             ) : (
               <>
-                {/* <Button
-              color="blue-gray"
-              variant="outlined"
-              className="w-full flex flex-row items-center justify-center "
-              onClick={() => handleLogin("github")}
-            >
-              <FcGoogle className="text-2xl mr-2" />
-              Google
-            </Button>
-
-            <div className="p-1" /> */}
-
                 <AppButton
                   onClick={() => handleLogin("github")}
                   icon={<AiFillGithub className="text-white text-2xl mr-2" />}

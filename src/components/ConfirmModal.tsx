@@ -6,8 +6,8 @@ import {
 } from "@material-tailwind/react";
 import React from "react";
 import { AiFillDelete, AiOutlineClose } from "react-icons/ai";
-import { ThreeDots } from "react-loader-spinner";
 import AppButton from "./AppButton";
+import Loader from "./Loader";
 
 /**
  * Make sure to wrap parents component with React.Fragment
@@ -28,7 +28,11 @@ const ConfirmModal: React.FC<{
   deleteLoading = false,
 }) => {
   return (
-    <Dialog open={open} handler={handleOpen} className="rounded-sm max-w-lg w-[95vw] mx-auto">
+    <Dialog
+      open={open}
+      handler={handleOpen}
+      className="rounded-sm max-w-lg w-[95vw] mx-auto"
+    >
       <DialogHeader className="pb-0">
         <h3 className="text-black overflow-hidden font-oswald text-md font-medium mb-1">
           {title || "Are you sure you want to delete this?"}
@@ -37,15 +41,7 @@ const ConfirmModal: React.FC<{
       {deleteLoading ? (
         <>
           <div className="w-full flex items-center justify-center py-5">
-            <ThreeDots
-              height="80"
-              width="80"
-              radius="9"
-              color="#115e59"
-              ariaLabel="three-dots-loading"
-              wrapperStyle={{}}
-              visible={true}
-            />
+            <Loader />
           </div>
         </>
       ) : (
