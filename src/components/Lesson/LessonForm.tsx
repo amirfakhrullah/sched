@@ -39,8 +39,13 @@ const LessonForm: React.FC<{
   const { mutate: createMutate, isLoading: createLoading } = trpc.useMutation(
     "lessons.create",
     {
-      onSuccess: ({ id: lessonId }) => {
-        router.push(`/notes/${lessonId}?new=true`);
+      onSuccess: ({ id: lessonId, date: lessonDate }) => {
+        router.push({
+          pathname: `/notes/${lessonId}`,
+          query: {
+            new: lessonDate,
+          },
+        });
         toast.success("Note created");
       },
       onError: (e) => {
@@ -68,10 +73,14 @@ const LessonForm: React.FC<{
         if (
           router.query &&
           router.query.new &&
-          typeof router.query.new === "string" &&
-          router.query.new === "true"
+          typeof router.query.new === "string"
         ) {
-          router.push("/");
+          router.push({
+            pathname: "/",
+            query: {
+              id: router.query.new,
+            },
+          });
         } else {
           router.back();
         }
@@ -148,7 +157,8 @@ const LessonForm: React.FC<{
     }
   };
 
-  if (createLoading || editLoading || isLoadingCreate) return <Loader color={colors.hex} />;
+  if (createLoading || editLoading || isLoadingCreate)
+    return <Loader color={colors.hex} />;
 
   return (
     <Fragment>

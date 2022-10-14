@@ -10,8 +10,7 @@ import Calendar from "./Calendar";
 
 const Schedule: React.FC<{
   data: WeeklyScheduleResponse;
-  setDayId: React.Dispatch<React.SetStateAction<string | undefined>>;
-}> = ({ data, setDayId }) => {
+}> = ({ data }) => {
   const router = useRouter();
 
   return (
@@ -24,7 +23,11 @@ const Schedule: React.FC<{
 
           <div className="flex flex-row items-center md:justify-start justify-center">
             <div
-              onClick={() => setDayId(data.prev_week_id.toString())}
+              onClick={() =>
+                router.push({
+                  query: { dayRef: data.prev_week_id.toString() },
+                })
+              }
               className="p-1 m-1 hover:bg-blue-gray-200 cursor-pointer rounded-full ease-in duration-100"
             >
               <BsArrowLeftShort className="text-2xl" />
@@ -34,20 +37,24 @@ const Schedule: React.FC<{
               {moment(data.end_date.toString()).format("Do")}
             </p>
             <div
-              onClick={() => setDayId(data.next_week_id.toString())}
+              onClick={() =>
+                router.push({
+                  query: { dayRef: data.next_week_id.toString() },
+                })
+              }
               className="p-1 m-1 hover:bg-blue-gray-200 cursor-pointer rounded-full ease-in duration-100"
             >
               <BsArrowRightShort className="text-2xl" />
             </div>
           </div>
         </div>
-          <AppButton
-            label="Add Course"
-            onClick={() => router.push("/courses/new")}
-            css="bg-teal-800 sm:max-w-[14em] sm:m-0 mt-1"
-            theme="green"
-            icon={<AiOutlineAppstoreAdd className="text-white text-xl mr-2" />}
-          />
+        <AppButton
+          label="Add Course"
+          onClick={() => router.push("/courses/new")}
+          css="bg-teal-800 sm:max-w-[14em] sm:m-0 mt-1"
+          theme="green"
+          icon={<AiOutlineAppstoreAdd className="text-white text-xl mr-2" />}
+        />
       </div>
       <div className="p-4" />
       <Calendar data={data} />

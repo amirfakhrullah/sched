@@ -20,8 +20,8 @@ const Sidebar = () => {
 
   const isActive = (route?: string) => {
     if (!route) return false;
-    const mainPath = router.asPath.split("/")[1]
-    return ("/" + mainPath) === route;
+    const mainPath = router.asPath.split("/")[1]?.split("?")[0];
+    return "/" + mainPath === route;
   };
 
   // vars

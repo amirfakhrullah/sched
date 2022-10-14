@@ -46,10 +46,14 @@ const NoteId: React.FC<
                 if (
                   router.query &&
                   router.query.new &&
-                  typeof router.query.new === "string" &&
-                  router.query.new === "true"
+                  typeof router.query.new === "string"
                 ) {
-                  return router.push("/");
+                  return router.push({
+                    pathname: "/",
+                    query: {
+                      dayRef: router.query.new,
+                    },
+                  });
                 }
                 router.back();
               }}

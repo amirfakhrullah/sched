@@ -4,10 +4,11 @@ import LessonTagQuery from "../../components/Lesson/LessonTagQuery";
 import MetaHead from "../../components/MetaHead";
 import Screen from "../../components/Screen";
 import Sidebar from "../../components/Sidebar";
+import { useRouter } from "next/router";
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState("");
-  const [tag, setTag] = useState("");
+  const router = useRouter();
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.currentTarget.value);
@@ -15,7 +16,7 @@ const Search = () => {
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      setTag(searchValue);
+      router.push({ query: { tag: searchValue } });
     }
   };
 
@@ -33,7 +34,15 @@ const Search = () => {
             placeholder="Type-in the tag name and press Enter"
             className="py-1 px-2 text-gray-900 border border-gray-600 rounded-sm w-full bg-transparent placeholder:text-gray-600"
           />
-          {tag && <LessonTagQuery tag={tag} />}
+          {router.query &&
+          router.query.tag &&
+          typeof router.query.tag === "string" ? (
+            <LessonTagQuery tag={router.query.tag} />
+          ) : (
+            <p className="text-gray-600 text-sm text-center my-5">
+              No Notes Found.
+            </p>
+          )}
         </Center>
       </Screen>
     </>
