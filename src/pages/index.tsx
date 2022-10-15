@@ -8,20 +8,35 @@ import { trpc } from "../utils/trpc";
 import { useRouter } from "next/router";
 import { DateValidator } from "../helpers/validations/shared";
 import moment from "moment";
+import { toast } from "react-toastify";
 
 const Home: NextPage = () => {
   const { query } = useRouter();
-  const { data, isLoading } = trpc.useQuery([
-    "courses.weeklySchedule",
-    {
-      dayId:
-        query.dayRef &&
-        typeof query.dayRef === "string" &&
-        DateValidator.safeParse(query.dayRef).success
+
+  const checkQueryParams = (valid: boolean) => {
+    const dateCheck = valid
+      ? DateValidator.safeParse(query.dayRef).success
+      : !DateValidator.safeParse(query.dayRef).success;
+    return query.dayRef && typeof query.dayRef === "string" && dateCheck;
+  };
+
+  const { data, isLoading } = trpc.useQuery(
+    [
+      "courses.weeklySchedule",
+      {
+        dayId: checkQueryParams(true)
           ? moment(query.dayRef).startOf("week").format("yyyyMMDD")
           : moment(new Date()).format("yyyyMMDD"),
-    },
-  ]);
+      },
+    ],
+    {
+      onSettled: () => {
+        if (checkQueryParams(false)) {
+          toast.error("Invalid week");
+        }
+      },
+    }
+  );
 
   return (
     <>
