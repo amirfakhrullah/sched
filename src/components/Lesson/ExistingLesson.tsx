@@ -53,7 +53,7 @@ const ExistingLesson: React.FC<{
           {data.name}
         </h3>
         <p>
-          {moment(data.date?.toString()).format("MMMM Do YYYY")},{" "}
+          {moment(data.date?.toString()).format("dddd, MMMM Do YYYY")},{" "}
           {moment(data.start_time, "HHmm").format("hh:mm A")} -{" "}
           {moment(data.end_time, "hhmm").format("HH:mm A")}
         </p>

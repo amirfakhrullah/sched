@@ -17,7 +17,8 @@ const LessonModal: React.FC<{
   open: boolean;
   handleOpen: () => void;
   lessonCard: LessonCard;
-}> = ({ open, handleOpen, lessonCard }) => {
+  date: number;
+}> = ({ open, handleOpen, lessonCard, date }) => {
   const router = useRouter();
   const theme = getColorThemes(lessonCard.color);
 
@@ -41,6 +42,7 @@ const LessonModal: React.FC<{
             <p className="text-sm text-black">{lessonCard.unit}</p>
           </div>
           <p className="text-sm font-medium">
+            {moment(date.toString()).format("dddd, MMMM Do YYYY")},{" "}
             {moment(lessonCard.start_time, "HHmm").format("hh:mm A")} -{" "}
             {moment(lessonCard.end_time, "HHmm").format("hh:mm A")}
           </p>

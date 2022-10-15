@@ -50,7 +50,7 @@ const NewLesson: React.FC<{
           {data.name}
         </h3>
         <p>
-          {moment(date).format("MMMM Do YYYY")},{" "}
+          {moment(date).format("dddd, MMMM Do YYYY")},{" "}
           {moment(data.weekly_schedule[0]?.start_time, "HHmm").format(
             "hh:mm A"
           )}{" "}

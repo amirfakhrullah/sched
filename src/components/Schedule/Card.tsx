@@ -20,7 +20,8 @@ import { toast } from "react-toastify";
 const Card: React.FC<{
   lessonCard: LessonCard;
   date: number;
-}> = ({ lessonCard, date }) => {
+  displayDate?: boolean;
+}> = ({ lessonCard, date, displayDate }) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [deleteAlert, setDeleteAlert] = useState(false);
@@ -104,6 +105,11 @@ const Card: React.FC<{
           <p className="text-sm">{lessonCard.unit}</p>
         </div>
 
+        {displayDate && (
+          <p className="text-sm text-right font-bold">
+            {moment(date.toString()).format("dddd, MMMM Do YYYY")}
+          </p>
+        )}
         <p className="text-sm text-right font-medium">
           {moment(lessonCard.start_time, "HHmm").format("hh:mm A")} -{" "}
           {moment(lessonCard.end_time, "HHmm").format("hh:mm A")}
@@ -124,6 +130,7 @@ const Card: React.FC<{
         open={open}
         handleOpen={handleOpen}
         lessonCard={lessonCard}
+        date={date}
       />
       {lessonCard.lesson_id && (
         <ConfirmModal

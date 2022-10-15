@@ -41,6 +41,7 @@ const LessonTagQuery: React.FC<{
                   unit: lesson.unit,
                   tags: lesson.tags,
                 }}
+                displayDate
               />
             ))}
         </div>
