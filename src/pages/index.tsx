@@ -19,7 +19,7 @@ const Home: NextPage = () => {
         typeof query.dayRef === "string" &&
         DateValidator.safeParse(query.dayRef).success
           ? moment(query.dayRef).startOf("week").format("yyyyMMDD")
-          : undefined,
+          : moment(new Date()).format("yyyyMMDD"),
     },
   ]);
 
