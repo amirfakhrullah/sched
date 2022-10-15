@@ -107,7 +107,7 @@ const Sidebar = () => {
                   </div>
                   <MenuItem
                     className="flex flex-row items-center"
-                    onClick={() => signOut()}
+                    onClick={() => signOut({ callbackUrl: "/auth" })}
                   >
                     <IoLogOutOutline className="text-gray-500 text-lg mr-2" />
                     Logout
@@ -164,7 +164,7 @@ const Sidebar = () => {
                     </div>
                     <MenuItem
                       className="flex flex-row items-center"
-                      onClick={() => signOut()}
+                      onClick={() => signOut({ callbackUrl: "/auth" })}
                     >
                       <IoLogOutOutline className="text-gray-500 text-lg mr-2" />
                       Logout
