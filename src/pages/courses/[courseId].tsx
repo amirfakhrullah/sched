@@ -1,10 +1,5 @@
-import {
-  GetServerSideProps,
-  InferGetServerSidePropsType,
-  PreviewData,
-} from "next";
+import { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/router";
-import { ParsedUrlQuery } from "querystring";
 import React from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import Center from "../../components/Center";
@@ -13,18 +8,11 @@ import NewCourse from "../../components/Course/NewCourse";
 import MetaHead from "../../components/MetaHead";
 import Screen from "../../components/Screen";
 import Sidebar from "../../components/Sidebar";
+import { InferSSRProps } from "../../lib/InferSSRProps";
 
-const CourseId: React.FC<
-  InferGetServerSidePropsType<
-    GetServerSideProps<
-      {
-        courseId: string;
-      },
-      ParsedUrlQuery,
-      PreviewData
-    >
-  >
-> = ({ courseId }) => {
+const CourseId: NextPage<InferSSRProps<typeof getServerSideProps>> = ({
+  courseId,
+}) => {
   const router = useRouter();
 
   return (
@@ -66,7 +54,9 @@ const CourseId: React.FC<
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+export const getServerSideProps = async ({
+  query,
+}: GetServerSidePropsContext) => {
   const { courseId } = query;
 
   if (!courseId || typeof courseId !== "string") {

@@ -1,10 +1,5 @@
-import {
-  GetServerSideProps,
-  InferGetServerSidePropsType,
-  PreviewData,
-} from "next";
+import { GetServerSidePropsContext, NextPage } from "next";
 import { useRouter } from "next/router";
-import { ParsedUrlQuery } from "querystring";
 import React from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import Center from "../../components/Center";
@@ -13,20 +8,13 @@ import NewLesson from "../../components/Lesson/NewLesson";
 import MetaHead from "../../components/MetaHead";
 import Screen from "../../components/Screen";
 import Sidebar from "../../components/Sidebar";
+import { InferSSRProps } from "../../lib/InferSSRProps";
 
-const NoteId: React.FC<
-  InferGetServerSidePropsType<
-    GetServerSideProps<
-      {
-        noteId?: string;
-        scheduleId?: string;
-        date?: string;
-      },
-      ParsedUrlQuery,
-      PreviewData
-    >
-  >
-> = ({ noteId, scheduleId, date }) => {
+const NoteId: NextPage<InferSSRProps<typeof getServerSideProps>> = ({
+  noteId,
+  scheduleId,
+  date,
+}) => {
   const router = useRouter();
 
   return (
@@ -72,7 +60,9 @@ const NoteId: React.FC<
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+export const getServerSideProps = async ({
+  query,
+}: GetServerSidePropsContext) => {
   const { noteId } = query;
 
   if (!noteId || typeof noteId !== "string") {

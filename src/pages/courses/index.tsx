@@ -8,8 +8,9 @@ import { trpc } from "../../utils/trpc";
 import { useRouter } from "next/router";
 import { AiOutlineAppstoreAdd } from "react-icons/ai";
 import CourseCard from "../../components/Course/CourseCard";
+import { NextPage } from "next";
 
-const Courses = () => {
+const Courses: NextPage = () => {
   const router = useRouter();
   const { isLoading, data } = trpc.useQuery(["courses.get-all"]);
 

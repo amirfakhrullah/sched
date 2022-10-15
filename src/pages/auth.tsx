@@ -1,4 +1,4 @@
-import { GetServerSidePropsContext, NextPage, PreviewData } from "next";
+import { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
 import React, { useState } from "react";
 import Center from "../components/Center";
 import MetaHead from "../components/MetaHead";
@@ -7,7 +7,6 @@ import schedLogo from "../../public/sched-logo.png";
 import Image from "next/image";
 import { AiFillGithub } from "react-icons/ai";
 import { BsSpotify, BsTwitch, BsTwitter } from "react-icons/bs";
-import { ParsedUrlQuery } from "querystring";
 import { signIn } from "next-auth/react";
 import { getServerAuthSession } from "../server/common/get-server-auth-session";
 import { useRouter } from "next/router";
@@ -129,8 +128,8 @@ const Auth: NextPage = () => {
   );
 };
 
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
 ) => {
   const session = await getServerAuthSession(context);
 

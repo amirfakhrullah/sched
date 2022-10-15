@@ -5,8 +5,9 @@ import MetaHead from "../../components/MetaHead";
 import Screen from "../../components/Screen";
 import Sidebar from "../../components/Sidebar";
 import { useRouter } from "next/router";
+import { NextPage } from "next";
 
-const Search = () => {
+const Search: NextPage = () => {
   const [searchValue, setSearchValue] = useState("");
   const router = useRouter();
 
