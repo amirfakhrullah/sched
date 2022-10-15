@@ -12,6 +12,7 @@ import AppButton from "../AppButton";
 import Calendar from "./Calendar";
 import DatePicker from "react-datepicker";
 import { DateValidator } from "../../helpers/validations/shared";
+import { Tooltip } from "@material-tailwind/react";
 
 const Schedule: React.FC<{
   data: WeeklyScheduleResponse;
@@ -46,8 +47,22 @@ const Schedule: React.FC<{
               selected={initialDate}
               onChange={handleChangeDate}
               customInput={
-                <div className="w-10 h-10 rounded-full cursor-pointer hover:bg-gray-500 flex items-center justify-center ease-in duration-100">
-                  <BsFillCalendar2WeekFill className="text-lg" />
+                <div>
+                  <Tooltip
+                    placement="right"
+                    content={
+                      <p>
+                        Select specific date to see your
+                        <br />
+                        weekly schedule for that date
+                      </p>
+                    }
+                    className="sm:block hidden"
+                  >
+                    <div className="w-10 h-10 rounded-full cursor-pointer hover:bg-gray-500 flex items-center justify-center ease-in duration-100">
+                      <BsFillCalendar2WeekFill className="text-lg" />
+                    </div>
+                  </Tooltip>
                 </div>
               }
             />
