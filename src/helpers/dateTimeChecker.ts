@@ -26,7 +26,6 @@ export const dateTimeChecker = (input: Input) => {
   for (const schedule of weekly_schedule) {
     const start = moment(schedule.start_time, "HHmm");
     const end = moment(schedule.end_time, "HHmm");
-    console.log(start.format("hh:mm a"), end.format("hh:mm a"))
 
     if (end.isSameOrBefore(start)) {
       throw new trpc.TRPCError({
