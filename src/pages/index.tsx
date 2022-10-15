@@ -6,6 +6,8 @@ import Screen from "../components/Screen";
 import Sidebar from "../components/Sidebar";
 import { trpc } from "../utils/trpc";
 import { useRouter } from "next/router";
+import { DateValidator } from "../helpers/validations/shared";
+import moment from "moment";
 
 const Home: NextPage = () => {
   const { query } = useRouter();
@@ -13,8 +15,10 @@ const Home: NextPage = () => {
     "courses.weeklySchedule",
     {
       dayId:
-        query.dayRef && typeof query.dayRef === "string"
-          ? query.dayRef
+        query.dayRef &&
+        typeof query.dayRef === "string" &&
+        DateValidator.safeParse(query.dayRef).success
+          ? moment(query.dayRef).startOf("week").format("yyyyMMDD")
           : undefined,
     },
   ]);
