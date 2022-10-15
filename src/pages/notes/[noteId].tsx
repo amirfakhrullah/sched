@@ -19,7 +19,7 @@ const NoteId: NextPage<InferSSRProps<typeof getServerSideProps>> = ({
 
   return (
     <>
-      <MetaHead title="Lesson | Sched" />
+      <MetaHead title="Note | Sched" />
       <Screen>
         <Sidebar />
         <Center>

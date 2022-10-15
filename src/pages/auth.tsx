@@ -22,7 +22,9 @@ const Auth: NextPage = () => {
     provider: "github" | "twitch" | "spotify" | "twitter"
   ) => {
     setIsLoading(true);
-    await signIn(provider);
+    await signIn(provider, {
+      callbackUrl: "/",
+    });
   };
 
   return (
