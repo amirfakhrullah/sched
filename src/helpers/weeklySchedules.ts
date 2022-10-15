@@ -2,8 +2,9 @@ import { Course, Day, Lesson, Schedule } from "@prisma/client";
 import moment from "moment";
 
 export const getPrevOrNextWeekId = (currentDate?: string) => {
-  const prevWeekId = moment(currentDate).add(-1, "week").format("yyyyMMDD");
-  const nextWeekId = moment(currentDate).add(1, "week").format("yyyyMMDD");
+  const startOfWeek = moment(currentDate).startOf("week");
+  const prevWeekId = startOfWeek.add(-1, "week").format("yyyyMMDD");
+  const nextWeekId = startOfWeek.add(1, "week").format("yyyyMMDD");
 
   return { prevWeekId, nextWeekId };
 };
