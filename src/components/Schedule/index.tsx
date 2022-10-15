@@ -2,24 +2,56 @@ import moment from "moment";
 import { useRouter } from "next/router";
 import React from "react";
 import { AiOutlineAppstoreAdd } from "react-icons/ai";
-import { BsArrowLeftShort, BsArrowRightShort } from "react-icons/bs";
+import {
+  BsArrowLeftShort,
+  BsArrowRightShort,
+  BsFillCalendar2WeekFill,
+} from "react-icons/bs";
 import { WeeklyScheduleResponse } from "../../server/router/routes/courses";
 import AppButton from "../AppButton";
 import Calendar from "./Calendar";
-// import Calendar from 'react-calendar';
+import DatePicker from "react-datepicker";
+import { DateValidator } from "../../helpers/validations/shared";
 
 const Schedule: React.FC<{
   data: WeeklyScheduleResponse;
 }> = ({ data }) => {
   const router = useRouter();
 
+  const handleChangeDate = (date: Date) => {
+    router.push({
+      query: {
+        dayRef: moment(date).format("yyyyMMDD"),
+      },
+    });
+  };
+
+  const initialDate = !router.query.dayRef
+    ? new Date()
+    : router.query.dayRef &&
+      typeof router.query.dayRef === "string" &&
+      DateValidator.safeParse(router.query.dayRef).success
+    ? moment(router.query.dayRef).toDate()
+    : moment(data.day_id.toString()).toDate();
+
   return (
     <>
       <div className="flex sm:flex-row flex-col sm:items-center justify-between">
         <div>
-          <h2 className="text-4xl font-[700] font-oswald text-center">
-            {moment(data.day_id.toString()).format("MMMM YYYY")}
-          </h2>
+          <div className="flex flex-row items-center justify-center">
+            <h2 className="text-4xl font-[700] font-oswald text-center mr-2">
+              {moment(data.day_id.toString()).format("MMMM YYYY")}
+            </h2>
+            <DatePicker
+              selected={initialDate}
+              onChange={handleChangeDate}
+              customInput={
+                <div className="w-10 h-10 rounded-full cursor-pointer hover:bg-gray-500 flex items-center justify-center ease-in duration-100">
+                  <BsFillCalendar2WeekFill className="text-lg" />
+                </div>
+              }
+            />
+          </div>
 
           <div className="flex flex-row items-center md:justify-start justify-center">
             <div

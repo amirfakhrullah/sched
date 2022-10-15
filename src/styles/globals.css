@@ -41,3 +41,7 @@
 .li::marker {
   @apply text-gray-900;
 }
+
+.react-datepicker-wrapper {
+  width: 2.5rem !important;
+}

@@ -282,7 +282,7 @@ export const coursesRouter = createProtectedRouter()
       );
 
       return {
-        day_id: Number(weekObj[1]?.date),
+        day_id: Number(weekObj[0]?.date),
         start_date: Number(weekObj[0]?.date),
         end_date: Number(weekObj[6]?.date),
         prev_week_id: Number(prevWeekId),
