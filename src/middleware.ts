@@ -9,9 +9,11 @@ export async function middleware(req: NextRequest) {
     },
   });
 
-  if (checkAuth.status === 401) {
+  if (checkAuth.status !== 401) return NextResponse.next(req);
+  if (req.nextUrl.pathname === "/") {
     return NextResponse.redirect(`${BASE_URL}/auth`);
   }
+  return NextResponse.rewrite(new URL("/404", req.url), req);
 }
 
 export const config = {
