@@ -9,7 +9,7 @@ const LessonTagQuery: React.FC<{
   const { data, isLoading } = trpc.useQuery([
     "lessons.get-by-tag",
     {
-      tag,
+      tag: tag.toLowerCase(),
     },
   ]);
 
@@ -48,7 +48,7 @@ const LessonTagQuery: React.FC<{
       )}
       {data && data.length === 0 && (
         <p className="text-gray-600 text-sm text-center my-5">
-          No Notes Found.
+          No note with tag &quot;{tag}&quot; found.
         </p>
       )}
     </>
