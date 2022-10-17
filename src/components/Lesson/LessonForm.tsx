@@ -78,7 +78,7 @@ const LessonForm: React.FC<{
           router.push({
             pathname: "/",
             query: {
-              id: router.query.new,
+              dayRef: router.query.new,
             },
           });
         } else {
