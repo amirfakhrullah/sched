@@ -54,10 +54,7 @@ Simple schedule-based note taking app (markdown) for students/teachers built usi
 git clone https://github.com/amirfakhrullah/sched.git
 ```
 
-- Set the postgresql url in `.env` file
-```bash
-DATEBASE_URL="YOUR_POSTGRESQL_URL_HERE"
-```
+- Set up `.env` vars (refer `.env.sample`)
 
 - Install the dependencies. I'm using `npm` here, so:
 ```bash
