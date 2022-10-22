@@ -4,7 +4,7 @@
 
 ## Description
 
-Simple schedule-based note taking app (markdown) for students/teachers built using `create-t3-app` --- `Next.js`, `NextAuth`, `TypeScript`, `tRPC`, `Prisma` and `Railway`.
+Simple schedule-based note taking app (markdown) for students/teachers built using `create-t3-app` --- `Next.js`, `NextAuth`, `TypeScript`, `tRPC` and `Prisma`.
 
 ![sched](./public/sched-min.png)
 
@@ -22,14 +22,14 @@ Simple schedule-based note taking app (markdown) for students/teachers built usi
 
 ## Project Features
 
-- User able to login via OAuth with `GitHub`, `Twitter`, `Twitch` and `Spotify` providers.
+- User able to login via OAuth with `Google`, `GitHub`, `Twitter`, `Twitch` and `Spotify` providers.
 - User can create courses and set the duration for the courses
   - For example, students/teachers can create multiple courses and set the duration for 1 semester (6 months or so)
-  - Then they can create the weekly schedules for the courses. For example, a student has Mathematics course and the course is from 8AM - 10AM from Monday - Friday. So they can set 5 schedules as their weekly schedules, from Monday - Friday, 8AM - 10AM
-- User can view their weekly schedules for the week. User will also be able to select the specific weekly schedules that they want to see
+  - Then they can create the weekly schedules for the courses. For example, a student has Mathematics course and the course is from 8AM - 10AM from Monday - Friday. So they can set 5 schedules as the Mathematics course's weekly schedules, which are from Monday - Friday, 8AM - 10AM
+- User can view their weekly schedules in the `Schedule` tab. User will also be able to select the specific weekly schedules that they want to see (by selecting the date)
 - From the weekly schedule card, user can add the notes for the schedule. The note is rendered in `Markdown`
   - For example, the student add note for the Monday's Mathematics class for that specific week
-- In the search tab, user can find any notes based on their tags
+- In the `Search` tab, user can find their notes based on the tags that they created in the note
 
 ## Techstacks
 
