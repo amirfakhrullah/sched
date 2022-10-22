@@ -4,19 +4,19 @@
 
 ## Description
 
-Simple schedule-based note taking app (markdown) for students/teachers built using `Next.js`, `NextAuth`, `TypeScript`, `tRPC`, `Prisma` and `Railway`.
+Simple schedule-based note taking app (markdown) for students/teachers built using `create-t3-app` --- `Next.js`, `NextAuth`, `TypeScript`, `tRPC`, `Prisma` and `Railway`.
 
 ![sched](./public/sched-min.png)
 
 ## Quick Links
 
-[sched.amrf.me](https://sched.amrf.me)
+- [sched.amrf.me](https://sched.amrf.me)
 
 ## Goals For This Project
 
-- Use the `create-t3-app` as the boilerplate
-- Using new `Next.js` middleware to handle auth redirects
-- setting up multiple OAuth providers for `NextAuth`
+- Use the `create-t3-app` boilerplate
+- Using new `Next.js` middleware to handle auth redirects (protect routes)
+- setting up multiple OAuth providers with `NextAuth`
 - use `Railway` to host `postgresql` hosting
 - Render markdown content using `react-markdown` and `@tailwindcss/typography`
 
@@ -33,6 +33,7 @@ Simple schedule-based note taking app (markdown) for students/teachers built usi
 
 ## Techstacks
 
+- [create-t3-app](https://create.t3.gg/)
 - [Next.js](https://nextjs.org/)
 - [TailwindCSS](https://tailwindcss.com/)
 - [Material-Tailwind](https://www.material-tailwind.com/)
