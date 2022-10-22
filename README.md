@@ -44,3 +44,27 @@ Simple schedule-based note taking app (markdown) for students/teachers built usi
 - [Prisma](https://www.prisma.io/)
 - [Railway](https://railway.app/)
 - [Vercel](https://vercel.com/)
+
+## Setting Up Locally
+
+- Clone or fork this repository
+- To clone:
+
+```bash
+git clone https://github.com/amirfakhrullah/sched.git
+```
+
+- Set the postgresql url in `.env` file
+```bash
+DATEBASE_URL="YOUR_POSTGRESQL_URL_HERE"
+```
+
+- Install the dependencies. I'm using `npm` here, so:
+```bash
+npm i
+```
+
+- Running locally
+```bash
+npm run dev
+```
