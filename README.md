@@ -1,4 +1,6 @@
-![sched-logo](./public/Sched.png)
+<div align="center">
+  <img src="./public/sched-readme.png" alt="sched-logo-readme" height="70" />
+</div>
 
 ## Description
 
