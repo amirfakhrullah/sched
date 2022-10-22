@@ -1,7 +1,8 @@
-<div align="center">
+<!-- <div align="center">
   <img src="./public/sched-logo.png" alt="BloqDown" height="80" style="border-radius: 3px;" />
   <h1>Sched App</h1>
-</div>
+</div> -->
+![sched-logo](./public/sched-horizontal.png)
 
 ## Description
 
