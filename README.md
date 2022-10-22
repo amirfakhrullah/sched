@@ -1,4 +1,4 @@
-![sched-logo](./public/readme-logo.png)
+![sched-logo](./public/Sched.png)
 
 ## Description
 

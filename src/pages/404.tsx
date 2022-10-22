@@ -5,7 +5,7 @@ import MetaHead from "../components/MetaHead";
 import Screen from "../components/Screen";
 import Center404 from "../components/Center404";
 import Image from "next/image";
-import schedLogo from "../../public/sched-logo.png";
+import schedLogo from "../../public/Sched.png";
 
 const NotFound: NextPage = () => {
   return (
