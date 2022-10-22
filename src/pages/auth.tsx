@@ -7,6 +7,7 @@ import schedLogo from "../../public/sched-logo.png";
 import Image from "next/image";
 import { AiFillGithub } from "react-icons/ai";
 import { BsSpotify, BsTwitch, BsTwitter } from "react-icons/bs";
+import { FcGoogle } from "react-icons/fc";
 import { signIn } from "next-auth/react";
 import { getServerAuthSession } from "../server/common/get-server-auth-session";
 import { useRouter } from "next/router";
@@ -19,7 +20,7 @@ const Auth: NextPage = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (
-    provider: "github" | "twitch" | "spotify" | "twitter"
+    provider: "google" | "github" | "twitch" | "spotify" | "twitter"
   ) => {
     setIsLoading(true);
     await signIn(provider, {
@@ -72,10 +73,20 @@ const Auth: NextPage = () => {
             ) : (
               <>
                 <AppButton
+                  onClick={() => handleLogin("google")}
+                  icon={<FcGoogle className="text-2xl mr-2" />}
+                  label="Google"
+                  variant="outlined"
+                  theme="blue-gray"
+                />
+
+                <div className="p-1" />
+
+                <AppButton
                   onClick={() => handleLogin("github")}
                   icon={<AiFillGithub className="text-white text-2xl mr-2" />}
                   label="GitHub"
-                  css=" bg-blue-gray-800"
+                  css="bg-blue-gray-800"
                   theme="blue-gray"
                 />
 
