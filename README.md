@@ -15,9 +15,9 @@ Simple schedule-based note taking app (markdown) for students/teachers built usi
 ## Goals For This Project
 
 - Use the `create-t3-app` boilerplate
-- Using new `Next.js` middleware to handle auth redirects (protect routes)
-- setting up multiple OAuth providers with `NextAuth`
-- use `Railway` to host `postgresql` hosting
+- Using new `Next.js` middleware to handle auth redirects / routes protection
+- Setting up multiple OAuth providers with `NextAuth`
+- Use `Railway` for `postgresql` hosting
 - Render markdown content using `react-markdown` and `@tailwindcss/typography`
 
 ## Project Features
