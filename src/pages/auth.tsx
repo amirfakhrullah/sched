@@ -34,9 +34,9 @@ const Auth: NextPage = () => {
       <MetaHead title="Auth | Sched App" />
       <Screen withSidebar={false} bgGreen>
         <Center>
-          <div className="flex flex-row items-center justify-center mt-20">
-            <div className="md:block hidden flex-[0.6] max-w-[400px] shadow-lg rounded-l-md rounded-r-none p-6 h-[556px] bg-teal-900">
-              <div className="py-10">
+          <div className="grid md:grid-cols-2 grid-cols-1 mt-20 md:max-w-3xl max-w-sm mx-auto">
+            <div className="md:block hidden shadow-lg rounded-l-md rounded-r-none p-6 bg-teal-900">
+              <div className="p-10">
                 <div className="bg-white shadow-lg rounded-full">
                   <Image src={teacherIcon} alt="teacher-icon" />
                 </div>
@@ -57,7 +57,7 @@ const Auth: NextPage = () => {
                 </a>
               </div>
             </div>
-            <div className="shadow-lg bg-white p-6 md:rounded-r-md md:rounded-l-none rounded-md max-w-sm w-full md:h-[556px] h-auto">
+            <div className="shadow-lg bg-white p-6 md:rounded-r-md md:rounded-l-none rounded-md">
               <div className="w-full flex items-center justify-center mb-6">
                 <Image
                   src={schedLogo}
