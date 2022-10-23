@@ -41,7 +41,9 @@ const Auth: NextPage = () => {
                   <Image src={teacherIcon} alt="teacher-icon" />
                 </div>
                 <h2 className="text-gray-300 font-oswald text-2xl font-medium text-center mt-4">
-                  Ease the process of note-taking
+                  Ease the process of
+                  <br />
+                  note-taking
                   <br />
                   for students and teachers
                 </h2>
