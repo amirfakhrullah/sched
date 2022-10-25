@@ -47,7 +47,7 @@ const LessonTagQuery: React.FC<{
         </div>
       )}
       {data && data.length === 0 && (
-        <p className="text-gray-600 text-sm text-center my-5">
+        <p className="text-gray-600 text-sm text-center mt-10">
           No note with tag &quot;{tag}&quot; found.
         </p>
       )}

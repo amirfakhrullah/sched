@@ -52,10 +52,16 @@ const Search: NextPage = () => {
             className="py-1 px-2 text-gray-900 border border-gray-600 rounded-sm w-full bg-transparent placeholder:text-gray-600"
           />
           {router.query &&
-            router.query.tag &&
-            typeof router.query.tag === "string" && (
-              <LessonTagQuery tag={router.query.tag} />
-            )}
+          router.query.tag &&
+          typeof router.query.tag === "string" ? (
+            <LessonTagQuery tag={router.query.tag} />
+          ) : (
+            <div className="flex flex-col items-center justify-center mt-10">
+              <p className="text-gray-600 text-sm text-center">
+                <i>Start typing and click enter to search...</i>
+              </p>
+            </div>
+          )}
         </Center>
       </Screen>
     </>

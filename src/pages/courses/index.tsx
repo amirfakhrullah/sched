@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { AiOutlineAppstoreAdd } from "react-icons/ai";
 import CourseCard from "../../components/Course/CourseCard";
 import { NextPage } from "next";
+import { BsFillEmojiDizzyFill } from "react-icons/bs";
 
 const Courses: NextPage = () => {
   const router = useRouter();
@@ -37,12 +38,22 @@ const Courses: NextPage = () => {
                 />
               </div>
               <div className="p-4" />
-              <div className="grid sm:grid-cols-3 grid-cols-1 gap-3 w-full">
-                {data &&
-                  data.map((course) => (
+              {data.length > 0 ? (
+                <div className="grid sm:grid-cols-3 grid-cols-1 gap-3 w-full">
+                  {data.map((course) => (
                     <CourseCard key={course.id} course={course} />
                   ))}
-              </div>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center mt-10">
+                  <p className="text-gray-600 text-sm text-center">
+                    No course created. Click the
+                    <br />
+                    Add Course button on the top right to get started
+                  </p>
+                  <BsFillEmojiDizzyFill className="mt-5 text-gray-600 text-4xl" />
+                </div>
+              )}
             </>
           )}
         </Center>
