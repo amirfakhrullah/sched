@@ -23,26 +23,25 @@ const NoteId: NextPage<InferSSRProps<typeof getServerSideProps>> = ({
       <Screen>
         <Sidebar />
         <Center>
-          <div className="flex flex-row items-center cursor-pointer">
+          <div className="flex flex-row items-center cursor-pointer"
+            onClick={() => {
+              if (
+                router.query &&
+                router.query.new &&
+                typeof router.query.new === "string"
+              ) {
+                return router.push({
+                  pathname: "/",
+                  query: {
+                    dayRef: router.query.new,
+                  },
+                });
+              }
+              router.back();
+            }}
+          >
             <BsArrowLeft className="text-lg mr-2" />
-            <h2
-              className="text-lg font-[500] font-oswald"
-              onClick={() => {
-                if (
-                  router.query &&
-                  router.query.new &&
-                  typeof router.query.new === "string"
-                ) {
-                  return router.push({
-                    pathname: "/",
-                    query: {
-                      dayRef: router.query.new,
-                    },
-                  });
-                }
-                router.back();
-              }}
-            >
+            <h2 className="text-lg font-[500] font-oswald">
               Back
             </h2>
           </div>
