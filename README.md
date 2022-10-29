@@ -4,7 +4,7 @@
 
 ## Description
 
-Simple schedule-based note taking app (markdown) for students/teachers built using `Create-T3-App`: `Next.js`, `NextAuth`, `TypeScript`, `tRPC` and `Prisma`.
+Simple schedule-based Markdown note taking app for students and teachers built using `Create-T3-App`: `Next.js`, `NextAuth`, `TypeScript`, `tRPC` and `Prisma`.
 
 ![sched](./public/sched-min.png)
 
@@ -66,3 +66,7 @@ npm i
 ```bash
 npm run dev
 ```
+
+## License
+
+License under the [MIT License](./LICENSE)
