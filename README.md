@@ -4,7 +4,7 @@
 
 ## Description
 
-Simple schedule-based note taking app (markdown) for students/teachers built using `create-t3-app` --- `Next.js`, `NextAuth`, `TypeScript`, `tRPC` and `Prisma`.
+Simple schedule-based note taking app (markdown) for students/teachers built using `Create-T3-App`: `Next.js`, `NextAuth`, `TypeScript`, `tRPC` and `Prisma`.
 
 ![sched](./public/sched-min.png)
 
@@ -14,7 +14,7 @@ Simple schedule-based note taking app (markdown) for students/teachers built usi
 
 ## Goals For This Project
 
-- Use the `create-t3-app` boilerplate
+- Use the `Create-T3-App` boilerplate
 - Using new `Next.js` middleware to handle auth redirects / routes protection
 - Setting up multiple OAuth providers with `NextAuth`
 - Use `Railway` for `postgresql` hosting
@@ -33,16 +33,16 @@ Simple schedule-based note taking app (markdown) for students/teachers built usi
 
 ## Techstacks
 
-- [create-t3-app](https://create.t3.gg/)
-- [Next.js](https://nextjs.org/)
-- [TailwindCSS](https://tailwindcss.com/)
+- [Create-T3-App](https://create.t3.gg/)
+  - [Next.js](https://nextjs.org/)
+  - [TypeScript](https://www.typescriptlang.org/)
+  - [tRPC](https://trpc.io/)
+  - [TailwindCSS](https://tailwindcss.com/)
+  - [Next-Auth](https://next-auth.js.org/)
+  - [Prisma](https://www.prisma.io/)
 - [Material-Tailwind](https://www.material-tailwind.com/)
 - [TailwindCSS-Typography](https://tailwindcss.com/docs/typography-plugin)
 - [React-Markdown](https://github.com/remarkjs/react-markdown)
-- [Next-Auth](https://next-auth.js.org/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [tRPC](https://trpc.io/)
-- [Prisma](https://www.prisma.io/)
 - [Railway](https://railway.app/)
 - [Vercel](https://vercel.com/)
 
