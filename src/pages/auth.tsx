@@ -1,4 +1,4 @@
-import { GetServerSideProps, GetServerSidePropsContext, NextPage } from "next";
+import { NextPage } from "next";
 import React, { useState } from "react";
 import Center from "../components/Center";
 import MetaHead from "../components/MetaHead";
@@ -10,7 +10,6 @@ import { AiFillGithub } from "react-icons/ai";
 import { BsSpotify, BsTwitch, BsTwitter } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { signIn } from "next-auth/react";
-import { getServerAuthSession } from "../server/common/get-server-auth-session";
 import { useRouter } from "next/router";
 import AppButton from "../components/AppButton";
 import Link from "next/link";
@@ -166,25 +165,6 @@ const Auth: NextPage = () => {
       </Screen>
     </>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
-  const session = await getServerAuthSession(context);
-
-  if (session && session.user) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
 };
 
 export default Auth;
