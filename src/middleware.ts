@@ -30,9 +30,9 @@ export async function middleware(req: NextRequest, ev: NextFetchEvent) {
       NextResponse.rewrite(new URL("/api/blocked", req.url), req)
     );
 
-  // early escape for route that doesn't need auth checking
+  // early escape for routes that don't need auth checking
   if (!authPaths.includes(req.nextUrl.pathname))
-    return setupResponse(setupResponse(NextResponse.next(req)));
+    return setupResponse(NextResponse.next(req));
 
   const BASE_URL = req.nextUrl.origin;
 
