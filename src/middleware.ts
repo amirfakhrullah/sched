@@ -1,31 +1,26 @@
 import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
-import { Ratelimit } from "@upstash/ratelimit";
-import { Redis } from "@upstash/redis";
 import { setupRateLimitHeaders } from "./helpers/edgeMiddleware";
-
-const ephemeralCache = new Map();
-
-const ratelimit = new Ratelimit({
-  redis: Redis.fromEnv(),
-  limiter: Ratelimit.fixedWindow(20, "10 s"),
-  ephemeralCache,
-});
+import { setupProdRateLimiter } from "./lib/ratelimit";
 
 const authPaths = ["/", "/auth", "/courses", "/notes", "search"];
 
 export async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const ip = req.ip ?? "127.0.0.1";
+  const ratelimit = await setupProdRateLimiter(`mw_${ip}`);
 
-  const { success, pending, limit, reset, remaining } = await ratelimit.limit(
-    `mw_${ip}`
-  );
-  ev.waitUntil(pending);
+  if (ratelimit?.pending) {
+    ev.waitUntil(ratelimit.pending);
+  }
 
   const setupResponse = (res: NextResponse) =>
-    setupRateLimitHeaders(res, { limit, remaining, reset });
+    setupRateLimitHeaders(res, {
+      limit: ratelimit?.limit,
+      remaining: ratelimit?.remaining,
+      reset: ratelimit?.reset,
+    });
 
   // redirect to "/api/blocked" if exceed ratelimiter's limit
-  if (!success)
+  if (ratelimit && !ratelimit.success)
     return setupResponse(
       NextResponse.rewrite(new URL("/api/blocked", req.url), req)
     );
